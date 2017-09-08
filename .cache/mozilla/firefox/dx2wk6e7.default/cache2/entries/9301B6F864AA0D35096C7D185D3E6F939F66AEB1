@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="utf-8">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@chatwork_en">
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W4MK3X');</script>
+<!-- End Google Tag Manager -->
+
+  <title>ChatWork | Group chat for global teams</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="ChatWork is a group chat app for business. Secure messaging, video chat, task management and file sharing. Real-time communication and increase productivity for teams.">
+  <meta name="keywords" content="ChatWork,Business ChatCorporate messaging,Team Communication,Collaboration,Secure Messaging,Group Video Chat,File Sharing,Project Management,Teamwork">
+  <meta name="apple-itunes-app" content="app-id=463672966" />
+  <meta name="google-play-app" content="app-id=jp.ecstudio.chatworkandroid">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <meta name="format-detection" content="telephone=no">
+  <link href="./image/common/touch-icon-iphone.png" rel="apple-touch-icon-precomposed">
+  <link href="./image/common/touch-icon-ipad.png" rel="apple-touch-icon-precomposed" sizes="76x76">
+  <link href="./image/common/touch-icon-iphone-retina.png" rel="apple-touch-icon-precomposed" sizes="120x120">
+  <link href="./image/common/touch-icon-ipad-retina.png" rel="apple-touch-icon-precomposed" sizes="152x152">
+  <link href="./style/base.min.css" rel="stylesheet" media="screen,tv">
+  
+  <link href="./image/common/favicon.ico" rel="shortcut icon">
+  <!--[if lt IE 9]>
+  <script src="//cdn.chatwork.com/util/html5/v3.7.0/html5.js"></script>
+  <script>window.html5 || document.write('<script src="//s3-ap-northeast-1.amazonaws.com/cdn.chatwork.com/util/html5/v3.7.0/html5.js"><\/script>')</script>
+  <![endif]-->
+  
+  <script src="//use.typekit.net/clg2qao.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+  
+  <script src="./javascript/lib/jquery.js"></script>
+  <script src="./javascript/lib/underscore.js"></script>
+  <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
+  <meta property="og:title" content="ChatWork">
+<meta property="og:image" content="http://www.chatwork.com/image/common/OGP.png?v=140808">
+<meta property="og:description" content="ChatWork is a communication platform designed for companies and teams, also comes with fully integrated task and file management feature.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ChatWork">
+<meta property="og:url" content="http://www.chatwork.com/index.html">
+<meta property="og:locale" content="en_US">
+<meta property="fb:admins" content="100000391675297">
+</head>
+<!--[if lte IE 8]>
+<body class="ie8">
+<![endif]-->
+<!--[if gte IE 9]>
+<body>
+<![endif]-->
+<!--[if !IE]><!-->
+<body>
+<!--<![endif]-->
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4MK3X"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <section class="section--header section--header--index">
+  <div class="section--header--index__inner">
+    <header class="header header--index">
+      <h1 class="header__logo">
+        <a href="./">
+          <img src="./image/common/logo_hz_neg.png" alt="ChatWork">
+        </a>
+      </h1>
+            <div class="header__nav-btn header--index__nav-btn" id="_draw-handler">
+        <i class="iconfont icon_sp_menu"></i>
+      </div>
+      <nav class="header__nav" id="_drawer">
+        <ul class="global-nav global-nav--index">
+          <li class="global-nav__item">
+            <a href="./product/">Product</a>
+          </li>
+          <li class="global-nav__item">
+            <a href="./pricing/">Pricing</a>
+          </li>
+          <li class="global-nav__item">
+            <a href="./security/">Security</a>
+          </li>
+          <li class="global-nav__item">
+            <a href="./download/">Download</a>
+          </li>
+          <li class="global-nav__item">
+            <a href="http://support-en.chatwork.com/hc/en-us">FAQ</a>
+          </li>
+          <li class="global-nav__item  btn-signin">
+            <a href="https://www.chatwork.com/?login=en" class="btn  btn--wire">Sign In</a>
+          </li>
+        </ul>
+      </nav>
+          </header>
+        <!-- HERO AREA -->
+<div class="hero  hero--index  hero--image  hero--image-index">
+  <div class="section__inner">
+    <h1 class="catch-copy">Group chat for global teams.</h1>
+    <p class="tagline">Teamwork without the drama. It‚Äôs a beautiful thing.</p>
+  </div>
+</div>
+
+<section class="cta cta--hero cta--hero--index align-center">
+  <div class="section__inner  grid-container">
+    
+    <div class="cta__mail align-center">
+      <form class="signup _funnel-analysis" method="post" action="https://www.chatwork.com/service/packages/chatwork/pre_register.php?plan=free&lang=en&social_off=1">
+        <div class="signup__form">
+          <input class="input input--signup" name="email" type="email" id="input-mail" placeholder="e.g. name@company.com">
+          <!--[if lte IE 9]><p class="signup__form__placeholder">e.g. name@company.com</p><![endif]-->
+        </div>
+        <div class="signup__button">
+          <button class="btn  btn--mail" name="check" type="submit">Get Started</button>
+        </div>
+      </form>
+    </div>
+    
+  </div>
+</section>
+
+
+      </div>
+</section>
+
+  <section class="section section--plane home-device">
+  <div class="section__inner">
+    <h2 class="home-device__title">Conversations. It's the human way to work.</h2>
+    <p>Frustrated and stressed from spending too much time on email? <br>
+    Replace your daily crush of email with real-time chat messages. What could be simpler.</p>
+    <img src="./image/home/img_device.jpg" alt="" class="home-device__img">
+    <a href="./product/" class="btn btn--explore">Explore more</a>
+  </div>
+</section>
+
+<section class="section home-voice">
+  <div class="section__inner">
+    <div class="home-voice__comment">
+      <p>We prefer ChatWork for texts over Skype since ChatWork allows us to store all chat logs in the cloud, in which we have access from any device.</p>
+      <span>David B. Hoppe, Principal at Access International Law Group</span>
+    </div>
+    <div class="home-voice__photo">
+      <img src="./image/home/img_voice_access.png" alt="">
+    </div>
+  </div>
+</section>
+
+
+<section class="section home-feature">
+  <div class="section__inner">
+    <div class="home-feature__odd">
+      <h2 class="content-title">Make meetings<br>
+        more productive<br>
+        for everyone. </h2>
+      <p>You know you're not the only one who dreads the weekly meeting. Person-by-person status updates. Really? Still?! Imagine your daily back-to-back meetings are replaced by project-specific quick video chats. Only as needed.</p>
+    </div>
+    <div class="home-feature__img home-feature__img--odd">
+      <img src="./image/home/img_livechat.png" alt="" class="">
+    </div>
+  </div>
+</section>
+
+<section class="section section--plane home-feature home-feature--file">
+  <div class="section__inner">
+    <div class="home-feature__even">
+      <h2 class="content-title">Look no more.<br>
+        Everything you need is<br>
+        all in one place.</h2>
+      <p>You know it's there. Somewhere in the 21,396 unread emails and paper piles on the desk. So what if all those buried file attachments suddenly became masterfully organized. By project or topic. In context.</p>
+    </div>
+    <div class="home-feature__img home-feature__img--even">
+      <img src="./image/home/img_file.png" alt="">
+    </div>
+  </div>
+</section>
+
+<section class="section  home-feature home-feature--security">
+  <div class="section__inner">
+    <div class="home-feature__odd">
+      <h2 class="content-title">Security is<br>
+        our top priority. </h2>
+      <p>We store all your business data using 256-bit encryption to ensure data is protected and secure. Also we are ISO27001 certified, the most widely recognized security standards. </p>
+      <a href="./security/"><i class="iconfont icon_arrow_circle_right"></i>For more details</a>
+    </div>
+    <div class="home-feature__img home-feature__img--odd">
+      <img src="./image/home/img_security.png" alt="">
+  </div>
+  </div>
+</section>
+
+      <div class="section--footer">
+  <footer class="footer">
+    
+    <p class="footer__brand">
+      <a href="./">
+        <img src="./image/common/logo_hz_bl.png" alt="ChatWork">
+      </a>
+    </p>
+    
+    
+    <div class="grid-container">
+      <div class="footer__news">
+        <dl>
+          <dt>June 07, 2016</dt>
+          <dd><a href="http://update.chatwork.com/eiger_eurasia/" target="_blank">Try Our Renewed Mobile App.</a></dd>
+        </dl>
+      </div>
+      <ul class="footer__nav  grid-column">
+        <li><a href="./product/">Product</a></li>
+        <li><a href="./pricing/">Pricing</a></li>
+        <li><a href="./security/">Security</a></li>
+        <li><a href="./download/">Download</a></li>
+        <li><a href="http://support-en.chatwork.com/hc/en-us">FAQ</a></li>
+        <li><a href="./company/">Company</a></li>
+        <li><a href="./terms.html">Terms of use</a></li>
+        <li><a href="./privacy.html">Privacy</a></li>
+        <li><a href="https://go.chatwork.com/blog/en/">Blog</a></li>
+      </ul>
+      <div class="footer__language">
+         <button tabindex="0" aria-haspopup="true" aria-controls="language-list" title="Select region" class="select-language _language-trigger">English</button>
+        <ul role="menu" id="language-list" class="language-name _language-view">
+          <li><a href="http://www.chatwork.com/ja/">Êó•Êú¨Ë™û</a></li>
+          <li><a href="http://www.chatwork.com/">English</a></li>
+          <li><a href="http://www.chatwork.com/es/">Espa√±ol</a></li>
+          <li><a href="http://www.chatwork.com/zh-tw/">ÁπÅÈ´î‰∏≠Êñá</a></li>
+          <li><a href="http://www.chatwork.com/vi/">Ti·∫øng Vi·ªát</a></li>
+          <li><a href="http://www.chatwork.com/th/">‡∏†‡∏≤‡∏©‡∏≤‡πÑ‡∏ó‡∏¢</a></li>
+        </ul>
+
+      </div>
+
+    </div>
+    
+    
+    <ul class="footer__social  social">
+      <li class="social__btn">
+        <a href="https://www.facebook.com/chatwork">
+          <i class="iconfont  icon_facebook"></i>
+        </a>
+      </li>
+      <li class="social__btn">
+        <a href="https://twitter.com/chatwork_en/">
+          <i class="iconfont  icon_twitter"></i>
+        </a>
+      </li>
+      <li class="social__btn">
+        <a href="https://plus.google.com/b/101041432132486071752/101041432132486071752/">
+          <i class="iconfont  icon_google"></i>
+        </a>
+      </li>
+      <li class="social__btn">
+        <a href="http://www.linkedin.com/company/chatwork">
+          <i class="iconfont  icon_linkedin"></i>
+        </a>
+      </li>
+    </ul>
+    
+    <small class="copyright  small-text">
+      &copy; ChatWork
+    </small>
+  </footer>
+</div>
+
+    
+  <script src="./javascript/chatwork.min.js"></script>
+  
+</body>
+</html>
+øs\_!„      Y∞úY∞ú>+ÍY∞˘&       :http://www.chatwork.com/ necko:classified 1 strongly-framed 1 request-method GET response-head HTTP/1.1 200 OK
+Content-Type: text/html
+Date: Thu, 07 Sep 2017 01:08:20 GMT
+Etag: "6fe6c0220616350fab27ea1f90032337"
+Last-Modified: Mon, 04 Sep 2017 06:54:32 GMT
+Server: nginx
+x-amz-id-2: 382WzgHaXU3slP2OuzINu/Ex/+M/8wysLtfAG7GOOIS/mcX84vgum0+P8jcytRaAKXiqPnQPUPY=
+x-amz-request-id: 1A03147683E3D03C
+Content-Length: 11472
+ original-response-headers Content-Type: text/html
+Date: Thu, 07 Sep 2017 01:08:20 GMT
+Etag: "6fe6c0220616350fab27ea1f90032337"
+Last-Modified: Mon, 04 Sep 2017 06:54:32 GMT
+Server: nginx
+x-amz-id-2: 382WzgHaXU3slP2OuzINu/Ex/+M/8wysLtfAG7GOOIS/mcX84vgum0+P8jcytRaAKXiqPnQPUPY=
+x-amz-request-id: 1A03147683E3D03C
+Content-Length: 11472
+Connection: keep-alive
+ charset windows-1252 uncompressed-len 0 predictor::resource-count 37 predictor::http://www.chatwork.com/style/base.min.css 1,1,1504746500,4096 predictor::http://use.typekit.net/clg2qao.js 1,1,1504746500,4096 predictor::http://www.chatwork.com/javascript/lib/jquery.js 1,1,1504746500,4096 predictor::http://www.chatwork.com/javascript/lib/underscore.js 1,1,1504746500,4096 predictor::http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/common/logo_hz_neg.png 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/home/img_device.jpg 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/home/img_voice_access.png 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/home/img_livechat.png 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/home/img_file.png 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/home/img_security.png 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/common/logo_hz_bl.png 1,1,1504746500,4096 predictor::http://www.chatwork.com/javascript/chatwork.min.js 1,1,1504746500,4096 predictor::https://www.googletagmanager.com/gtm.js?id=GTM-W4MK3X 1,1,1504746500,4096 net-response-time-onstart 207 net-response-time-onstop 284 predictor::http://www.google-analytics.com/analytics.js 1,1,1504746500,4096 predictor::http://www.google-analytics.com/plugins/ua/linkid.js 1,1,1504746500,4096 predictor::http://www.google-analytics.com/r/collect?v=1&_v=j60&a=1152154695&t=event&ni=0&_s=1&dl=http%3A%2F%2Fwww.chatwork.com%2F&dr=https%3A%2F%2Fwww.google.com%2F&ul=en-us&de=UTF-8&dt=ChatWork%20%7C%20Group%20chat%20for%20global%20teams&sd=24-bit&sr=1366x768&vp=1301x641&je=0&fl=26.0%20r0&ec=%2F&ea=Click&_u=YEBAAAAjI~&jid=1416787017&gjid=1427191545&cid=426552222.1504746501&tid=UA-24113839-1&_gid=371505261.1504746501&_r=1&gtm=GTM-W4MK3X&z=2137383510 1,1,1504746500,4096 predictor::http://www.google-analytics.com/collect?v=1&_v=j60&a=1152154695&t=pageview&_s=1&dl=http%3A%2F%2Fwww.chatwork.com%2F&dr=https%3A%2F%2Fwww.google.com%2F&ul=en-us&de=UTF-8&dt=ChatWork%20%7C%20Group%20chat%20for%20global%20teams&sd=24-bit&sr=1366x768&vp=1301x641&je=0&fl=26.0%20r0&_u=aGDAAAAjI~&jid=&gjid=&cid=426552222.1504746501&tid=UA-24113839-1&_gid=371505261.1504746501&gtm=GTM-W4MK3X&z=808102918 1,1,1504746500,4096 predictor::https://use.typekit.net/af/0135aa/000000000000000000012d68/21/l?subset_id=2&fvd=n4&v=3 1,1,1504746500,4096 predictor::https://use.typekit.net/af/608426/000000000000000000012d67/21/l?subset_id=2&fvd=i4&v=3 1,1,1504746500,4096 predictor::https://use.typekit.net/af/f70f81/000000000000000000012d65/21/l?subset_id=2&fvd=n7&v=3 1,1,1504746500,4096 predictor::https://use.typekit.net/af/a4f76f/000000000000000000012d66/21/l?subset_id=2&fvd=i7&v=3 1,1,1504746500,4096 predictor::https://use.typekit.net/af/ff324e/000000000000000000014012/21/l?subset_id=2&fvd=n4&v=3 1,1,1504746500,4096 predictor::https://use.typekit.net/af/5710fd/00000000000000000001400d/21/l?subset_id=2&fvd=i4&v=3 1,1,1504746500,4096 predictor::https://use.typekit.net/af/90ccbf/00000000000000000001400e/21/l?subset_id=2&fvd=n3&v=3 1,1,1504746500,4096 predictor::https://use.typekit.net/af/6b3ff1/00000000000000000001400f/21/l?subset_id=2&fvd=i3&v=3 1,1,1504746500,4096 predictor::https://use.typekit.net/af/09e1a7/00000000000000000001400b/21/l?subset_id=2&fvd=n2&v=3 1,1,1504746500,4096 predictor::https://use.typekit.net/af/b97027/00000000000000000001400c/21/l?subset_id=2&fvd=i2&v=3 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/index/bg_main_index.jpg 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/home/img_blockquote_before.png 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/home/img_blockquote_after.png 1,1,1504746500,4096 predictor::http://www.chatwork.com/image/common/img_language.png 1,1,1504746500,4096 predictor::http://www.chatwork.com/font/chatworkfont-5b37cc4de2acdac5b104d4c5e6af6527.woff 1,1,1504746500,4096 predictor::http://munchkin.marketo.net/munchkin.js 1,1,1504746500,4096 predictor::http://munchkin.marketo.net/151/munchkin.js 1,1,1504746500,4096 predictor::https://p.typekit.net/p.gif?s=1&k=clg2qao&ht=tk&h=www.chatwork.com&f=8482.8483.8484.8485.14032.14033.14036.14037.21512.21513&a=1348913&js=1.18.23&app=typekit&e=js&_=1504746501779 1,1,1504746500,4096 predictor::http://www.google-analytics.com/collect?v=1&_v=j60&a=1152154695&t=event&ni=0&_s=1&dl=http%3A%2F%2Fwww.chatwork.com%2F&dr=https%3A%2F%2Fwww.google.com%2F&ul=en-us&de=UTF-8&dt=ChatWork%20%7C%20Group%20chat%20for%20global%20teams&sd=24-bit&sr=1366x768&vp=1291x641&je=0&fl=26.0%20r0&ec=%2F&ea=Click&el=https%3A%2F%2Fwww.chatwork.com%2F%3Flogin%3Den&_u=aGDAAAAjI~&jid=&gjid=&cid=426552222.1504746501&tid=UA-24113839-1&_gid=371505261.1504746501&gtm=GTM-W4MK3X&z=16529152 1,1,1504746500,4096   ,–

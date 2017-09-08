@@ -1,0 +1,282 @@
+
+(unity-panel-service:2401): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:2401): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:2401): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:2401): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:2401): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:2401): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:2401): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:2401): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:3771): Gtk-CRITICAL **: gtk_icon_info_get_filename: assertion 'icon_info != NULL' failed
+
+(unity-panel-service:3771): GLib-GObject-CRITICAL **: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(unity-panel-service:2310): GLib-CRITICAL **: Source ID 4294967295 was not found when attempting to remove it

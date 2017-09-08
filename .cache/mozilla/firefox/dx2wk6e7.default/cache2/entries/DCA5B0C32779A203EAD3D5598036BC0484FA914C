@@ -1,0 +1,1290 @@
+<div id="cha-static_pages" data-tralics-id="cid13" class="chapter" data-number="3" data-chapter="static_pages"><h1><a href="static_pages_fragment.html#cha-static_pages" class="heading hyperref"><span class="number">Chapter 3 </span>Mostly static pages</a></h1>
+<p>In this chapter, we will begin developing the professional-grade sample application that will serve as our example throughout the rest of this tutorial.<span class="intersentencespace"></span> Although the sample app will eventually have users, microposts, and a full login and authentication framework, we will begin with a seemingly limited topic: the creation of static pages.<span class="intersentencespace"></span> Despite its apparent simplicity, making static pages is a highly instructive exercise, rich in implications—a perfect start for our nascent application.</p>
+<p>Although Rails is designed for making database-backed dynamic websites, it also excels at making the kind of static pages we might create using raw HTML files.<span class="intersentencespace"></span> In fact, using Rails even for static pages yields a distinct advantage: we can easily add just a <em>small</em> amount of dynamic content.<span class="intersentencespace"></span> In this chapter we’ll learn how.<span class="intersentencespace"></span> Along the way, we’ll get our first taste of <em>automated testing</em>, which will help us be more confident that our code is correct.<span class="intersentencespace"></span> Moreover, having a good test suite will allow us to <em>refactor</em> our code with confidence, changing its form without changing its function.</p>
+</div><div id="sec-sample_app_setup" data-tralics-id="cid14" class="section" data-number="3.1"><h2><a href="static_pages_fragment.html#sec-sample_app_setup" class="heading hyperref"><span class="number">3.1 </span>Sample app setup</a></h2>
+<p>As in <a href="toy_app_fragment.html#cha-a_toy_app" class="hyperref">Chapter <span class="ref">2</span></a>, before getting started we need to create a new Rails project, this time called <code>sample_app</code>, as shown in <a href="static_pages_fragment.html#code-rails_new_sample_app" class="hyperref">Listing <span class="ref">3.1</span></a>.<sup id="cha-3_footnote-ref-1" class="footnote"><a href="#cha-3_footnote-1">1</a></sup></p>
+<div class="codelisting" id="code-rails_new_sample_app" data-tralics-id="uid283" data-number="3.1"><div class="heading"><span class="number">Listing 3.1:</span> 
+
+<span class="description">Generating a new sample app.</span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd</span> ~/workspace
+<span class="gp">$</span> rails _5.1.2_ new sample_app
+<span class="gp">$</span> <span class="nb">cd </span>sample_app/
+</pre></div></div></div><p>(As in <a href="toy_app_fragment.html#sec-planning_the_application" class="hyperref">Section <span class="ref">2.1</span></a>, note that users of the cloud IDE can create this project in the same workspace as the applications from the previous two chapters.<span class="intersentencespace"></span> It is not necessary to create a new workspace.)</p>
+<p><em>Note</em>: For convenience, a reference implementation of the completed Rails Tutorial sample app is <a href="https://bitbucket.org/railstutorial/sample_app_4th_ed" target="_blank" rel="noopener">available at Bitbucket</a>.<sup id="cha-3_footnote-ref-2" class="footnote"><a href="#cha-3_footnote-2">2</a></sup></p>
+<p>As in <a href="toy_app_fragment.html#sec-planning_the_application" class="hyperref">Section <span class="ref">2.1</span></a>, our next step is to use a text editor to update the <code>Gemfile</code> with the gems needed by our application.<span class="intersentencespace"></span> <a href="static_pages_fragment.html#code-gemfile_sample_app" class="hyperref">Listing <span class="ref">3.2</span></a> is identical to <a href="beginning_fragment.html#code-gemfile_sqlite_version" class="hyperref">Listing <span class="ref">1.5</span></a> and <a href="toy_app_fragment.html#code-demo_gemfile_sqlite_version_redux" class="hyperref">Listing <span class="ref">2.1</span></a> apart from the gems in the <code>test</code> group, which are needed for the optional advanced testing setup (<a href="static_pages_fragment.html#sec-advanced_testing_setup" class="hyperref">Section <span class="ref">3.6</span></a>) and integration testing starting in <a href="filling_in_the_layout_fragment.html#sec-layout_link_tests" class="hyperref">Section <span class="ref">5.3.4</span></a>.<span class="intersentencespace"></span> <em>Note</em>: If you would like to install <em>all</em> the gems needed for the sample application, you should use the code in <a href="user_microposts_fragment.html#code-final_gemfile" class="hyperref">Listing <span class="ref">13.72</span></a> at this time.<span class="intersentencespace"></span> <strong>Important note: For all the Gemfiles in this book, you should use the version numbers listed at <a href="http://gemfiles-4th-ed.railstutorial.org/" target="_blank" rel="noopener">gemfiles-4th-ed.railstutorial.org</a> instead of the ones listed below (although they should be identical if you are reading this online).</strong></p>
+<div class="codelisting" id="code-gemfile_sample_app" data-tralics-id="uid285" data-number="3.2"><div class="heading"><span class="number">Listing 3.2:</span> 
+
+<span class="description">A <code>Gemfile</code> for the sample app.</span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="n">source</span> <span class="s1">'https://rubygems.org'</span>
+
+<span class="n">gem</span> <span class="s1">'rails'</span><span class="p">,</span>        <span class="s1">'5.1.2'</span>
+<span class="n">gem</span> <span class="s1">'puma'</span><span class="p">,</span>         <span class="s1">'3.9.1'</span>
+<span class="n">gem</span> <span class="s1">'sass-rails'</span><span class="p">,</span>   <span class="s1">'5.0.6'</span>
+<span class="n">gem</span> <span class="s1">'uglifier'</span><span class="p">,</span>     <span class="s1">'3.2.0'</span>
+<span class="n">gem</span> <span class="s1">'coffee-rails'</span><span class="p">,</span> <span class="s1">'4.2.2'</span>
+<span class="n">gem</span> <span class="s1">'jquery-rails'</span><span class="p">,</span> <span class="s1">'4.3.1'</span>
+<span class="n">gem</span> <span class="s1">'turbolinks'</span><span class="p">,</span>   <span class="s1">'5.0.1'</span>
+<span class="n">gem</span> <span class="s1">'jbuilder'</span><span class="p">,</span>     <span class="s1">'2.7.0'</span>
+
+<span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'sqlite3'</span><span class="p">,</span> <span class="s1">'1.3.13'</span>
+  <span class="n">gem</span> <span class="s1">'byebug'</span><span class="p">,</span>  <span class="s1">'9.0.6'</span><span class="p">,</span> <span class="ss">platform</span><span class="p">:</span> <span class="ss">:mri</span>
+<span class="k">end</span>
+
+<span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'web-console'</span><span class="p">,</span>           <span class="s1">'3.5.1'</span>
+  <span class="n">gem</span> <span class="s1">'listen'</span><span class="p">,</span>                <span class="s1">'3.0.8'</span>
+  <span class="n">gem</span> <span class="s1">'spring'</span><span class="p">,</span>                <span class="s1">'2.0.2'</span>
+  <span class="n">gem</span> <span class="s1">'spring-watcher-listen'</span><span class="p">,</span> <span class="s1">'2.0.1'</span>
+<span class="k">end</span>
+
+<span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'rails-controller-testing'</span><span class="p">,</span> <span class="s1">'1.0.2'</span>
+  <span class="n">gem</span> <span class="s1">'minitest-reporters'</span><span class="p">,</span>       <span class="s1">'1.1.14'</span>
+  <span class="n">gem</span> <span class="s1">'guard'</span><span class="p">,</span>                    <span class="s1">'2.13.0'</span>
+  <span class="n">gem</span> <span class="s1">'guard-minitest'</span><span class="p">,</span>           <span class="s1">'2.4.4'</span>
+<span class="k">end</span>
+
+<span class="n">group</span> <span class="ss">:production</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'pg'</span><span class="p">,</span> <span class="s1">'0.18.4'</span>
+<span class="k">end</span>
+
+<span class="c1"># Windows does not include zoneinfo files, so bundle the tzinfo-data gem</span>
+<span class="n">gem</span> <span class="s1">'tzinfo-data'</span><span class="p">,</span> <span class="ss">platforms</span><span class="p">:</span> <span class="o">[</span><span class="ss">:mingw</span><span class="p">,</span> <span class="ss">:mswin</span><span class="p">,</span> <span class="ss">:x64_mingw</span><span class="p">,</span> <span class="ss">:jruby</span><span class="o">]</span>
+</pre></div></div></div><p>As in the previous two chapters, we run <code>bundle install</code> to install and include the gems specified in the <code>Gemfile</code>, while skipping the installation of production gems using the option <code>--without production</code>:<sup id="cha-3_footnote-ref-3" class="footnote"><a href="#cha-3_footnote-3">3</a></sup></p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> bundle install --without production
+</pre></div></div>
+<p>This arranges to skip the <code class="tt">pg</code> gem for PostgreSQL in development and use SQLite for development and testing.<span class="intersentencespace"></span> Heroku recommends against using different databases in development and production, but for the sample application it won’t make any difference, and SQLite is <em>much</em> easier than PostgreSQL to install and configure locally.<sup id="cha-3_footnote-ref-4" class="footnote"><a href="#cha-3_footnote-4">4</a></sup><span class="intersentencespace"></span> In case you’ve previously installed a version of a gem (such as Rails itself) other than the one specified by the <code>Gemfile</code>, it’s a good idea to <em>update</em> the gems with <code>bundle update</code> to make sure the versions match:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> bundle update
+</pre></div></div>
+<p>With that, all we have left is to initialize the Git repository:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git init
+<span class="gp">$</span> git add -A
+<span class="gp">$</span> git commit -m <span class="s2">"Initialize repository"</span>
+</pre></div></div>
+<p>As with the first application, I suggest updating the README file to be more helpful and descriptive by replacing the default contents of <code>README.md</code> with the Markdown shown in <a href="static_pages_fragment.html#code-sample_app_readme" class="hyperref">Listing <span class="ref">3.3</span></a>.<span class="intersentencespace"></span> Note that the README includes instructions for getting started with the application.<sup id="cha-3_footnote-ref-5" class="footnote"><a href="#cha-3_footnote-5">5</a></sup><span class="intersentencespace"></span> (We won’t actually need to run <code>rails db:migrate</code> until <a href="modeling_users_fragment.html#cha-modeling_users" class="hyperref">Chapter <span class="ref">6</span></a>, but it does no harm to include it now.)</p>
+<div class="codelisting" id="code-sample_app_readme" data-tralics-id="uid289" data-number="3.3"><div class="heading"><span class="number">Listing 3.3:</span> 
+
+<span class="description">An improved README file for the sample app.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">README.md</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre># Ruby on Rails Tutorial sample application
+
+This is the sample application for
+[*Ruby on Rails Tutorial:
+Learn Web Development with Rails*](http://www.railstutorial.org/)
+by [Michael Hartl](http://www.michaelhartl.com/).
+
+## License
+
+All source code in the [Ruby on Rails Tutorial](http://railstutorial.org/)
+is available jointly under the MIT License and the Beerware License. See
+[LICENSE.md](LICENSE.md) for details.
+
+## Getting started
+
+To get started with the app, clone the repo and then install the needed gems:
+
+```
+$ bundle install --without production
+```
+
+Next, migrate the database:
+
+```
+$ rails db:migrate
+```
+
+Finally, run the test suite to verify that everything is working correctly:
+
+```
+$ rails test
+```
+
+If the test suite passes, you'll be ready to run the app in a local server:
+
+```
+$ rails server
+```
+
+For more information, see the
+[*Ruby on Rails Tutorial* book](http://www.railstutorial.org/book).
+</pre></div></div></div><p>Then commit the changes as follows:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git commit -am <span class="s2">"Improve the README"</span>
+</pre></div></div>
+<p>You may recall from <a href="beginning_fragment.html#sec-git_commands" class="hyperref">Section <span class="ref">1.4.4</span></a> that we used the Git command <code>git commit -a -m "Message"</code>, with flags for “all changes” (<code>-a</code>) and a message (<code>-m</code>).<span class="intersentencespace"></span> As shown in the second command above, Git also lets us roll the two flags into one using <code>git commit -am "Message"</code>.</p>
+<p>Since we’ll be using this sample app throughout the rest of the book, it’s a good idea to <a href="https://bitbucket.org/repo/create" target="_blank" rel="noopener">create a new repository at Bitbucket</a> and push it up:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git remote add origin git@bitbucket.org:&lt;username&gt;/sample_app.git
+<span class="gp">$</span> git push -u origin --all <span class="c"># pushes up the repo and its refs for the first time</span>
+</pre></div></div>
+<p>To avoid integration headaches later on, it’s also a good idea to deploy the app to Heroku even at this early stage.<span class="intersentencespace"></span> As in <a href="beginning_fragment.html#cha-beginning" class="hyperref">Chapter <span class="ref">1</span></a> and <a href="toy_app_fragment.html#cha-a_toy_app" class="hyperref">Chapter <span class="ref">2</span></a>, I suggest following the “hello, world!” steps in <a href="static_pages_fragment.html#code-hello_action_redux_2" class="hyperref">Listing <span class="ref">3.4</span></a> and <a href="static_pages_fragment.html#code-hello_root_route_redux_2" class="hyperref">Listing <span class="ref">3.5</span></a>.<span class="intersentencespace"></span> (The main reason for this is that the default Rails page typically breaks at Heroku, which makes it hard to tell if the deployment was successful or not.)</p>
+<div class="codelisting" id="code-hello_action_redux_2" data-tralics-id="uid290" data-number="3.4"><div class="heading"><span class="number">Listing 3.4:</span> 
+
+<span class="description">Adding a <code>hello</code> action to the Application controller.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/controllers/application_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">protect_from_forgery</span> <span class="ss">with</span><span class="p">:</span> <span class="ss">:exception</span>
+
+  <span class="k">def</span> <span class="nf">hello</span>
+<span class="hll">    <span class="n">render</span> <span class="ss">html</span><span class="p">:</span> <span class="s2">"hello, world!"</span>
+</span>  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="codelisting" id="code-hello_root_route_redux_2" data-tralics-id="uid291" data-number="3.5"><div class="heading"><span class="number">Listing 3.5:</span> 
+
+<span class="description">Setting the root route.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">config/routes.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+  <span class="n">root</span> <span class="s1">'application#hello'</span>
+<span class="k">end</span>
+</pre></div></div></div><p>Then commit the changes and push up to Bitbucket and Heroku:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git commit -am <span class="s2">"Add hello"</span>
+<span class="gp">$</span> git push
+<span class="gp">$</span> heroku create
+<span class="gp">$</span> git push heroku master
+</pre></div></div>
+<p>As in <a href="beginning_fragment.html#sec-deploying" class="hyperref">Section <span class="ref">1.5</span></a>, you may see some warning messages, which you should ignore for now.<span class="intersentencespace"></span> We’ll deal with them in <a href="sign_up_fragment.html#sec-professional_grade_deployment" class="hyperref">Section <span class="ref">7.5</span></a>.<span class="intersentencespace"></span> Apart from the address of the Heroku app, the result should be the same as in <a href="beginning_fragment.html#fig-heroku_app" class="hyperref">Figure <span class="ref">1.20</span></a>.</p>
+<p>As you proceed through the rest of the book, I recommend pushing and deploying the application regularly, which automatically makes remote backups and lets you catch any production errors as soon as possible.<span class="intersentencespace"></span> If you run into problems at Heroku, make sure to take a look at the production logs to try to diagnose the problem:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> heroku logs
+</pre></div></div>
+<p><em>Note</em>: If you do end up using Heroku for a real-life application, be sure to follow the production webserver configuration in <a href="sign_up_fragment.html#sec-professional_grade_deployment" class="hyperref">Section <span class="ref">7.5</span></a>.</p>
+<div id="sec-exercises_sample_app_setup" data-tralics-id="uid292" class="subsubsection" data-number="3.1.1.1"><h4><a href="#sec-exercises_sample_app_setup" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>Confirm that Bitbucket renders the Markdown for the README in <a href="static_pages_fragment.html#code-sample_app_readme" class="hyperref">Listing <span class="ref">3.3</span></a> as HTML. <span class="exercise" id="ex-c2317d"></span>
+</li>
+<li>By visiting the root route on the production server, verify that the deployment to Heroku succeeded. <span class="exercise" id="ex-6a49d9"></span>
+</li></ol>
+</div></div><div id="sec-static_pages" data-tralics-id="cid15" class="section" data-number="3.2"><h2><a href="static_pages_fragment.html#sec-static_pages" class="heading hyperref"><span class="number">3.2 </span>Static pages</a></h2>
+<p>With all the preparation from <a href="static_pages_fragment.html#sec-sample_app_setup" class="hyperref">Section <span class="ref">3.1</span></a> finished, we’re ready to get started developing the sample application.<span class="intersentencespace"></span> In this section, we’ll take a first step toward making dynamic pages by creating a set of Rails <em>actions</em> and <em>views</em> containing only static HTML.<sup id="cha-3_footnote-ref-6" class="footnote"><a href="#cha-3_footnote-6">6</a></sup><span class="intersentencespace"></span> Rails actions come bundled together inside <em>controllers</em> (the C in MVC from <a href="beginning_fragment.html#sec-mvc" class="hyperref">Section <span class="ref">1.3.3</span></a>), which contain sets of actions related by a common purpose.<span class="intersentencespace"></span> We got a glimpse of controllers in <a href="toy_app_fragment.html#cha-a_toy_app" class="hyperref">Chapter <span class="ref">2</span></a>, and will come to a deeper understanding once we explore the <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer" target="_blank" rel="noopener">REST architecture</a> more fully (starting in <a href="modeling_users_fragment.html#cha-modeling_users" class="hyperref">Chapter <span class="ref">6</span></a>).<span class="intersentencespace"></span> In order to get our bearings, it’s helpful to recall the Rails directory structure from <a href="beginning_fragment.html#sec-the_hello_application" class="hyperref">Section <span class="ref">1.3</span></a> (<a href="beginning_fragment.html#fig-directory_structure_rails" class="hyperref">Figure <span class="ref">1.5</span></a>).<span class="intersentencespace"></span> In this section, we’ll be working mainly in the <code>app/controllers</code> and <code>app/views</code> directories.</p>
+<p>Recall from <a href="beginning_fragment.html#sec-git_commands" class="hyperref">Section <span class="ref">1.4.4</span></a> that, when using Git, it’s a good practice to do our work on a separate topic branch rather than the master branch.<span class="intersentencespace"></span> If you’re using Git for version control, you should run the following command to checkout a topic branch for static pages:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git checkout -b static-pages
+</pre></div></div>
+<div id="sec-generated_static_pages" data-tralics-id="uid296" class="subsection" data-number="3.2.1"><h3><a href="static_pages_fragment.html#sec-generated_static_pages" class="heading hyperref"><span class="number">3.2.1 </span>Generated static pages</a></h3>
+<p>To get started with static pages, we’ll first generate a controller using the same Rails <code>generate</code> script we used in <a href="toy_app_fragment.html#cha-a_toy_app" class="hyperref">Chapter <span class="ref">2</span></a> to generate scaffolding.<span class="intersentencespace"></span> Since we’ll be making a controller to handle static pages, we’ll call it the Static Pages controller, designated by the <a href="https://en.wikipedia.org/wiki/CamelCase" target="_blank" rel="noopener">CamelCase</a> name <code>StaticPages</code>.<span class="intersentencespace"></span> We’ll also plan to make actions for a Home page, a Help page, and an About page, designated by the lower-case action names <code>home</code>, <code>help</code>, and <code>about</code>.<span class="intersentencespace"></span> The <code>generate</code> script takes an optional list of actions, so we’ll include actions for the Home and Help pages directly on the command line, while intentionally leaving off the action for the About page so that we can see how to add it (<a href="static_pages_fragment.html#sec-getting_started_with_testing" class="hyperref">Section <span class="ref">3.3</span></a>).<span class="intersentencespace"></span> The resulting command to generate the Static Pages controller appears in <a href="static_pages_fragment.html#code-generating_pages" class="hyperref">Listing <span class="ref">3.6</span></a>.</p>
+<div class="codelisting" id="code-generating_pages" data-tralics-id="uid297" data-number="3.6"><div class="heading"><span class="number">Listing 3.6:</span> 
+
+<span class="description">Generating a Static Pages controller.</span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll">$ rails generate controller StaticPages home help
+</span>      create  app/controllers/static_pages_controller.rb
+       route  get 'static_pages/help'
+       route  get 'static_pages/home'
+      invoke  erb
+      create    app/views/static_pages
+      create    app/views/static_pages/home.html.erb
+      create    app/views/static_pages/help.html.erb
+      invoke  test_unit
+      create    test/controllers/static_pages_controller_test.rb
+      invoke  helper
+      create    app/helpers/static_pages_helper.rb
+      invoke    test_unit
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/static_pages.coffee
+      invoke    scss
+      create      app/assets/stylesheets/static_pages.scss
+</pre></div></div></div><p>Incidentally, it’s worth noting that <code>rails g</code> is a shortcut for <code>rails generate</code>, which is only one of several shortcuts supported by Rails (<a href="static_pages_fragment.html#table-shortcuts" class="hyperref">Table <span class="ref">3.1</span></a>).<span class="intersentencespace"></span> For clarity, this tutorial always uses the full command, but in real life most Rails developers use one or more of the shortcuts shown in <a href="static_pages_fragment.html#table-shortcuts" class="hyperref">Table <span class="ref">3.1</span></a>.<sup id="cha-3_footnote-ref-7" class="footnote"><a href="#cha-3_footnote-7">7</a></sup></p>
+<div class="table" id="table-shortcuts" data-tralics-id="uid299" data-number="3.1"><table class="tabular">
+<tbody><tr class="bottom_border"><td class="align_left right_border"><strong>Full command</strong></td>
+<td class="align_left"><strong>Shortcut</strong></td>
+</tr><tr><td class="align_left right_border"><code>$ rails server</code></td>
+<td class="align_left"><code>$ rails s</code></td>
+</tr><tr><td class="align_left right_border"><code>$ rails console</code></td>
+<td class="align_left"><code>$ rails c</code></td>
+</tr><tr><td class="align_left right_border"><code>$ rails generate</code></td>
+<td class="align_left"><code>$ rails g</code></td>
+</tr><tr><td class="align_left right_border"><code>$ rails test</code></td>
+<td class="align_left"><code>$ rails t</code></td>
+</tr><tr><td class="align_left right_border"><code>$ bundle install</code></td>
+<td class="align_left"><code>$ bundle</code></td>
+</tr></tbody></table><div class="caption"><span class="header">Table 3.1: </span><span class="description">Some Rails shortcuts.
+</span></div></div>
+<p>Before moving on, if you’re using Git it’s a good idea to add the files for the Static Pages controller to the remote repository:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git add -A
+<span class="gp">$</span> git commit -m <span class="s2">"Add a Static Pages controller"</span>
+<span class="gp">$</span> git push -u origin static-pages
+</pre></div></div>
+<p>The final command here arranges to push the <code>static-pages</code> topic branch up to Bitbucket.<span class="intersentencespace"></span> Subsequent pushes can omit the other arguments and write simply</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git push
+</pre></div></div>
+<p>The commit and push sequence above represents the kind of pattern I would ordinarily follow in real-life development, but for simplicity I’ll typically omit such intermediate commits from now on.</p>
+<p>In <a href="static_pages_fragment.html#code-generating_pages" class="hyperref">Listing <span class="ref">3.6</span></a>, note that we have passed the controller name as CamelCase (so called because it resembles the humps of a <a href="https://en.wikipedia.org/wiki/Bactrian_camel" target="_blank" rel="noopener">Bactrian camel</a>), which leads to the creation of a controller file written in <a href="https://en.wikipedia.org/wiki/Snake_case" target="_blank" rel="noopener">snake case</a>, so that a controller called StaticPages yields a file called <code>static_pages_controller.rb</code>.<span class="intersentencespace"></span> This is merely a convention, and in fact using snake case at the command line also works: the command</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> rails generate controller static_pages ...
+</pre></div></div>
+<p>also generates a controller called <code>static_pages_controller.rb</code>.<span class="intersentencespace"></span> Because Ruby uses CamelCase for class names (<a href="rails_flavored_ruby_fragment.html#sec-ruby_classes" class="hyperref">Section <span class="ref">4.4</span></a>), my preference is to refer to controllers using their CamelCase names, but this is a matter of taste.<span class="intersentencespace"></span> (Since Ruby filenames typically use snake case, the Rails generator converts CamelCase to snake case using the <a href="http://api.rubyonrails.org/classes/ActiveSupport/Inflector.html#method-i-underscore" target="_blank" rel="noopener"><code class="tt">underscore</code></a> method.)</p>
+<p>By the way, if you ever make a mistake when generating code, it’s useful to know how to reverse the process.<span class="intersentencespace"></span> See <a href="static_pages_fragment.html#aside-undoing_things" class="hyperref">Box <span class="ref">3.1</span></a> for some techniques on how to undo things in Rails.</p>
+<div class="aside" id="aside-undoing_things" data-tralics-id="uid300" data-number="3.1"><div class="heading"><span class="number">Box 3.1.</span> 
+
+<span class="description">Undoing things</span></div>
+<p>Even when you’re very careful, things can sometimes go wrong when developing Rails applications.<span class="intersentencespace"></span> Happily, Rails has some facilities to help you recover.</p>
+<p>One common scenario is wanting to undo code generation—for example, when you change your mind on the name of a controller and want to eliminate the generated files.<span class="intersentencespace"></span> Because Rails creates a substantial number of auxiliary files along with the controller (as seen in <a href="static_pages_fragment.html#code-generating_pages" class="hyperref">Listing <span class="ref">3.6</span></a>), this isn’t as easy as removing the controller file itself; undoing the generation means removing not only the principal generated file, but all the ancillary files as well.<span class="intersentencespace"></span> (In fact, as we saw in <a href="toy_app_fragment.html#sec-demo_users_resource" class="hyperref">Section <span class="ref">2.2</span></a> and <a href="toy_app_fragment.html#sec-microposts_resource" class="hyperref">Section <span class="ref">2.3</span></a>, <code class="tt">rails generate</code> can make automatic edits to the <code class="tt">routes.rb</code> file, which we also want to undo automatically.)<span class="intersentencespace"></span> In Rails, this can be accomplished with <code class="tt">rails destroy</code> followed by the name of the generated element.<span class="intersentencespace"></span> In particular, these two commands cancel each other out:</p>
+<pre>  $ rails generate controller StaticPages home help
+  $ rails destroy  controller StaticPages home help</pre>
+<p>Similarly, in <a href="modeling_users_fragment.html#cha-modeling_users" class="hyperref">Chapter <span class="ref">6</span></a> we’ll generate a <em>model</em> as follows:</p>
+<pre>  $ rails generate model User name:string email:string</pre>
+<p>This can be undone using</p>
+<pre>  $ rails destroy model User</pre>
+<p>(In this case, it turns out we can omit the other command-line arguments.<span class="intersentencespace"></span> When you get to <a href="modeling_users_fragment.html#cha-modeling_users" class="hyperref">Chapter <span class="ref">6</span></a>, see if you can figure out why.)</p>
+<p>Another technique related to models involves undoing <em>migrations</em>, which we saw briefly in <a href="toy_app_fragment.html#cha-a_toy_app" class="hyperref">Chapter <span class="ref">2</span></a> and will see much more of starting in <a href="modeling_users_fragment.html#cha-modeling_users" class="hyperref">Chapter <span class="ref">6</span></a>.<span class="intersentencespace"></span> Migrations change the state of the database using the command</p>
+<pre>  $ rails db:migrate</pre>
+<p>We can undo a single migration step using</p>
+<pre>  $ rails db:rollback</pre>
+<p>To go all the way back to the beginning, we can use</p>
+<pre>  $ rails db:migrate VERSION=0</pre>
+<p>As you might guess, substituting any other number for <code class="tt">0</code> migrates to that version number, where the version numbers come from listing the migrations sequentially.</p>
+<p>With these techniques in hand, we are well-equipped to recover from the inevitable development <a href="https://en.wiktionary.org/wiki/SNAFU" target="_blank" rel="noopener">snafus</a>.<span class="intersentencespace"></span></p>
+
+</div><p>The Static Pages controller generation in <a href="static_pages_fragment.html#code-generating_pages" class="hyperref">Listing <span class="ref">3.6</span></a> automatically updates the routes file (<code>config/routes.rb</code>), which we saw briefly in <a href="beginning_fragment.html#sec-hello_world" class="hyperref">Section <span class="ref">1.3.4</span></a>.<span class="intersentencespace"></span> The routes file is responsible for implementing the router (seen in <a href="toy_app_fragment.html#fig-mvc_detailed" class="hyperref">Figure <span class="ref">2.11</span></a>) that defines the correspondence between URLs and web pages.<span class="intersentencespace"></span> The routes file is located in the <code>config</code> directory, where Rails collects files needed for the application configuration (<a href="static_pages_fragment.html#fig-config_directory_rails" class="hyperref">Figure <span class="ref">3.1</span></a>).</p>
+<div class="center figure" id="fig-config_directory_rails" data-tralics-id="uid301" data-number="3.1">
+<div class="graphics image"><img src="images/figures/config_directory_4th_edition.png" alt="images/figures/config_directory_4th_edition"></div><div class="caption"><span class="header">Figure 3.1: </span><span class="description">Contents of the sample app’s <code>config</code> directory.
+</span></div></div>
+<p>Since we included the <code>home</code> and <code>help</code> actions in <a href="static_pages_fragment.html#code-generating_pages" class="hyperref">Listing <span class="ref">3.6</span></a>, the routes file already has a rule for each one, as seen in <a href="static_pages_fragment.html#code-pages_routes" class="hyperref">Listing <span class="ref">3.7</span></a>.</p>
+<div class="codelisting" id="code-pages_routes" data-tralics-id="uid302" data-number="3.7"><div class="heading"><span class="number">Listing 3.7:</span> 
+
+<span class="description">The routes for the <code>home</code> and <code>help</code> actions in the Static Pages controller.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">config/routes.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+<span class="hll">  <span class="n">get</span>  <span class="s1">'static_pages/home'</span>
+</span><span class="hll">  <span class="n">get</span>  <span class="s1">'static_pages/help'</span>
+</span>  <span class="n">root</span> <span class="s1">'application#hello'</span>
+<span class="k">end</span>
+</pre></div></div></div><p>Here the rule</p>
+<div class="code"><div class="highlight"><pre><span class="n">get</span> <span class="s1">'static_pages/home'</span>
+</pre></div></div>
+<p>maps requests for the URL /static_pages/home to the <code>home</code> action in the Static Pages controller.<span class="intersentencespace"></span> Moreover, by using <code>get</code> we arrange for the route to respond to a <code class="tt">GET</code> request, which is one of the fundamental <em>HTTP verbs</em> supported by the hypertext transfer protocol (<a href="static_pages_fragment.html#aside-get_etc" class="hyperref">Box <span class="ref">3.2</span></a>).<span class="intersentencespace"></span> In our case, this means that when we generate a <code>home</code> action inside the Static Pages controller we automatically get a page at the address /static_pages/home.<span class="intersentencespace"></span> To see the result, start a Rails development server as described in <a href="beginning_fragment.html#sec-rails_server" class="hyperref">Section <span class="ref">1.3.2</span></a>:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> rails server -b <span class="nv">$IP</span> -p <span class="nv">$PORT</span>    <span class="c"># Use `rails server` if running locally.</span>
+</pre></div></div>
+<p>Then navigate to /static_pages/home (<a href="static_pages_fragment.html#fig-raw_home_view" class="hyperref">Figure <span class="ref">3.2</span></a>).</p>
+<div class="center figure" id="fig-raw_home_view" data-tralics-id="uid303" data-number="3.2">
+<div class="graphics image"><img src="images/figures/raw_home_view_3rd_edition.png" alt="images/figures/raw_home_view_3rd_edition"></div><div class="caption"><span class="header">Figure 3.2: </span><span class="description">The raw home view (/static_pages/home).
+</span></div></div>
+<div class="aside" id="aside-get_etc" data-tralics-id="uid304" data-number="3.2"><div class="heading"><span class="number">Box 3.2.</span> 
+
+<span class="description"><code class="tt">GET</code>, et cet.</span></div>
+<p>The hypertext transfer protocol (<a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods" target="_blank" rel="noopener">HTTP</a>) defines the basic operations <code class="tt">GET</code>, <code class="tt">POST</code>, <code class="tt">PATCH</code>, and <code class="tt">DELETE</code>.<span class="intersentencespace"></span> These refer to operations between a <em>client</em> computer (typically running a web browser such as Chrome, Firefox, or Safari) and a <em>server</em> (typically running a webserver such as Apache or Nginx).<span class="intersentencespace"></span> (It’s important to understand that, when developing Rails applications on a local computer, the client and server are the same physical machine, but in general they are different.)<span class="intersentencespace"></span> An emphasis on HTTP verbs is typical of web frameworks (including Rails) influenced by the <em>REST architecture</em>, which we saw briefly in <a href="toy_app_fragment.html#cha-a_toy_app" class="hyperref">Chapter <span class="ref">2</span></a> and will start learning more about in <a href="sign_up_fragment.html#cha-sign_up" class="hyperref">Chapter <span class="ref">7</span></a>.</p>
+<p><code class="tt">GET</code> is the most common HTTP operation, used for <em>reading</em> data on the web; it just means “get a page”, and every time you visit a site like <a href="http://www.google.com/" target="_blank" rel="noopener">http://www.google.com/</a> or <a href="http://www.wikipedia.org/" target="_blank" rel="noopener">http://www.wikipedia.org/</a> your browser is submitting a <code class="tt">GET</code> request.<span class="intersentencespace"></span> <code class="tt">POST</code> is the next most common operation; it is the request sent by your browser when you submit a form.<span class="intersentencespace"></span> In Rails applications, <code class="tt">POST</code> requests are typically used for <em>creating</em> things (although HTTP also allows <code class="tt">POST</code> to perform updates).<span class="intersentencespace"></span> For example, the <code class="tt">POST</code> request sent when you submit a registration form creates a new user on the remote site.<span class="intersentencespace"></span> The other two verbs, <code class="tt">PATCH</code> and <code class="tt">DELETE</code>, are designed for <em>updating</em> and <em>destroying</em> things on the remote server.<span class="intersentencespace"></span> These requests are less common than <code class="tt">GET</code> and <code class="tt">POST</code> since browsers are incapable of sending them natively, but some web frameworks (including Ruby on Rails) have clever ways of making it <em>seem</em> like browsers are issuing such requests.<span class="intersentencespace"></span> As a result, Rails supports all four of the request types <code class="tt">GET</code>, <code class="tt">POST</code>, <code class="tt">PATCH</code>, and <code class="tt">DELETE</code>.<span class="intersentencespace"></span></p>
+
+</div><p>To understand where this page comes from, let’s start by taking a look at the Static Pages controller in a text editor, which should look something like <a href="static_pages_fragment.html#code-static_pages_controller" class="hyperref">Listing <span class="ref">3.8</span></a>.<span class="intersentencespace"></span> You may note that, unlike the demo Users and Microposts controllers from <a href="toy_app_fragment.html#cha-a_toy_app" class="hyperref">Chapter <span class="ref">2</span></a>, the Static Pages controller does not use the standard REST actions.<span class="intersentencespace"></span> This is normal for a collection of static pages: the REST architecture isn’t the best solution to every problem.</p>
+<div class="codelisting" id="code-static_pages_controller" data-tralics-id="uid305" data-number="3.8"><div class="heading"><span class="number">Listing 3.8:</span> 
+
+<span class="description">The Static Pages controller made by <a href="static_pages_fragment.html#code-generating_pages" class="hyperref">Listing <span class="ref">3.6</span></a>.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/controllers/static_pages_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">StaticPagesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">home</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">help</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div><p>We see from the <code>class</code> keyword in <a href="static_pages_fragment.html#code-static_pages_controller" class="hyperref">Listing <span class="ref">3.8</span></a> that <code>static_pages_controller.rb</code> defines a <em>class</em>, in this case called <code>StaticPagesController</code>.<span class="intersentencespace"></span> Classes are simply a convenient way to organize <em>functions</em> (also called <em>methods</em>) like the <code>home</code> and <code>help</code> actions, which are defined using the <code>def</code> keyword.<span class="intersentencespace"></span> As discussed in <a href="toy_app_fragment.html#sec-inheritance_hierarchies" class="hyperref">Section <span class="ref">2.3.4</span></a>, the angle bracket <code>&lt;</code> indicates that <code>StaticPagesController</code> <em>inherits</em> from the Rails class <code>ApplicationController</code>; as we’ll see in a moment, this means that our pages come equipped with a large amount of Rails-specific functionality.<span class="intersentencespace"></span> (We’ll learn more about both classes and inheritance in <a href="rails_flavored_ruby_fragment.html#sec-ruby_classes" class="hyperref">Section <span class="ref">4.4</span></a>.)</p>
+<p>In the case of the Static Pages controller, both of its methods are initially empty:</p>
+<div class="code"><div class="highlight"><pre><span class="k">def</span> <span class="nf">home</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">help</span>
+<span class="k">end</span>
+</pre></div></div>
+<p>In plain Ruby, these methods would simply do nothing.<span class="intersentencespace"></span> In Rails, the situation is different—<code>StaticPagesController</code> is a Ruby class, but because it inherits from <code>ApplicationController</code> the behavior of its methods is specific to Rails: when visiting the URL /static_pages/home, Rails looks in the Static Pages controller and executes the code in the <code>home</code> action, and then renders the <em>view</em> (the V in MVC from <a href="beginning_fragment.html#sec-mvc" class="hyperref">Section <span class="ref">1.3.3</span></a>) corresponding to the action.<span class="intersentencespace"></span> In the present case, the <code>home</code> action is empty, so all visiting /static_pages/home does is render the view.<span class="intersentencespace"></span> So, what does a view look like, and how do we find it?</p>
+<p>If you take another look at the output in <a href="static_pages_fragment.html#code-generating_pages" class="hyperref">Listing <span class="ref">3.6</span></a>, you might be able to guess the correspondence between actions and views: an action like <code>home</code> has a corresponding view called <code>home.html.erb</code>.<span class="intersentencespace"></span> We’ll learn in <a href="static_pages_fragment.html#sec-slightly_dynamic_pages" class="hyperref">Section <span class="ref">3.4</span></a> what the <code>.erb</code> part means; from the <code>.html</code> part you probably won’t be surprised that it basically looks like HTML (<a href="static_pages_fragment.html#code-raw_home_view" class="hyperref">Listing <span class="ref">3.9</span></a>).</p>
+<div class="codelisting" id="code-raw_home_view" data-tralics-id="uid306" data-number="3.9"><div class="heading"><span class="number">Listing 3.9:</span> 
+
+<span class="description">The generated view for the Home page.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/views/static_pages/home.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>StaticPages#home<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>Find me in app/views/static_pages/home.html.erb<span class="nt">&lt;/p&gt;</span>
+</pre></div></div></div><p>The view for the <code>help</code> action is analogous (<a href="static_pages_fragment.html#code-raw_help_view" class="hyperref">Listing <span class="ref">3.10</span></a>).</p>
+<div class="codelisting" id="code-raw_help_view" data-tralics-id="uid307" data-number="3.10"><div class="heading"><span class="number">Listing 3.10:</span> 
+
+<span class="description">The generated view for the Help page.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/views/static_pages/help.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>StaticPages#help<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>Find me in app/views/static_pages/help.html.erb<span class="nt">&lt;/p&gt;</span>
+</pre></div></div></div><p>Both of these views are just placeholders: they have a top-level heading (inside the <code>h1</code> tag) and a paragraph (<code>p</code> tag) with the full path to the corresponding file.</p>
+<div id="sec-exercises_generated_static_pages" data-tralics-id="uid308" class="subsubsection" data-number="3.2.1.1"><h4><a href="#sec-exercises_generated_static_pages" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>Generate a controller called <code>Foo</code> with actions <code>bar</code> and <code>baz</code>. <span class="exercise" id="ex-ef4a1d"></span>
+</li>
+<li>By applying the techniques described in <a href="static_pages_fragment.html#aside-undoing_things" class="hyperref">Box <span class="ref">3.1</span></a>, destroy the <code>Foo</code> controller and its associated actions. <span class="exercise" id="ex-b6b114"></span>
+</li></ol>
+</div></div>
+<div id="sec-custom_static_pages" data-tralics-id="uid311" class="subsection" data-number="3.2.2"><h3><a href="static_pages_fragment.html#sec-custom_static_pages" class="heading hyperref"><span class="number">3.2.2 </span>Custom static pages</a></h3>
+<p>We’ll add some (very slightly) dynamic content starting in <a href="static_pages_fragment.html#sec-slightly_dynamic_pages" class="hyperref">Section <span class="ref">3.4</span></a>, but as they stand the files shown in <a href="static_pages_fragment.html#code-raw_home_view" class="hyperref">Listing <span class="ref">3.9</span></a> and <a href="static_pages_fragment.html#code-raw_help_view" class="hyperref">Listing <span class="ref">3.10</span></a> underscore an important point: Rails views can simply contain static HTML.<span class="intersentencespace"></span> This means we can begin customizing the Home and Help pages even with no knowledge of Rails, as shown in <a href="static_pages_fragment.html#code-custom_home_page" class="hyperref">Listing <span class="ref">3.11</span></a> and <a href="static_pages_fragment.html#code-custom_help_page" class="hyperref">Listing <span class="ref">3.12</span></a>.</p>
+<div class="codelisting" id="code-custom_home_page" data-tralics-id="uid312" data-number="3.11"><div class="heading"><span class="number">Listing 3.11:</span> 
+
+<span class="description">Custom HTML for the Home page.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/views/static_pages/home.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>Sample App<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  This is the home page for the
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/"</span><span class="nt">&gt;</span>Ruby on Rails Tutorial<span class="nt">&lt;/a&gt;</span>
+  sample application.
+<span class="nt">&lt;/p&gt;</span>
+</pre></div></div></div><div class="codelisting" id="code-custom_help_page" data-tralics-id="uid313" data-number="3.12"><div class="heading"><span class="number">Listing 3.12:</span> 
+
+<span class="description">Custom HTML for the Help page.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/views/static_pages/help.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>Help<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  Get help on the Ruby on Rails Tutorial at the
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/help"</span><span class="nt">&gt;</span>Rails Tutorial help page<span class="nt">&lt;/a&gt;</span>.
+  To get help on this sample app, see the
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/book"</span><span class="nt">&gt;&lt;em&gt;</span>Ruby on Rails Tutorial<span class="nt">&lt;/em&gt;</span>
+  book<span class="nt">&lt;/a&gt;</span>.
+<span class="nt">&lt;/p&gt;</span>
+</pre></div></div></div><p>The results of <a href="static_pages_fragment.html#code-custom_home_page" class="hyperref">Listing <span class="ref">3.11</span></a> and <a href="static_pages_fragment.html#code-custom_help_page" class="hyperref">Listing <span class="ref">3.12</span></a> are shown in <a href="static_pages_fragment.html#fig-custom_home_page" class="hyperref">Figure <span class="ref">3.3</span></a> and <a href="static_pages_fragment.html#fig-custom_help_page" class="hyperref">Figure <span class="ref">3.4</span></a>.</p>
+<div class="center figure" id="fig-custom_home_page" data-tralics-id="uid314" data-number="3.3">
+<div class="graphics image"><img src="images/figures/custom_home_page.png" alt="images/figures/custom_home_page"></div><div class="caption"><span class="header">Figure 3.3: </span><span class="description">A custom Home page.
+</span></div></div>
+<div class="center figure" id="fig-custom_help_page" data-tralics-id="uid315" data-number="3.4">
+<div class="graphics image"><img src="images/figures/custom_help_page_4th_edition.png" alt="images/figures/custom_help_page_4th_edition"></div><div class="caption"><span class="header">Figure 3.4: </span><span class="description">A custom Help page.
+</span></div></div>
+</div></div><div id="sec-getting_started_with_testing" data-tralics-id="cid16" class="section" data-number="3.3"><h2><a href="static_pages_fragment.html#sec-getting_started_with_testing" class="heading hyperref"><span class="number">3.3 </span>Getting started with testing</a></h2>
+<p>Having created and filled in the Home and Help pages for our sample app (<a href="static_pages_fragment.html#sec-custom_static_pages" class="hyperref">Section <span class="ref">3.2.2</span></a>), now we’re going to add an About page as well.<span class="intersentencespace"></span> When making a change of this nature, it’s a good practice to write an <em>automated test</em> to verify that the feature is implemented correctly.<span class="intersentencespace"></span> Developed over the course of building an application, the resulting <em>test suite</em> serves as a safety net and as executable documentation of the application source code.<span class="intersentencespace"></span> When done right, writing tests also allows us to develop <em>faster</em> despite requiring extra code, because we’ll end up wasting less time trying to track down bugs.<span class="intersentencespace"></span> This is true only once we get good at writing tests, though, which is one reason it’s important to start practicing as early as possible.</p>
+<p>Although virtually all Rails developers agree that testing is a good idea, there is a diversity of opinion on the details.<span class="intersentencespace"></span> There is an especially lively debate over the use of test-driven development (TDD),<sup id="cha-3_footnote-ref-8" class="footnote"><a href="#cha-3_footnote-8">8</a></sup> a testing technique in which the programmer writes failing tests first, and then writes the application code to get the tests to pass.<span class="intersentencespace"></span> The <em>Ruby on Rails Tutorial</em> takes a lightweight, intuitive approach to testing, employing TDD when convenient without being dogmatic about it (<a href="static_pages_fragment.html#aside-when_to_test" class="hyperref">Box <span class="ref">3.3</span></a>).</p>
+<div class="aside" id="aside-when_to_test" data-tralics-id="uid317" data-number="3.3"><div class="heading"><span class="number">Box 3.3.</span> 
+
+<span class="description">When to test</span></div>
+<p>When deciding when and how to test, it’s helpful to understand <em>why</em> to test.<span class="intersentencespace"></span> In my view, writing automated tests has three main benefits:</p>
+<ol>
+<li>Tests protect against <em>regressions</em>, where a functioning feature stops working for some reason.<span class="intersentencespace"></span>
+</li>
+<li>Tests allow code to be <em>refactored</em> (i.e., changing its form without changing its function) with greater confidence.<span class="intersentencespace"></span>
+</li>
+<li>Tests act as a <em>client</em> for the application code, thereby helping determine its design and its interface with other parts of the system.<span class="intersentencespace"></span>
+</li></ol>
+<p>Although none of the above benefits <em>require</em> that tests be written first, there are many circumstances where test-driven development (TDD) is a valuable tool to have in your kit.<span class="intersentencespace"></span> Deciding when and how to test depends in part on how comfortable you are writing tests; many developers find that, as they get better at writing tests, they are more inclined to write them first.<span class="intersentencespace"></span> It also depends on how difficult the test is relative to the application code, how precisely the desired features are known, and how likely the feature is to break in the future.</p>
+<p>In this context, it’s helpful to have a set of guidelines on when we should test first (or test at all).<span class="intersentencespace"></span> Here are some suggestions based on my own experience:</p>
+<ul>
+<li>When a test is especially short or simple compared to the application code it tests, lean toward writing the test first.
+</li>
+<li>When the desired behavior isn’t yet crystal clear, lean toward writing the application code first, then write a test to codify the result.
+</li>
+<li>Because security is a top priority, err on the side of writing tests of the security model first.
+</li>
+<li>Whenever a bug is found, write a test to reproduce it and protect against regressions, then write the application code to fix it.
+</li>
+<li>Lean against writing tests for code (such as detailed HTML structure) likely to change in the future.
+</li>
+<li>Write tests before refactoring code, focusing on testing error-prone code that’s especially likely to break.<span class="intersentencespace"></span>
+</li></ul>
+<p>In practice, the guidelines above mean that we’ll usually write controller and model tests first and integration tests (which test functionality across models, views, and controllers) second.<span class="intersentencespace"></span> And when we’re writing application code that isn’t particularly brittle or error-prone, or is likely to change (as is often the case with views), we’ll often skip testing altogether.<span class="intersentencespace"></span></p>
+
+</div><p>Our main testing tools will be <em>controller tests</em> (starting in this section), <em>model tests</em> (starting in <a href="modeling_users_fragment.html#cha-modeling_users" class="hyperref">Chapter <span class="ref">6</span></a>), and <em>integration tests</em> (starting in <a href="sign_up_fragment.html#cha-sign_up" class="hyperref">Chapter <span class="ref">7</span></a>).<span class="intersentencespace"></span> Integration tests are especially powerful, as they allow us to simulate the actions of a user interacting with our application using a web browser.<span class="intersentencespace"></span> Integration tests will eventually be our primary testing technique, but controller tests give us an easier place to start.</p>
+<div id="sec-our_first_test" data-tralics-id="uid327" class="subsection" data-number="3.3.1"><h3><a href="static_pages_fragment.html#sec-our_first_test" class="heading hyperref"><span class="number">3.3.1 </span>Our first test</a></h3>
+<p>Now it’s time to add an About page to our application.<span class="intersentencespace"></span> As we’ll see, the test is short and simple, so we’ll follow the guidelines from <a href="static_pages_fragment.html#aside-when_to_test" class="hyperref">Box <span class="ref">3.3</span></a> and write the test first.<span class="intersentencespace"></span> We’ll then use the failing test to drive the writing of the application code.</p>
+<p>Getting started with testing can be challenging, requiring extensive knowledge of both Rails and Ruby.<span class="intersentencespace"></span> At this early stage, writing tests might thus seem hopelessly intimidating.<span class="intersentencespace"></span> Luckily, Rails has already done the hardest part for us, because <code>rails generate controller</code> (<a href="static_pages_fragment.html#code-generating_pages" class="hyperref">Listing <span class="ref">3.6</span></a>) automatically generated a test file to get us started:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> ls <span class="nb">test</span>/controllers/
+<span class="go">static_pages_controller_test.rb</span>
+</pre></div></div>
+<p>Let’s take a look at it (<a href="static_pages_fragment.html#code-default_controller_test" class="hyperref">Listing <span class="ref">3.13</span></a>).</p>
+<div class="codelisting" id="code-default_controller_test" data-tralics-id="uid328" data-number="3.13"><div class="heading"><span class="number">Listing 3.13:</span> 
+
+<span class="description">The default tests for the StaticPages controller.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">test/controllers/static_pages_controller_test.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">'test_helper'</span>
+
+<span class="k">class</span> <span class="nc">StaticPagesControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+
+  <span class="nb">test</span> <span class="s2">"should get home"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_home_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should get help"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_help_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div><p>It’s not important at this point to understand the syntax in <a href="static_pages_fragment.html#code-default_controller_test" class="hyperref">Listing <span class="ref">3.13</span></a> in detail, but we can see that there are two tests, one for each controller action we included on the command line in <a href="static_pages_fragment.html#code-generating_pages" class="hyperref">Listing <span class="ref">3.6</span></a>.<span class="intersentencespace"></span> Each test simply gets a URL and verifies (via an <em>assertion</em>) that the result is a success.<span class="intersentencespace"></span> Here the use of <code>get</code> indicates that our tests expect the Home and Help pages to be ordinary web pages, accessed using a <code class="tt">GET</code> request (<a href="static_pages_fragment.html#aside-get_etc" class="hyperref">Box <span class="ref">3.2</span></a>).<span class="intersentencespace"></span> The response <code>:success</code> is an abstract representation of the underlying HTTP <a href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank" rel="noopener">status code</a> (in this case, <a href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#2xx_Success" target="_blank" rel="noopener">200 OK</a>).<span class="intersentencespace"></span> In other words, a test like</p>
+<div class="code"><div class="highlight"><pre><span class="nb">test</span> <span class="s2">"should get home"</span> <span class="k">do</span>
+  <span class="n">get</span> <span class="n">static_pages_home_url</span>
+  <span class="n">assert_response</span> <span class="ss">:success</span>
+<span class="k">end</span>
+</pre></div></div>
+<p>says “Let’s test the Home page by issuing a <code class="tt">GET</code> request to the Static Pages <code>home</code> URL and then making sure we receive a ‘success’ status code in response.”</p>
+<p>To begin our testing cycle, we need to run our test suite to verify that the tests currently pass.<span class="intersentencespace"></span> We can do this with the <code>rails</code> command as follows:</p>
+<div class="codelisting" id="uid329" data-tralics-id="uid329" data-number="3.14"><div class="heading"><span class="number">Listing 3.14:</span> <span class="description"><span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span></span>
+</div>
+
+<div class="code"><div class="highlight"><pre>$ rails test
+2 tests, 2 assertions, 0 failures, 0 errors, 0 skips
+</pre></div></div></div><p>As required, initially our test suite is passing (<span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>).<span class="intersentencespace"></span> (You won’t actually see the color green unless you add the minitest reporters from the optional <a href="static_pages_fragment.html#sec-minitest_reporters" class="hyperref">Section <span class="ref">3.6.1</span></a>, but the terminology is common even when literal colors aren’t involved.)<span class="intersentencespace"></span> On some systems, the tests can take a relatively long time to start, which is due to two factors: (1) starting the <em>Spring server</em> to preload parts of the Rails environment, which only happens the first time; and (2) overhead associated with Ruby startup time.<span class="intersentencespace"></span> (The second factor is ameliorated when using Guard as suggested in <a href="static_pages_fragment.html#sec-guard" class="hyperref">Section <span class="ref">3.6.2</span></a>.)</p>
+</div>
+<div id="sec-red" data-tralics-id="uid330" class="subsection" data-number="3.3.2"><h3><a href="static_pages_fragment.html#sec-red" class="heading hyperref"><span class="number">3.3.2 </span>Red</a></h3>
+<p>As noted in <a href="static_pages_fragment.html#aside-when_to_test" class="hyperref">Box <span class="ref">3.3</span></a>, test-driven development involves writing a failing test first, writing the application code needed to get it to pass, and then refactoring the code if necessary.<span class="intersentencespace"></span> Because many testing tools represent failing tests with the color red and passing tests with the color green, this sequence is sometimes known as the “Red, Green, Refactor” cycle.<span class="intersentencespace"></span> In this section, we’ll complete the first step in this cycle, getting to <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span> by writing a failing test.<span class="intersentencespace"></span> Then we’ll get to <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span> in <a href="static_pages_fragment.html#sec-green" class="hyperref">Section <span class="ref">3.3.3</span></a>, and refactor in <a href="static_pages_fragment.html#sec-layouts_and_embedded_ruby" class="hyperref">Section <span class="ref">3.4.3</span></a>.<sup id="cha-3_footnote-ref-9" class="footnote"><a href="#cha-3_footnote-9">9</a></sup></p>
+<p>Our first step is to write a failing test for the About page.<span class="intersentencespace"></span> Following the models from <a href="static_pages_fragment.html#code-default_controller_test" class="hyperref">Listing <span class="ref">3.13</span></a>, you can probably guess the right test, which is shown in <a href="static_pages_fragment.html#code-about_test" class="hyperref">Listing <span class="ref">3.15</span></a>.</p>
+<div class="codelisting" id="code-about_test" data-tralics-id="uid332" data-number="3.15"><div class="heading"><span class="number">Listing 3.15:</span> 
+
+<span class="description">A test for the About page.<span class="intersentencespace"></span> <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">test/controllers/static_pages_controller_test.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">'test_helper'</span>
+
+<span class="k">class</span> <span class="nc">StaticPagesControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+
+  <span class="nb">test</span> <span class="s2">"should get home"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_home_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should get help"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_help_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+
+<span class="hll">  <span class="nb">test</span> <span class="s2">"should get about"</span> <span class="k">do</span>
+</span><span class="hll">    <span class="n">get</span> <span class="n">static_pages_about_url</span>
+</span><span class="hll">    <span class="n">assert_response</span> <span class="ss">:success</span>
+</span><span class="hll">  <span class="k">end</span>
+</span><span class="k">end</span>
+</pre></div></div></div><p>We see from the highlighted lines in <a href="static_pages_fragment.html#code-about_test" class="hyperref">Listing <span class="ref">3.15</span></a> that the test for the About page is the same as the Home and Help tests with the word “about” in place of “home” or “help”.</p>
+<p>As required, the test initially fails:</p>
+<div class="codelisting" id="uid333" data-tralics-id="uid333" data-number="3.16"><div class="heading"><span class="number">Listing 3.16:</span> <span class="description"><span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span></span>
+</div>
+
+<div class="code"><div class="highlight"><pre>$ rails test
+3 tests, 2 assertions, 0 failures, 1 errors, 0 skips
+</pre></div></div></div></div>
+<div id="sec-green" data-tralics-id="uid334" class="subsection" data-number="3.3.3"><h3><a href="static_pages_fragment.html#sec-green" class="heading hyperref"><span class="number">3.3.3 </span>Green</a></h3>
+<p>Now that we have a failing test (<span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span>), we’ll use the failing test’s error messages to guide us to a passing test (<span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>), thereby implementing a working About page.</p>
+<p>We can get started by examining the error message output by the failing test</p>
+<div class="codelisting" id="uid335" data-tralics-id="uid335" data-number="3.17"><div class="heading"><span class="number">Listing 3.17:</span> <span class="description"><span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span></span>
+</div>
+
+<div class="code"><div class="highlight"><pre>$ rails test
+NameError: undefined local variable or method `static_pages_about_url'
+</pre></div></div></div><p>The error message here says that the Rails code for the About page URL is undefined, which is a hint that we need to add a line to the routes file.<span class="intersentencespace"></span> We can accomplish this by following the pattern in <a href="static_pages_fragment.html#code-pages_routes" class="hyperref">Listing <span class="ref">3.7</span></a>, as shown in <a href="static_pages_fragment.html#code-about_route" class="hyperref">Listing <span class="ref">3.18</span></a>.</p>
+<div class="codelisting" id="code-about_route" data-tralics-id="uid336" data-number="3.18"><div class="heading"><span class="number">Listing 3.18:</span> 
+
+<span class="description">Adding the <code>about</code> route.<span class="intersentencespace"></span> <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">config/routes.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+  <span class="n">get</span>  <span class="s1">'static_pages/home'</span>
+  <span class="n">get</span>  <span class="s1">'static_pages/help'</span>
+<span class="hll">  <span class="n">get</span>  <span class="s1">'static_pages/about'</span>
+</span>  <span class="n">root</span> <span class="s1">'application#hello'</span>
+<span class="k">end</span>
+</pre></div></div></div><p>The highlighted line in <a href="static_pages_fragment.html#code-about_route" class="hyperref">Listing <span class="ref">3.18</span></a> tells Rails to route a <code class="tt">GET</code> request for the URL /static_pages/about to the <code>about</code> action in the Static Pages controller.<span class="intersentencespace"></span> This automatically creates a helper called</p>
+<div class="code"><div class="highlight"><pre><span class="n">static_pages_about_url</span>
+</pre></div></div>
+<p>Running our test suite again, we see that it is still <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span>, but now the error message has changed:</p>
+<div class="codelisting" id="uid337" data-tralics-id="uid337" data-number="3.19"><div class="heading"><span class="number">Listing 3.19:</span> <span class="description"><span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span></span>
+</div>
+
+<div class="code"><div class="highlight"><pre>$ rails test
+AbstractController::ActionNotFound:
+The action 'about' could not be found for StaticPagesController
+</pre></div></div></div><p>The error message now indicates a missing <code>about</code> action in the Static Pages controller, which we can add by following the model provided by <code>home</code> and <code>help</code> in <a href="static_pages_fragment.html#code-static_pages_controller" class="hyperref">Listing <span class="ref">3.8</span></a>, as shown in <a href="static_pages_fragment.html#code-adding_the_about_page" class="hyperref">Listing <span class="ref">3.20</span></a>.</p>
+<div class="codelisting" id="code-adding_the_about_page" data-tralics-id="uid338" data-number="3.20"><div class="heading"><span class="number">Listing 3.20:</span> 
+
+<span class="description">The Static Pages controller with added <code>about</code> action.<span class="intersentencespace"></span> <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/controllers/static_pages_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">StaticPagesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="k">def</span> <span class="nf">home</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">help</span>
+  <span class="k">end</span>
+
+<span class="hll">  <span class="k">def</span> <span class="nf">about</span>
+</span><span class="hll">  <span class="k">end</span>
+</span><span class="k">end</span>
+</pre></div></div></div><p>As before, our test suite is still <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span>, but the error message has changed again:</p>
+<div class="code"><div class="highlight"><pre>$ rails test
+ActionController::UnknownFormat: StaticPagesController#about is missing
+a template for this request format and variant.
+</pre></div></div>
+<p>This indicates a missing template, which in the context of Rails is essentially the same thing as a view.<span class="intersentencespace"></span> As described in <a href="static_pages_fragment.html#sec-generated_static_pages" class="hyperref">Section <span class="ref">3.2.1</span></a>, an action called <code>home</code> is associated with a view called <code>home.html.erb</code> located in the <code>app/views/static_pages</code> directory, which means that we need to create a new file called <code>about.html.erb</code> in the same directory.</p>
+<p>The way to create a file varies by system setup, but most text editors will let you control-click inside the directory where you want to create the file to bring up a menu with a “New File” menu item.<span class="intersentencespace"></span> Alternately, you can use the File menu to create a new file and then pick the proper directory when saving it.<span class="intersentencespace"></span> Finally, you can use my favorite trick by applying the <a href="http://en.wikipedia.org/wiki/Touch_(Unix)" target="_blank" rel="noopener">Unix touch command</a> as follows:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> touch app/views/static_pages/about.html.erb
+</pre></div></div>
+<p>As <a href="https://www.learnenough.com/command-line-tutorial#sec-listing" target="_blank" rel="noopener">mentioned</a> in <a href="http://learnenough.com/command-line-tutorial" target="_blank" rel="noopener"><em>Learn Enough Command Line to Be Dangerous</em></a>, <code>touch</code> is designed to update the modification timestamp of a file or directory without otherwise affecting it, but as a side-effect it creates a new (blank) file if one doesn’t already exist.<span class="intersentencespace"></span> (If using the cloud IDE, you may have to refresh the file tree as described in <a href="beginning_fragment.html#sec-bundler" class="hyperref">Section <span class="ref">1.3.1</span></a>.<span class="intersentencespace"></span> This is a good example of technical sophistication (<a href="beginning_fragment.html#aside-technical_sophistication" class="hyperref">Box <span class="ref">1.1</span></a>).)<sup id="cha-3_footnote-ref-10" class="footnote"><a href="#cha-3_footnote-10">10</a></sup></p>
+<p>Once you’ve created the <code>about.html.erb</code> file in the right directory, you should fill it with the contents shown in <a href="static_pages_fragment.html#code-custom_about_page" class="hyperref">Listing <span class="ref">3.21</span></a>.</p>
+<div class="codelisting" id="code-custom_about_page" data-tralics-id="uid340" data-number="3.21"><div class="heading"><span class="number">Listing 3.21:</span> 
+
+<span class="description">Code for the About page.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/about.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>About<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  The <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/"</span><span class="nt">&gt;&lt;em&gt;</span>Ruby on Rails
+  Tutorial<span class="nt">&lt;/em&gt;&lt;/a&gt;</span> is a
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/book"</span><span class="nt">&gt;</span>book<span class="nt">&lt;/a&gt;</span> and
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://screencasts.railstutorial.org/"</span><span class="nt">&gt;</span>screencast series<span class="nt">&lt;/a&gt;</span>
+  to teach web development with
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://rubyonrails.org/"</span><span class="nt">&gt;</span>Ruby on Rails<span class="nt">&lt;/a&gt;</span>.
+  This is the sample application for the tutorial.
+<span class="nt">&lt;/p&gt;</span>
+</pre></div></div></div><p>At this point, running <code>rails test</code> should get us back to <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>:</p>
+<div class="codelisting" id="uid341" data-tralics-id="uid341" data-number="3.22"><div class="heading"><span class="number">Listing 3.22:</span> <span class="description"><span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span></span>
+</div>
+
+<div class="code"><div class="highlight"><pre>$ rails test
+3 tests, 3 assertions, 0 failures, 0 errors, 0 skips
+</pre></div></div></div><p>Of course, it’s never a bad idea to take a look at the page in a browser to make sure our tests aren’t completely crazy (<a href="static_pages_fragment.html#fig-about_us" class="hyperref">Figure <span class="ref">3.5</span></a>).</p>
+<div class="center figure" id="fig-about_us" data-tralics-id="uid342" data-number="3.5">
+<div class="graphics image"><img src="images/figures/about_us_3rd_edition.png" alt="images/figures/about_us_3rd_edition"></div><div class="caption"><span class="header">Figure 3.5: </span><span class="description">The new About page (/static_pages/about).
+</span></div></div>
+</div>
+<div id="sec-refactor" data-tralics-id="uid343" class="subsection" data-number="3.3.4"><h3><a href="static_pages_fragment.html#sec-refactor" class="heading hyperref"><span class="number">3.3.4 </span>Refactor</a></h3>
+<p>Now that we’ve gotten to <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>, we are free to refactor our code with confidence.<span class="intersentencespace"></span> When developing an application, often code will start to “smell”, meaning that it gets ugly, bloated, or filled with repetition.<span class="intersentencespace"></span> The computer doesn’t care what the code looks like, of course, but humans do, so it is important to keep the code base clean by refactoring frequently.<span class="intersentencespace"></span> Although our sample app is a little too small to refactor right now, <a href="https://en.wikipedia.org/wiki/Code_smell" target="_blank" rel="noopener">code smell</a> seeps in at every crack, and we’ll get started refactoring in <a href="static_pages_fragment.html#sec-layouts_and_embedded_ruby" class="hyperref">Section <span class="ref">3.4.3</span></a>.</p>
+</div></div><div id="sec-slightly_dynamic_pages" data-tralics-id="cid17" class="section" data-number="3.4"><h2><a href="static_pages_fragment.html#sec-slightly_dynamic_pages" class="heading hyperref"><span class="number">3.4 </span>Slightly dynamic pages</a></h2>
+<p>Now that we’ve created the actions and views for some static pages, we’ll make them <em>slightly</em> dynamic by adding some content that changes on a per-page basis: we’ll have the title of each page change to reflect its content.<span class="intersentencespace"></span> Whether a changing title represents <em>truly</em> dynamic content is debatable, but in any case it lays the necessary foundation for unambiguously dynamic content in <a href="sign_up_fragment.html#cha-sign_up" class="hyperref">Chapter <span class="ref">7</span></a>.</p>
+<p>Our plan is to edit the Home, Help, and About pages to make page titles that change on each page.<span class="intersentencespace"></span> This will involve using the <code>&lt;title&gt;</code> tag in our page views.<span class="intersentencespace"></span> Most browsers display the contents of the title tag at the top of the browser window, and it is also important for search-engine optimization.<span class="intersentencespace"></span> We’ll be using the full “Red, Green, Refactor” cycle: first by adding simple tests for our page titles (<span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span>), then by adding titles to each of our three pages (<span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>), and finally using a <em>layout</em> file to eliminate duplication (Refactor).<span class="intersentencespace"></span> By the end of this section, all three of our static pages will have titles of the form “&lt;page name&gt; | Ruby on Rails Tutorial Sample App”, where the first part of the title will vary depending on the page (<a href="static_pages_fragment.html#table-static_pages" class="hyperref">Table <span class="ref">3.2</span></a>).</p>
+<p>The <code>rails new</code> command (<a href="static_pages_fragment.html#code-rails_new_sample_app" class="hyperref">Listing <span class="ref">3.1</span></a>) creates a layout file by default, but it’s instructive to ignore it initially, which we can do by changing its name:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> mv app/views/layouts/application.html.erb layout_file   <span class="c"># temporary change</span>
+</pre></div></div>
+<p>You wouldn’t normally do this in a real application, but it’s easier to understand the purpose of the layout file if we start by disabling it.</p>
+<div class="table" id="table-static_pages" data-tralics-id="uid344" data-number="3.2"><table class="tabular">
+<tbody><tr class="bottom_border"><td class="align_center"><strong>Page</strong></td>
+<td class="align_left"><strong>URL</strong></td>
+<td class="align_left"><strong>Base title</strong></td>
+<td class="align_left"><strong>Variable title</strong></td>
+</tr><tr><td class="align_center">Home</td>
+<td class="align_left">/static_pages/home</td>
+<td class="align_left"><code>"Ruby on Rails Tutorial Sample App"</code></td>
+<td class="align_left"><code>"Home"</code></td>
+</tr><tr><td class="align_center">Help</td>
+<td class="align_left">/static_pages/help</td>
+<td class="align_left"><code>"Ruby on Rails Tutorial Sample App"</code></td>
+<td class="align_left"><code>"Help"</code></td>
+</tr><tr><td class="align_center">About</td>
+<td class="align_left">/static_pages/about</td>
+<td class="align_left"><code>"Ruby on Rails Tutorial Sample App"</code></td>
+<td class="align_left"><code>"About"</code></td>
+</tr></tbody></table><div class="caption"><span class="header">Table 3.2: </span><span class="description">The (mostly) static pages for the sample app.
+</span></div></div>
+<div id="sec-testing_titles" data-tralics-id="uid345" class="subsection" data-number="3.4.1"><h3><a href="static_pages_fragment.html#sec-testing_titles" class="heading hyperref"><span class="number">3.4.1 </span>Testing titles (Red)</a></h3>
+<p>To add page titles, we need to learn (or review) the structure of a typical web page, which takes the form shown in <a href="static_pages_fragment.html#code-html_structure" class="hyperref">Listing <span class="ref">3.23</span></a>.<span class="intersentencespace"></span> (This is covered in much more depth in <a href="http://learnenough.com/html-tutorial" target="_blank" rel="noopener"><em>Learn Enough HTML to Be Dangerous</em></a>.)</p>
+<div class="codelisting" id="code-html_structure" data-tralics-id="uid346" data-number="3.23"><div class="heading"><span class="number">Listing 3.23:</span> 
+
+<span class="description">The HTML structure of a typical web page.</span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Greeting<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Hello, world!<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div></div><p>The structure in <a href="static_pages_fragment.html#code-html_structure" class="hyperref">Listing <span class="ref">3.23</span></a> includes a <em>document type</em>, or doctype, declaration at the top to tell browsers which version of HTML we’re using (in this case, <a href="http://en.wikipedia.org/wiki/HTML5" target="_blank" rel="noopener">HTML5</a>);<sup id="cha-3_footnote-ref-11" class="footnote"><a href="#cha-3_footnote-11">11</a></sup> a <code>head</code> section, in this case with “Greeting” inside a <code>title</code> tag; and a <code>body</code> section, in this case with “Hello, world!”<span class="intersentencespace"></span> inside a <code>p</code> (paragraph) tag.<span class="intersentencespace"></span> (The indentation is optional—HTML is not sensitive to whitespace, and ignores both tabs and spaces—but it makes the document’s structure easier to see.)</p>
+<p>We’ll write simple tests for each of the titles in <a href="static_pages_fragment.html#table-static_pages" class="hyperref">Table <span class="ref">3.2</span></a> by combining the tests in <a href="static_pages_fragment.html#code-about_test" class="hyperref">Listing <span class="ref">3.15</span></a> with the <code>assert_select</code> method, which lets us test for the presence of a particular HTML tag (sometimes called a “selector”, hence the name):<sup id="cha-3_footnote-ref-12" class="footnote"><a href="#cha-3_footnote-12">12</a></sup></p>
+<div class="code"><div class="highlight"><pre><span class="n">assert_select</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"Home | Ruby on Rails Tutorial Sample App"</span>
+</pre></div></div>
+<p>In particular, the code above checks for the presence of a <code>&lt;title&gt;</code> tag containing the string “Home | Ruby on Rails Tutorial Sample App”.<span class="intersentencespace"></span> Applying this idea to all three static pages gives the tests shown in <a href="static_pages_fragment.html#code-title_tests" class="hyperref">Listing <span class="ref">3.24</span></a>.</p>
+<div class="codelisting" id="code-title_tests" data-tralics-id="uid349" data-number="3.24"><div class="heading"><span class="number">Listing 3.24:</span> 
+
+<span class="description">The Static Pages controller test with title tests.<span class="intersentencespace"></span> <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">test/controllers/static_pages_controller_test.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">'test_helper'</span>
+
+<span class="k">class</span> <span class="nc">StaticPagesControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+
+  <span class="nb">test</span> <span class="s2">"should get home"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_home_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+<span class="hll">    <span class="n">assert_select</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"Home | Ruby on Rails Tutorial Sample App"</span>
+</span>  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should get help"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_help_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+<span class="hll">    <span class="n">assert_select</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"Help | Ruby on Rails Tutorial Sample App"</span>
+</span>  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should get about"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_about_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+<span class="hll">    <span class="n">assert_select</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"About | Ruby on Rails Tutorial Sample App"</span>
+</span>  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div><p>With the tests from <a href="static_pages_fragment.html#code-title_tests" class="hyperref">Listing <span class="ref">3.24</span></a> in place, you should verify that the test suite is currently <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span>:</p>
+<div class="codelisting" id="uid350" data-tralics-id="uid350" data-number="3.25"><div class="heading"><span class="number">Listing 3.25:</span> <span class="description"><span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span></span>
+</div>
+
+<div class="code"><div class="highlight"><pre>$ rails test
+3 tests, 6 assertions, 3 failures, 0 errors, 0 skips
+</pre></div></div></div></div>
+<div id="sec-adding_page_titles" data-tralics-id="uid351" class="subsection" data-number="3.4.2"><h3><a href="static_pages_fragment.html#sec-adding_page_titles" class="heading hyperref"><span class="number">3.4.2 </span>Adding page titles (Green)</a></h3>
+<p>Now we’ll add a title to each page, getting the tests from <a href="static_pages_fragment.html#sec-testing_titles" class="hyperref">Section <span class="ref">3.4.1</span></a> to pass in the process.<span class="intersentencespace"></span> Applying the basic HTML structure from <a href="static_pages_fragment.html#code-html_structure" class="hyperref">Listing <span class="ref">3.23</span></a> to the custom Home page from <a href="static_pages_fragment.html#code-custom_home_page" class="hyperref">Listing <span class="ref">3.11</span></a> yields <a href="static_pages_fragment.html#code-home_view_full_html" class="hyperref">Listing <span class="ref">3.26</span></a>.</p>
+<div class="codelisting" id="code-home_view_full_html" data-tralics-id="uid352" data-number="3.26"><div class="heading"><span class="number">Listing 3.26:</span> 
+
+<span class="description">The view for the Home page with full HTML structure.<span class="intersentencespace"></span> <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/home.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Home | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Sample App<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      This is the home page for the
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/"</span><span class="nt">&gt;</span>Ruby on Rails Tutorial<span class="nt">&lt;/a&gt;</span>
+      sample application.
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div></div><p>The corresponding web page appears in <a href="static_pages_fragment.html#fig-home_view_full_html" class="hyperref">Figure <span class="ref">3.6</span></a>.<sup id="cha-3_footnote-ref-13" class="footnote"><a href="#cha-3_footnote-13">13</a></sup></p>
+<div class="center figure" id="fig-home_view_full_html" data-tralics-id="uid354" data-number="3.6">
+<div class="graphics image"><img src="images/figures/home_view_full_html_4th_ed.png" alt="images/figures/home_view_full_html_4th_ed"></div><div class="caption"><span class="header">Figure 3.6: </span><span class="description">The Home page with a title.
+</span></div></div>
+<p>Following this model for the Help page (<a href="static_pages_fragment.html#code-custom_help_page" class="hyperref">Listing <span class="ref">3.12</span></a>) and the About page (<a href="static_pages_fragment.html#code-custom_about_page" class="hyperref">Listing <span class="ref">3.21</span></a>) yields the code in <a href="static_pages_fragment.html#code-help_view_full_html" class="hyperref">Listing <span class="ref">3.27</span></a> and <a href="static_pages_fragment.html#code-about_view_full_html" class="hyperref">Listing <span class="ref">3.28</span></a>.</p>
+<div class="codelisting" id="code-help_view_full_html" data-tralics-id="uid355" data-number="3.27"><div class="heading"><span class="number">Listing 3.27:</span> 
+
+<span class="description">The view for the Help page with full HTML structure.<span class="intersentencespace"></span> <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/help.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Help | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Help<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      Get help on the Ruby on Rails Tutorial at the
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/help"</span><span class="nt">&gt;</span>Rails Tutorial help
+      page<span class="nt">&lt;/a&gt;</span>.
+      To get help on this sample app, see the
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/book"</span><span class="nt">&gt;&lt;em&gt;</span>Ruby on Rails
+      Tutorial<span class="nt">&lt;/em&gt;</span> book<span class="nt">&lt;/a&gt;</span>.
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div></div><div class="codelisting" id="code-about_view_full_html" data-tralics-id="uid356" data-number="3.28"><div class="heading"><span class="number">Listing 3.28:</span> 
+
+<span class="description">The view for the About page with full HTML structure.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/about.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>About | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>About<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      The <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/"</span><span class="nt">&gt;&lt;em&gt;</span>Ruby on Rails
+      Tutorial<span class="nt">&lt;/em&gt;&lt;/a&gt;</span> is a
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/book"</span><span class="nt">&gt;</span>book<span class="nt">&lt;/a&gt;</span> and
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://screencasts.railstutorial.org/"</span><span class="nt">&gt;</span>screencast series<span class="nt">&lt;/a&gt;</span>
+      to teach web development with
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://rubyonrails.org/"</span><span class="nt">&gt;</span>Ruby on Rails<span class="nt">&lt;/a&gt;</span>.
+      This is the sample application for the tutorial.
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div></div><p>At this point, the test suite should be back to <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>:</p>
+<div class="codelisting" id="uid357" data-tralics-id="uid357" data-number="3.29"><div class="heading"><span class="number">Listing 3.29:</span> <span class="description"><span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span></span>
+</div>
+
+<div class="code"><div class="highlight"><pre>$ rails test
+3 tests, 6 assertions, 0 failures, 0 errors, 0 skips
+</pre></div></div></div>
+<div id="sec-exercises_adding_page_titles" data-tralics-id="uid358" class="subsubsection" data-number="3.4.2.1"><h4><a href="#sec-exercises_adding_page_titles" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<p>Beginning in this section, we’ll start making modifications to the applications in the exercises that won’t generally be reflected in future code listings.<span class="intersentencespace"></span> The reason is so that the text makes sense to readers who don’t complete the exercises, but as a result your code will diverge from the main text if you <em>do</em> solve them.<span class="intersentencespace"></span> Learning to resolve small discrepancies like this is an excellent example of technical sophistication (<a href="beginning_fragment.html#aside-technical_sophistication" class="hyperref">Box <span class="ref">1.1</span></a>).</p>
+<ol>
+<li>You may have noticed some repetition in the Static Pages controller test (<a href="static_pages_fragment.html#code-title_tests" class="hyperref">Listing <span class="ref">3.24</span></a>).<span class="intersentencespace"></span> In particular, the base title, “Ruby on Rails Tutorial Sample App”, is the same for every title test.<span class="intersentencespace"></span> Using the special function <code>setup</code>, which is automatically run before every test, verify that the tests in <a href="static_pages_fragment.html#code-base_title_test" class="hyperref">Listing <span class="ref">3.30</span></a> are still <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>.<span class="intersentencespace"></span> (<a href="static_pages_fragment.html#code-base_title_test" class="hyperref">Listing <span class="ref">3.30</span></a> uses an <em>instance variable</em>, seen briefly in <a href="toy_app_fragment.html#sec-mvc_in_action" class="hyperref">Section <span class="ref">2.2.2</span></a> and covered further in <a href="rails_flavored_ruby_fragment.html#sec-a_user_class" class="hyperref">Section <span class="ref">4.4.5</span></a>, combined with <em>string interpolation</em>, which is covered further in <a href="rails_flavored_ruby_fragment.html#sec-strings" class="hyperref">Section <span class="ref">4.2.2</span></a>.) <span class="exercise" id="ex-aa6d2c"></span>
+</li></ol>
+<div class="codelisting" id="code-base_title_test" data-tralics-id="uid360" data-number="3.30"><div class="heading"><span class="number">Listing 3.30:</span> 
+
+<span class="description">The Static Pages controller test with a base title.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">test/controllers/static_pages_controller_test.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">'test_helper'</span>
+
+<span class="k">class</span> <span class="nc">StaticPagesControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+
+<span class="hll">  <span class="k">def</span> <span class="nf">setup</span>
+</span><span class="hll">    <span class="vi">@base_title</span> <span class="o">=</span> <span class="s2">"Ruby on Rails Tutorial Sample App"</span>
+</span><span class="hll">  <span class="k">end</span>
+</span>
+  <span class="nb">test</span> <span class="s2">"should get home"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_home_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+<span class="hll">    <span class="n">assert_select</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"Home | </span><span class="si">#{</span><span class="vi">@base_title</span><span class="si">}</span><span class="s2">"</span>
+</span>  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should get help"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_help_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+<span class="hll">    <span class="n">assert_select</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"Help | </span><span class="si">#{</span><span class="vi">@base_title</span><span class="si">}</span><span class="s2">"</span>
+</span>  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should get about"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_about_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+<span class="hll">    <span class="n">assert_select</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"About | </span><span class="si">#{</span><span class="vi">@base_title</span><span class="si">}</span><span class="s2">"</span>
+</span>  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div></div></div>
+<div id="sec-layouts_and_embedded_ruby" data-tralics-id="uid361" class="subsection" data-number="3.4.3"><h3><a href="static_pages_fragment.html#sec-layouts_and_embedded_ruby" class="heading hyperref"><span class="number">3.4.3 </span>Layouts and embedded Ruby (Refactor)</a></h3>
+<p>We’ve achieved a lot already in this section, generating three valid pages using Rails controllers and actions, but they are purely static HTML and hence don’t show off the power of Rails.<span class="intersentencespace"></span> Moreover, they suffer from terrible duplication:</p>
+<ul>
+<li>The page titles are almost (but not quite) exactly the same.<span class="intersentencespace"></span>
+</li>
+<li>“Ruby on Rails Tutorial Sample App” is common to all three titles.<span class="intersentencespace"></span>
+</li>
+<li>The entire HTML skeleton structure is repeated on each page.<span class="intersentencespace"></span>
+</li></ul>
+<p>This repeated code is a violation of the important “Don’t Repeat Yourself” (DRY) principle; in this section we’ll “DRY out our code” by removing the repetition.<span class="intersentencespace"></span> At the end, we’ll re-run the tests from <a href="static_pages_fragment.html#sec-adding_page_titles" class="hyperref">Section <span class="ref">3.4.2</span></a> to verify that the titles are still correct.</p>
+<p>Paradoxically, we’ll take the first step toward eliminating duplication by first adding some more: we’ll make the titles of the pages, which are currently quite similar, match <em>exactly</em>.<span class="intersentencespace"></span> This will make it much simpler to remove all the repetition at a stroke.</p>
+<p>The technique involves using <em>embedded Ruby</em> in our views.<span class="intersentencespace"></span> Since the Home, Help, and About page titles have a variable component, we’ll use a special Rails function called <code>provide</code> to set a different title on each page.<span class="intersentencespace"></span> We can see how this works by replacing the literal title “Home” in the <code>home.html.erb</code> view with the code in <a href="static_pages_fragment.html#code-home_view_erb_title" class="hyperref">Listing <span class="ref">3.31</span></a>.</p>
+<div class="codelisting" id="code-home_view_erb_title" data-tralics-id="uid365" data-number="3.31"><div class="heading"><span class="number">Listing 3.31:</span> 
+
+<span class="description">The view for the Home page with an embedded Ruby title.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/home.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="cp">&lt;%</span> <span class="n">provide</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="s2">"Home"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+<span class="hll">    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;%=</span> <span class="k">yield</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="cp">%&gt;</span> | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+</span>  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Sample App<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      This is the home page for the
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/"</span><span class="nt">&gt;</span>Ruby on Rails Tutorial<span class="nt">&lt;/a&gt;</span>
+      sample application.
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div></div><p><a href="static_pages_fragment.html#code-home_view_erb_title" class="hyperref">Listing <span class="ref">3.31</span></a> is our first example of embedded Ruby, also called <em>ERb</em>.<span class="intersentencespace"></span> (Now you know why HTML views have the file extension <code>.html.erb</code>.)<span class="intersentencespace"></span> ERb is the primary template system for including dynamic content in web pages.<sup id="cha-3_footnote-ref-14" class="footnote"><a href="#cha-3_footnote-14">14</a></sup><span class="intersentencespace"></span> The code</p>
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;%</span> <span class="n">provide</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="s2">"Home"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</pre></div></div>
+<p>indicates using <code class="inline_verbatim">&lt;% ... %&gt;</code> that Rails should call the <code>provide</code> function and associate the string <code>"Home"</code> with the label <code>:title</code>.<sup id="cha-3_footnote-ref-15" class="footnote"><a href="#cha-3_footnote-15">15</a></sup><span class="intersentencespace"></span> Then, in the title, we use the closely related notation <code class="inline_verbatim">&lt;%= ... %&gt;</code> to insert the title into the template using Ruby’s <code>yield</code> function:<sup id="cha-3_footnote-ref-16" class="footnote"><a href="#cha-3_footnote-16">16</a></sup></p>
+<div class="code"><div class="highlight"><pre><span class="nt">&lt;title&gt;</span><span class="cp">&lt;%=</span> <span class="k">yield</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="cp">%&gt;</span> | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+</pre></div></div>
+<p>(The distinction between the two types of embedded Ruby is that <code class="inline_verbatim">&lt;% ... %&gt;</code> <em>executes</em> the code inside, while <code class="inline_verbatim">&lt;%= ... %&gt;</code> executes it <em>and inserts</em> the result into the template.)<span class="intersentencespace"></span> The resulting page is exactly the same as before, only now the variable part of the title is generated dynamically by ERb.</p>
+<p>We can verify that all this works by running the tests from <a href="static_pages_fragment.html#sec-adding_page_titles" class="hyperref">Section <span class="ref">3.4.2</span></a> and see that they are still <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>:</p>
+<div class="codelisting" id="uid369" data-tralics-id="uid369" data-number="3.32"><div class="heading"><span class="number">Listing 3.32:</span> <span class="description"><span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span></span>
+</div>
+
+<div class="code"><div class="highlight"><pre>$ rails test
+3 tests, 6 assertions, 0 failures, 0 errors, 0 skips
+</pre></div></div></div><p>Then we can make the corresponding replacements for the Help and About pages (<a href="static_pages_fragment.html#code-help_view_erb_title" class="hyperref">Listing <span class="ref">3.33</span></a> and <a href="static_pages_fragment.html#code-about_view_erb_title" class="hyperref">Listing <span class="ref">3.34</span></a>).</p>
+<div class="codelisting" id="code-help_view_erb_title" data-tralics-id="uid370" data-number="3.33"><div class="heading"><span class="number">Listing 3.33:</span> 
+
+<span class="description">The view for the Help page with an embedded Ruby title.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/help.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="cp">&lt;%</span> <span class="n">provide</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="s2">"Help"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+<span class="hll">    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;%=</span> <span class="k">yield</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="cp">%&gt;</span> | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+</span>  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Help<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      Get help on the Ruby on Rails Tutorial at the
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/help"</span><span class="nt">&gt;</span>Rails Tutorial help
+      section<span class="nt">&lt;/a&gt;</span>.
+      To get help on this sample app, see the
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/book"</span><span class="nt">&gt;&lt;em&gt;</span>Ruby on Rails
+      Tutorial<span class="nt">&lt;/em&gt;</span> book<span class="nt">&lt;/a&gt;</span>.
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div></div><div class="codelisting" id="code-about_view_erb_title" data-tralics-id="uid371" data-number="3.34"><div class="heading"><span class="number">Listing 3.34:</span> 
+
+<span class="description">The view for the About page with an embedded Ruby title.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/about.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="cp">&lt;%</span> <span class="n">provide</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="s2">"About"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+<span class="hll">    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;%=</span> <span class="k">yield</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="cp">%&gt;</span> | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+</span>  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>About<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      The <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/"</span><span class="nt">&gt;&lt;em&gt;</span>Ruby on Rails
+      Tutorial<span class="nt">&lt;/em&gt;&lt;/a&gt;</span> is a
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/book"</span><span class="nt">&gt;</span>book<span class="nt">&lt;/a&gt;</span> and
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://screencasts.railstutorial.org/"</span><span class="nt">&gt;</span>screencast series<span class="nt">&lt;/a&gt;</span>
+      to teach web development with
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://rubyonrails.org/"</span><span class="nt">&gt;</span>Ruby on Rails<span class="nt">&lt;/a&gt;</span>.
+      This is the sample application for the tutorial.
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div></div><p>Now that we’ve replaced the variable part of the page titles with ERb, each of our pages looks something like this:</p>
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;%</span> <span class="n">provide</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="s2">"The Title"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;%=</span> <span class="k">yield</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="cp">%&gt;</span> | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    Contents
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div>
+<p>In other words, all the pages are identical in structure, including the contents of the title tag, with the sole exception of the material inside the <code>body</code> tag.</p>
+<p>In order to factor out this common structure, Rails comes with a special <em>layout</em> file called <code>application.html.erb</code>, which we renamed in the beginning of this section (<a href="static_pages_fragment.html#sec-slightly_dynamic_pages" class="hyperref">Section <span class="ref">3.4</span></a>) and which we’ll now restore:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> mv layout_file app/views/layouts/application.html.erb
+</pre></div></div>
+<p>To get the layout to work, we have to replace the default title with the embedded Ruby from the examples above:</p>
+<div class="code"><div class="highlight"><pre><span class="nt">&lt;title&gt;</span><span class="cp">&lt;%=</span> <span class="k">yield</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="cp">%&gt;</span> | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+</pre></div></div>
+<p>The resulting layout appears in <a href="static_pages_fragment.html#code-application_layout" class="hyperref">Listing <span class="ref">3.35</span></a>.</p>
+<div class="codelisting" id="code-application_layout" data-tralics-id="uid372" data-number="3.35"><div class="heading"><span class="number">Listing 3.35:</span> 
+
+<span class="description">The sample application site layout.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/layouts/application.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+<span class="hll">    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;%=</span> <span class="k">yield</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="cp">%&gt;</span> | Ruby on Rails Tutorial Sample App<span class="nt">&lt;/title&gt;</span>
+</span>    <span class="cp">&lt;%=</span> <span class="n">csrf_meta_tags</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span>    <span class="s1">'application'</span><span class="p">,</span> <span class="ss">media</span><span class="p">:</span> <span class="s1">'all'</span><span class="p">,</span>
+                                              <span class="s1">'data-turbolinks-track'</span><span class="p">:</span> <span class="s1">'reload'</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">'application'</span><span class="p">,</span> <span class="s1">'data-turbolinks-track'</span><span class="p">:</span> <span class="s1">'reload'</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+
+  <span class="nt">&lt;body&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div></div></div><p>Note here the special line</p>
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+</pre></div></div>
+<p>This code is responsible for inserting the contents of each page into the layout.<span class="intersentencespace"></span> It’s not important to know exactly how this works; what matters is that using this layout ensures that, for example, visiting the page /static_pages/home converts the contents of <code>home.html.erb</code> to HTML and then inserts it in place of <code class="inline_verbatim">&lt;%= yield %&gt;</code>.</p>
+<p>It’s also worth noting that the default Rails layout includes several additional lines:</p>
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;%=</span> <span class="n">csrf_meta_tags</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s2">"application"</span><span class="p">,</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="cp">%&gt;</span>
+</pre></div></div>
+<p>This code arranges to include the application stylesheet and JavaScript, which are part of the asset pipeline (<a href="filling_in_the_layout_fragment.html#sec-the_asset_pipeline" class="hyperref">Section <span class="ref">5.2.1</span></a>), together with the Rails method <code>csrf_meta_tags</code>, which prevents <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery" target="_blank" rel="noopener">cross-site request forgery</a> (CSRF), a type of malicious web attack.</p>
+<p>Of course, the views in <a href="static_pages_fragment.html#code-home_view_erb_title" class="hyperref">Listing <span class="ref">3.31</span></a>, <a href="static_pages_fragment.html#code-help_view_erb_title" class="hyperref">Listing <span class="ref">3.33</span></a>, and <a href="static_pages_fragment.html#code-about_view_erb_title" class="hyperref">Listing <span class="ref">3.34</span></a> are still filled with all the HTML structure included in the layout, so we have to remove it, leaving only the interior contents.<span class="intersentencespace"></span> The resulting cleaned-up views appear in <a href="static_pages_fragment.html#code-home_view_interior" class="hyperref">Listing <span class="ref">3.36</span></a>, <a href="static_pages_fragment.html#code-help_view_interior" class="hyperref">Listing <span class="ref">3.37</span></a>, and <a href="static_pages_fragment.html#code-about_view_interior" class="hyperref">Listing <span class="ref">3.38</span></a>.</p>
+<div class="codelisting" id="code-home_view_interior" data-tralics-id="uid373" data-number="3.36"><div class="heading"><span class="number">Listing 3.36:</span> 
+
+<span class="description">The Home page with HTML structure removed.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/home.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;%</span> <span class="n">provide</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="s2">"Home"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Sample App<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  This is the home page for the
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/"</span><span class="nt">&gt;</span>Ruby on Rails Tutorial<span class="nt">&lt;/a&gt;</span>
+  sample application.
+<span class="nt">&lt;/p&gt;</span>
+</pre></div></div></div><div class="codelisting" id="code-help_view_interior" data-tralics-id="uid374" data-number="3.37"><div class="heading"><span class="number">Listing 3.37:</span> 
+
+<span class="description">The Help page with HTML structure removed.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/help.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;%</span> <span class="n">provide</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="s2">"Help"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Help<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  Get help on the Ruby on Rails Tutorial at the
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/help"</span><span class="nt">&gt;</span>Rails Tutorial help section<span class="nt">&lt;/a&gt;</span>.
+  To get help on this sample app, see the
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/book"</span><span class="nt">&gt;&lt;em&gt;</span>Ruby on Rails Tutorial<span class="nt">&lt;/em&gt;</span>
+  book<span class="nt">&lt;/a&gt;</span>.
+<span class="nt">&lt;/p&gt;</span>
+</pre></div></div></div><div class="codelisting" id="code-about_view_interior" data-tralics-id="uid375" data-number="3.38"><div class="heading"><span class="number">Listing 3.38:</span> 
+
+<span class="description">The About page with HTML structure removed.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">app/views/static_pages/about.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;%</span> <span class="n">provide</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="s2">"About"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;h1&gt;</span>About<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  The <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/"</span><span class="nt">&gt;&lt;em&gt;</span>Ruby on Rails
+  Tutorial<span class="nt">&lt;/em&gt;&lt;/a&gt;</span> is a
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/book"</span><span class="nt">&gt;</span>book<span class="nt">&lt;/a&gt;</span> and
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://screencasts.railstutorial.org/"</span><span class="nt">&gt;</span>screencast series<span class="nt">&lt;/a&gt;</span>
+  to teach web development with
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://rubyonrails.org/"</span><span class="nt">&gt;</span>Ruby on Rails<span class="nt">&lt;/a&gt;</span>.
+  This is the sample application for the tutorial.
+<span class="nt">&lt;/p&gt;</span>
+</pre></div></div></div><p>With these views defined, the Home, Help, and About pages are the same as before, but they have much less duplication.</p>
+<p>Experience shows that even fairly simple refactoring is error-prone and can easily go awry.<span class="intersentencespace"></span> This is one reason why having a good test suite is so valuable.<span class="intersentencespace"></span> Rather than double-checking every page for correctness—a procedure that isn’t too hard early on but rapidly becomes unwieldy as an application grows—we can simply verify that the test suite is still <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>:</p>
+<div class="codelisting" id="uid376" data-tralics-id="uid376" data-number="3.39"><div class="heading"><span class="number">Listing 3.39:</span> <span class="description"><span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span></span>
+</div>
+
+<div class="code"><div class="highlight"><pre>$ rails test
+3 tests, 6 assertions, 0 failures, 0 errors, 0 skips
+</pre></div></div></div><p>This isn’t a <em>proof</em> that our code is still correct, but it greatly increases the probability, thereby providing a safety net to protect us against future bugs.</p>
+<div id="sec-exercises_layouts_and_embedded_ruby" data-tralics-id="uid377" class="subsubsection" data-number="3.4.3.1"><h4><a href="#sec-exercises_layouts_and_embedded_ruby" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>Make a Contact page for the sample app.<sup id="cha-3_footnote-ref-17" class="footnote"><a href="#cha-3_footnote-17">17</a></sup><span class="intersentencespace"></span> Following the model in <a href="static_pages_fragment.html#code-about_test" class="hyperref">Listing <span class="ref">3.15</span></a>, first write a test for the existence of a page at the URL /static_pages/contact by testing for the title “Contact | Ruby on Rails Tutorial Sample App”.<span class="intersentencespace"></span> Get your test to pass by following the same steps as when making the About page in <a href="static_pages_fragment.html#sec-green" class="hyperref">Section <span class="ref">3.3.3</span></a>, including filling the Contact page with the content from <a href="static_pages_fragment.html#code-proposed_contact_page" class="hyperref">Listing <span class="ref">3.40</span></a>. <span class="exercise" id="ex-1ce145"></span>
+</li></ol>
+<div class="codelisting" id="code-proposed_contact_page" data-tralics-id="uid380" data-number="3.40"><div class="heading"><span class="number">Listing 3.40:</span> 
+
+<span class="description">Code for a proposed Contact page.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/views/static_pages/contact.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="cp">&lt;%</span> <span class="n">provide</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="s2">"Contact"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Contact<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+  Contact the Ruby on Rails Tutorial about the sample app at the
+  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.railstutorial.org/contact"</span><span class="nt">&gt;</span>contact page<span class="nt">&lt;/a&gt;</span>.
+<span class="nt">&lt;/p&gt;</span>
+</pre></div></div></div></div></div>
+<div id="sec-setting_the_root_route" data-tralics-id="uid381" class="subsection" data-number="3.4.4"><h3><a href="static_pages_fragment.html#sec-setting_the_root_route" class="heading hyperref"><span class="number">3.4.4 </span>Setting the root route</a></h3>
+<p>Now that we’ve customized our site’s pages and gotten a good start on the test suite, let’s set the application’s root route before moving on.<span class="intersentencespace"></span> As in <a href="beginning_fragment.html#sec-hello_world" class="hyperref">Section <span class="ref">1.3.4</span></a> and <a href="toy_app_fragment.html#sec-mvc_in_action" class="hyperref">Section <span class="ref">2.2.2</span></a>, this involves editing the <code>routes.rb</code> file to connect / to a page of our choice, which in this case will be the Home page.<span class="intersentencespace"></span> (At this point, I also recommend removing the <code>hello</code> action from the Application controller if you added it in <a href="static_pages_fragment.html#sec-sample_app_setup" class="hyperref">Section <span class="ref">3.1</span></a>.)<span class="intersentencespace"></span> As shown in <a href="static_pages_fragment.html#code-home_root_route" class="hyperref">Listing <span class="ref">3.41</span></a>, this means changing the <code>root</code> route from</p>
+<div class="code"><div class="highlight"><pre><span class="n">root</span> <span class="s1">'application#hello'</span>
+</pre></div></div>
+<p>to</p>
+<div class="code"><div class="highlight"><pre><span class="n">root</span> <span class="s1">'static_pages#home'</span>
+</pre></div></div>
+<p>This arranges for requests for / to be routed to the <code>home</code> action in the Static Pages controller.<span class="intersentencespace"></span> The resulting routes file is shown in <a href="static_pages_fragment.html#fig-home_root_route" class="hyperref">Figure <span class="ref">3.7</span></a>.</p>
+<div class="codelisting" id="code-home_root_route" data-tralics-id="uid382" data-number="3.41"><div class="heading"><span class="number">Listing 3.41:</span> 
+
+<span class="description">Setting the root route to the Home page.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">config/routes.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+<span class="hll">  <span class="n">root</span> <span class="s1">'static_pages#home'</span>
+</span>  <span class="n">get</span>  <span class="s1">'static_pages/home'</span>
+  <span class="n">get</span>  <span class="s1">'static_pages/help'</span>
+  <span class="n">get</span>  <span class="s1">'static_pages/about'</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="center figure" id="fig-home_root_route" data-tralics-id="uid383" data-number="3.7">
+<div class="graphics image"><img src="images/figures/home_root_route.png" alt="images/figures/home_root_route"></div><div class="caption"><span class="header">Figure 3.7: </span><span class="description">The Home page at the root route.
+</span></div></div>
+<div id="sec-exercises_setting_the_root_route" data-tralics-id="uid384" class="subsubsection" data-number="3.4.4.1"><h4><a href="#sec-exercises_setting_the_root_route" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>Adding the root route in <a href="static_pages_fragment.html#code-home_root_route" class="hyperref">Listing <span class="ref">3.41</span></a> leads to the creation of a Rails helper called <code>root_url</code> (in analogy with helpers like <code>static_pages_home_url</code>).<span class="intersentencespace"></span> By filling in the code marked <code>FILL_IN</code> in <a href="static_pages_fragment.html#code-root_test" class="hyperref">Listing <span class="ref">3.42</span></a>, write a test for the root route. <span class="exercise" id="ex-daa97c"></span>
+</li>
+<li>Due to the code in <a href="static_pages_fragment.html#code-home_root_route" class="hyperref">Listing <span class="ref">3.41</span></a>, the test in the previous exercise is already <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>.<span class="intersentencespace"></span> In such a case, it’s harder to be confident that we’re actually testing what we think we’re testing, so modify the code in <a href="static_pages_fragment.html#code-home_root_route" class="hyperref">Listing <span class="ref">3.41</span></a> by commenting out the root route to get to <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span> (<a href="static_pages_fragment.html#code-home_root_route_commented_out" class="hyperref">Listing <span class="ref">3.43</span></a>).<span class="intersentencespace"></span> (We’ll talk more about Ruby comments in <a href="rails_flavored_ruby_fragment.html#sec-comments" class="hyperref">Section <span class="ref">4.2.1</span></a>.)<span class="intersentencespace"></span> Then uncomment it (thereby restoring the original <a href="static_pages_fragment.html#code-home_root_route" class="hyperref">Listing <span class="ref">3.41</span></a>) and verify that you get back to <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>. <span class="exercise" id="ex-87bd31"></span>
+</li></ol>
+<div class="codelisting" id="code-root_test" data-tralics-id="uid387" data-number="3.42"><div class="heading"><span class="number">Listing 3.42:</span> 
+
+<span class="description">A test for the root route.<span class="intersentencespace"></span> <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">test/controllers/static_pages_controller_test.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">'test_helper'</span>
+
+<span class="k">class</span> <span class="nc">StaticPagesControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+
+<span class="hll">  <span class="nb">test</span> <span class="s2">"should get root"</span> <span class="k">do</span>
+</span><span class="hll">    <span class="n">get</span> <span class="no">FILL_IN</span>
+</span><span class="hll">    <span class="n">assert_response</span> <span class="no">FILL_IN</span>
+</span><span class="hll">  <span class="k">end</span>
+</span>
+  <span class="nb">test</span> <span class="s2">"should get home"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_home_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should get help"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_help_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s2">"should get about"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="n">static_pages_about_url</span>
+    <span class="n">assert_response</span> <span class="ss">:success</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="codelisting" id="code-home_root_route_commented_out" data-tralics-id="uid388" data-number="3.43"><div class="heading"><span class="number">Listing 3.43:</span> 
+
+<span class="description">Commenting out the root route to get a failing test.<span class="intersentencespace"></span> <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span><span class="break"></span> <code class="filepath">config/routes.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+<span class="hll"><span class="c1">#   root 'static_pages#home'</span>
+</span>  <span class="n">get</span>  <span class="s1">'static_pages/home'</span>
+  <span class="n">get</span>  <span class="s1">'static_pages/help'</span>
+  <span class="n">get</span>  <span class="s1">'static_pages/about'</span>
+<span class="k">end</span>
+</pre></div></div></div></div></div></div><div id="sec-static_pages_conclusion" data-tralics-id="cid18" class="section" data-number="3.5"><h2><a href="static_pages_fragment.html#sec-static_pages_conclusion" class="heading hyperref"><span class="number">3.5 </span>Conclusion</a></h2>
+<p>Seen from the outside, this chapter hardly accomplished anything: we started with static pages, and ended with… <em>mostly</em> static pages.<span class="intersentencespace"></span> But appearances are deceiving: by developing in terms of Rails controllers, actions, and views, we are now in a position to add arbitrary amounts of dynamic content to our site.<span class="intersentencespace"></span> Seeing exactly how this plays out is the task for the rest of this tutorial.</p>
+<p>Before moving on, let’s take a minute to commit the changes on our topic branch and merge them into the master branch.<span class="intersentencespace"></span> Back in <a href="static_pages_fragment.html#sec-static_pages" class="hyperref">Section <span class="ref">3.2</span></a> we created a Git branch for the development of static pages.<span class="intersentencespace"></span> If you haven’t been making commits as we’ve been moving along, first make a commit indicating that we’ve reached a stopping point:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git add -A
+<span class="gp">$</span> git commit -m <span class="s2">"Finish static pages"</span>
+</pre></div></div>
+<p>Then merge the changes back into the master branch using the same technique as in <a href="beginning_fragment.html#sec-git_commands" class="hyperref">Section <span class="ref">1.4.4</span></a>:<sup id="cha-3_footnote-ref-18" class="footnote"><a href="#cha-3_footnote-18">18</a></sup></p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git checkout master
+<span class="gp">$</span> git merge static-pages
+</pre></div></div>
+<p>Once you reach a stopping point like this, it’s usually a good idea to push your code up to a remote repository (which, if you followed the steps in <a href="beginning_fragment.html#sec-bitbucket" class="hyperref">Section <span class="ref">1.4.3</span></a>, will be Bitbucket):</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git push
+</pre></div></div>
+<p>I also recommend deploying the application to Heroku:</p>
+<div class="code"><div class="highlight"><pre>$ rails test
+$ git push heroku
+</pre></div></div>
+<p>Here we’ve taken care to run the test suite before deploying, which is a good habit to develop.</p>
+<div id="sec-static_pages_what_we_learned_in_this_chapter" data-tralics-id="uid390" class="subsection" data-number="3.5.1"><h3><a href="static_pages_fragment.html#sec-static_pages_what_we_learned_in_this_chapter" class="heading hyperref"><span class="number">3.5.1 </span>What we learned in this chapter</a></h3>
+<ul>
+<li>For a third time, we went through the full procedure of creating a new Rails application from scratch, installing the necessary gems, pushing it up to a remote repository, and deploying it to production.
+</li>
+<li>The <code>rails</code> script generates a new controller with <code>rails generate controller ControllerName &lt;optional action names&gt;</code>.
+</li>
+<li>New routes are defined in the file <code>config/routes.rb</code>.
+</li>
+<li>Rails views can contain static HTML or embedded Ruby (ERb).
+</li>
+<li>Automated testing allows us to write test suites that drive the development of new features, allow for confident refactoring, and catch regressions.
+</li>
+<li>Test-driven development uses a “Red, Green, Refactor” cycle.
+</li>
+<li>Rails layouts allow the use of a common template for pages in our application, thereby eliminating duplication.
+</li></ul>
+</div></div><div id="sec-advanced_testing_setup" data-tralics-id="cid19" class="section" data-number="3.6"><h2><a href="static_pages_fragment.html#sec-advanced_testing_setup" class="heading hyperref"><span class="number">3.6 </span>Advanced testing setup</a></h2>
+<p>This optional section describes the testing setup used in the <a href="http://screencasts.railstutorial.org/" target="_blank" rel="noopener">Ruby on Rails Tutorial screencast series</a>.<span class="intersentencespace"></span> There are two main elements: an enhanced pass/fail reporter (<a href="static_pages_fragment.html#sec-minitest_reporters" class="hyperref">Section <span class="ref">3.6.1</span></a>), and an automated test runner that detects file changes and automatically runs the corresponding tests (<a href="static_pages_fragment.html#sec-guard" class="hyperref">Section <span class="ref">3.6.2</span></a>).<span class="intersentencespace"></span> The code in this section is advanced and is presented for convenience only; you are not expected to understand it at this time.</p>
+<p>The changes in this section should be made on the master branch:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git checkout master
+</pre></div></div>
+<div id="sec-minitest_reporters" data-tralics-id="uid398" class="subsection" data-number="3.6.1"><h3><a href="static_pages_fragment.html#sec-minitest_reporters" class="heading hyperref"><span class="number">3.6.1 </span>minitest reporters</a></h3>
+<p>To get the default Rails tests to show <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span> and <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span> at the appropriate times, I recommend adding the code in <a href="static_pages_fragment.html#code-minitest_reporters" class="hyperref">Listing <span class="ref">3.44</span></a> to your test helper file,<sup id="cha-3_footnote-ref-19" class="footnote"><a href="#cha-3_footnote-19">19</a></sup> thereby making use of the <a href="https://github.com/kern/minitest-reporters" target="_blank" rel="noopener"><code class="tt">minitest-reporters</code></a> gem included in <a href="static_pages_fragment.html#code-gemfile_sample_app" class="hyperref">Listing <span class="ref">3.2</span></a>.</p>
+<div class="codelisting" id="code-minitest_reporters" data-tralics-id="uid400" data-number="3.44"><div class="heading"><span class="number">Listing 3.44:</span> 
+
+<span class="description">Configuring the tests to show <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span> and <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span>.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">test/test_helper.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">ENV</span><span class="o">[</span><span class="s1">'RAILS_ENV'</span><span class="o">]</span> <span class="o">||=</span> <span class="s1">'test'</span>
+<span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'../../config/environment'</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+<span class="nb">require</span> <span class="s1">'rails/test_help'</span>
+<span class="hll"><span class="nb">require</span> <span class="s2">"minitest/reporters"</span>
+</span><span class="hll"><span class="no">Minitest</span><span class="o">::</span><span class="no">Reporters</span><span class="o">.</span><span class="n">use!</span>
+</span>
+<span class="k">class</span> <span class="nc">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="c1"># Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.</span>
+  <span class="n">fixtures</span> <span class="ss">:all</span>
+
+  <span class="c1"># Add more helper methods to be used by all tests here...</span>
+<span class="k">end</span>
+</pre></div></div></div><p>The resulting transition from <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span> to <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span> in the cloud IDE appears as in <a href="static_pages_fragment.html#fig-red_to_green" class="hyperref">Figure <span class="ref">3.8</span></a>.<sup id="cha-3_footnote-ref-20" class="footnote"><a href="#cha-3_footnote-20">20</a></sup></p>
+<div class="center figure" id="fig-red_to_green" data-tralics-id="uid402" data-number="3.8">
+<div class="graphics image"><img src="images/figures/red_to_green.png" alt="images/figures/red_to_green"></div><div class="caption"><span class="header">Figure 3.8: </span><span class="description">Going from <span style="color: red"><span class="sc"></span><span class="sc"><strong>red</strong></span><span class="sc"></span></span> to <span style="color: ForestGreen"><span class="sc"></span><span class="sc"><strong>green</strong></span><span class="sc"></span></span> in the cloud IDE.
+</span></div></div>
+</div>
+<div id="sec-guard" data-tralics-id="uid403" class="subsection" data-number="3.6.2"><h3><a href="static_pages_fragment.html#sec-guard" class="heading hyperref"><span class="number">3.6.2 </span>Automated tests with Guard</a></h3>
+<p>One annoyance associated with using the <code>rails test</code> command is having to switch to the command line and run the tests by hand.<span class="intersentencespace"></span> To avoid this inconvenience, we can use <a href="https://github.com/guard/guard" target="_blank" rel="noopener"><em>Guard</em></a> to automate the running of the tests.<span class="intersentencespace"></span> Guard monitors changes in the filesystem so that, for example, when we change the <code>static_pages_controller_test.rb</code> file, only those tests get run.<span class="intersentencespace"></span> Even better, we can configure Guard so that when, say, the <code>home.html.erb</code> file is modified, the <code>static_pages_controller_test.rb</code> automatically runs.</p>
+<p>The <code>Gemfile</code> in <a href="static_pages_fragment.html#code-gemfile_sample_app" class="hyperref">Listing <span class="ref">3.2</span></a> has already included the <code class="tt">guard</code> gem in our application, so to get started we just need to initialize it:</p>
+<div class="code"><div class="highlight"><pre>$ bundle exec guard init
+Writing new Guardfile to /home/ubuntu/workspace/sample_app/Guardfile
+00:51:32 - INFO - minitest guard added to Guardfile, feel free to edit it
+</pre></div></div>
+<p>We then edit the resulting <code>Guardfile</code> so that Guard will run the right tests when the integration tests and views are updated (<a href="static_pages_fragment.html#code-guardfile" class="hyperref">Listing <span class="ref">3.45</span></a>).<span class="intersentencespace"></span> (Given its length and advanced nature, I recommend just copy-and-pasting the contents of <a href="static_pages_fragment.html#code-guardfile" class="hyperref">Listing <span class="ref">3.45</span></a>.)</p>
+<p><strong>Note: As of this writing, there is an interaction bug between Guard and Spring that causes all the tests to run every time.<span class="intersentencespace"></span> I’m keeping an eye on the issue and will update this section when it’s resolved.</strong></p>
+<div class="codelisting" id="code-guardfile" data-tralics-id="uid404" data-number="3.45"><div class="heading"><span class="number">Listing 3.45:</span> 
+
+<span class="description">A custom <code>Guardfile</code>.</span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="c1"># Defines the matching rules for Guard.</span>
+<span class="hll"><span class="n">guard</span> <span class="ss">:minitest</span><span class="p">,</span> <span class="ss">spring</span><span class="p">:</span> <span class="s2">"bin/rails test"</span><span class="p">,</span> <span class="ss">all_on_start</span><span class="p">:</span> <span class="kp">false</span> <span class="k">do</span>
+</span>  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^test/(.*)/?(.*)_test\.rb$}</span><span class="p">)</span>
+  <span class="n">watch</span><span class="p">(</span><span class="s1">'test/test_helper.rb'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'test'</span> <span class="p">}</span>
+  <span class="n">watch</span><span class="p">(</span><span class="s1">'config/routes.rb'</span><span class="p">)</span>    <span class="p">{</span> <span class="n">integration_tests</span> <span class="p">}</span>
+  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/models/(.*?)\.rb$}</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">matches</span><span class="o">|</span>
+    <span class="s2">"test/models/</span><span class="si">#{</span><span class="n">matches</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_test.rb"</span>
+  <span class="k">end</span>
+  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/controllers/(.*?)_controller\.rb$}</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">matches</span><span class="o">|</span>
+    <span class="n">resource_tests</span><span class="p">(</span><span class="n">matches</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/views/([^/]*?)/.*\.html\.erb$}</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">matches</span><span class="o">|</span>
+    <span class="o">[</span><span class="s2">"test/controllers/</span><span class="si">#{</span><span class="n">matches</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_controller_test.rb"</span><span class="o">]</span> <span class="o">+</span>
+    <span class="n">integration_tests</span><span class="p">(</span><span class="n">matches</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^app/helpers/(.*?)_helper\.rb$}</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">matches</span><span class="o">|</span>
+    <span class="n">integration_tests</span><span class="p">(</span><span class="n">matches</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="n">watch</span><span class="p">(</span><span class="s1">'app/views/layouts/application.html.erb'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="s1">'test/integration/site_layout_test.rb'</span>
+  <span class="k">end</span>
+  <span class="n">watch</span><span class="p">(</span><span class="s1">'app/helpers/sessions_helper.rb'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">integration_tests</span> <span class="o">&lt;&lt;</span> <span class="s1">'test/helpers/sessions_helper_test.rb'</span>
+  <span class="k">end</span>
+  <span class="n">watch</span><span class="p">(</span><span class="s1">'app/controllers/sessions_controller.rb'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="o">[</span><span class="s1">'test/controllers/sessions_controller_test.rb'</span><span class="p">,</span>
+     <span class="s1">'test/integration/users_login_test.rb'</span><span class="o">]</span>
+  <span class="k">end</span>
+  <span class="n">watch</span><span class="p">(</span><span class="s1">'app/controllers/account_activations_controller.rb'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="s1">'test/integration/users_signup_test.rb'</span>
+  <span class="k">end</span>
+  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{app/views/users/*}</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">resource_tests</span><span class="p">(</span><span class="s1">'users'</span><span class="p">)</span> <span class="o">+</span>
+    <span class="o">[</span><span class="s1">'test/integration/microposts_interface_test.rb'</span><span class="o">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Returns the integration tests corresponding to the given resource.</span>
+<span class="k">def</span> <span class="nf">integration_tests</span><span class="p">(</span><span class="n">resource</span> <span class="o">=</span> <span class="ss">:all</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">resource</span> <span class="o">==</span> <span class="ss">:all</span>
+    <span class="no">Dir</span><span class="o">[</span><span class="s2">"test/integration/*"</span><span class="o">]</span>
+  <span class="k">else</span>
+    <span class="no">Dir</span><span class="o">[</span><span class="s2">"test/integration/</span><span class="si">#{</span><span class="n">resource</span><span class="si">}</span><span class="s2">_*.rb"</span><span class="o">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Returns the controller tests corresponding to the given resource.</span>
+<span class="k">def</span> <span class="nf">controller_test</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+  <span class="s2">"test/controllers/</span><span class="si">#{</span><span class="n">resource</span><span class="si">}</span><span class="s2">_controller_test.rb"</span>
+<span class="k">end</span>
+
+<span class="c1"># Returns all tests for the given resource.</span>
+<span class="k">def</span> <span class="nf">resource_tests</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+  <span class="n">integration_tests</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">controller_test</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div><p>Here the line</p>
+<div class="code"><div class="highlight"><pre><span class="n">guard</span> <span class="ss">:minitest</span><span class="p">,</span> <span class="ss">spring</span><span class="p">:</span> <span class="s2">"bin/rails test"</span><span class="p">,</span> <span class="ss">all_on_start</span><span class="p">:</span> <span class="kp">false</span> <span class="k">do</span>
+</pre></div></div>
+<p>causes Guard to use the Spring server supplied by Rails to speed up loading times, while also preventing Guard from running the full test suite upon starting.</p>
+<p>To prevent conflicts between Spring and Git when using Guard, you should add the <code>spring/</code> directory to the <code>.gitignore</code> file used by Git to determine what to ignore when adding files or directories to the repository.<span class="intersentencespace"></span> The way to do this using the cloud IDE is as follows:</p>
+<ol>
+<li>Click on the gear icon in the upper right part of the file navigation pane (<a href="static_pages_fragment.html#fig-file_navigator_gear_icon" class="hyperref">Figure <span class="ref">3.9</span></a>).<span class="intersentencespace"></span>
+</li>
+<li>Select “Show hidden files” to show the <code>.gitignore</code> file in the application’s root directory (<a href="static_pages_fragment.html#fig-show_hidden_files" class="hyperref">Figure <span class="ref">3.10</span></a>).<span class="intersentencespace"></span>
+</li>
+<li>Double-click on the <code>.gitignore</code> file (<a href="static_pages_fragment.html#fig-gitignore" class="hyperref">Figure <span class="ref">3.11</span></a>) to open it, and then fill it with the contents of <a href="static_pages_fragment.html#code-gitignore_spring" class="hyperref">Listing <span class="ref">3.46</span></a>.<span class="intersentencespace"></span>
+</li></ol>
+<div class="center figure" id="fig-file_navigator_gear_icon" data-tralics-id="uid408" data-number="3.9">
+<div class="graphics image"><img src="images/figures/file_navigator_gear_icon.png" alt="images/figures/file_navigator_gear_icon"></div><div class="caption"><span class="header">Figure 3.9: </span><span class="description">The (rather subtle) gear icon in the file navigator pane.
+</span></div></div>
+<div class="center figure" id="fig-show_hidden_files" data-tralics-id="uid409" data-number="3.10">
+<div class="graphics image"><img src="images/figures/show_hidden_files.png" alt="images/figures/show_hidden_files"></div><div class="caption"><span class="header">Figure 3.10: </span><span class="description">Showing hidden files in the file navigator.
+</span></div></div>
+<div class="center figure" id="fig-gitignore" data-tralics-id="uid410" data-number="3.11">
+<div class="graphics image"><img src="images/figures/gitignore.png" alt="images/figures/gitignore"></div><div class="caption"><span class="header">Figure 3.11: </span><span class="description">The normally hidden <code>.gitignore</code> file made visible.
+</span></div></div>
+<div class="codelisting" id="code-gitignore_spring" data-tralics-id="uid411" data-number="3.46"><div class="heading"><span class="number">Listing 3.46:</span> 
+
+<span class="description">Adding Spring to the <code>.gitignore</code> file.</span>
+</div>
+
+<div class="code"><div class="highlight"><pre># See https://help.github.com/articles/ignoring-files for more about
+# ignoring files.
+#
+# If you find yourself ignoring temporary files generated by your text editor
+# or operating system, you probably want to add a global ignore instead:
+#   git config --global core.excludesfile '~/.gitignore_global'
+
+# Ignore bundler config.
+/.bundle
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore Byebug command history file.
+.byebug_history
+
+<span class="hll"># Ignore Spring files.
+</span><span class="hll">/spring/*.pid
+</span></pre></div></div></div><p>The Spring server is still a little quirky as of this writing, and sometimes Spring <em>processes</em> will accumulate and slow performance of your tests.<span class="intersentencespace"></span> If your tests seem to be getting unusually sluggish, it’s thus a good idea to inspect the system processes and kill them if necessary (<a href="static_pages_fragment.html#aside-processes" class="hyperref">Box <span class="ref">3.4</span></a>).</p>
+<div class="aside" id="aside-processes" data-tralics-id="uid412" data-number="3.4"><div class="heading"><span class="number">Box 3.4.</span> 
+
+<span class="description">Unix processes</span></div>
+<p>On Unix-like systems such as Linux and macOS, user and system tasks each take place within a well-defined container called a <em>process</em>.<span class="intersentencespace"></span> To see all the processes on your system, you can use the <code class="tt">ps</code> command with the <code class="tt">aux</code> options:</p>
+<pre>  $ ps aux</pre>
+<p>To filter the processes by type, you can run the results of <code class="tt">ps</code> through the <code class="tt">grep</code> pattern-matcher using a Unix pipe <code class="tt">|</code>:</p>
+<pre>  $ ps aux | grep spring
+  ubuntu 12241 0.3 0.5 589960 178416 ? Ssl Sep20 1:46
+  spring app | sample_app | started 7 hours ago</pre>
+<p>The result shown gives some details about the process, but the most important thing is the first number, which is the <em>process id</em>, or pid.<span class="intersentencespace"></span> To eliminate an unwanted process, use the <code class="tt">kill</code> command to issue the Unix termination signal (which <a href="https://en.wikipedia.org/wiki/Unix_signal" target="_blank" rel="noopener">happens to be 15</a>) to the pid:</p>
+<pre>  $ kill -15 12241</pre>
+<p>This is the technique I recommend for killing individual processes, such as a rogue Rails server (with the pid found via <code class="tt">ps aux | grep server</code>), but sometimes it’s convenient to kill all the processes matching a particular process name, such as when you want to kill all the <code class="tt">spring</code> processes gunking up your system.<span class="intersentencespace"></span> In this particular case, you should first try stopping the processes with the <code class="tt">spring</code> command itself:</p>
+<pre>  $ spring stop</pre>
+<p>Sometimes this doesn’t work, though, and you can kill all the processes with name <code class="tt">spring</code> using the <code class="tt">pkill</code> command as follows:</p>
+<pre>  $ pkill -15 -f spring</pre>
+<p>Any time something isn’t behaving as expected or a process appears to be frozen, it’s a good idea to run <code class="tt">ps aux</code> to see what’s going on, and then run <code class="tt">kill -15 &lt;pid&gt;</code> or <code class="tt">pkill -15 -f &lt;name&gt;</code> to clear things up.</p>
+
+</div><p>Once Guard is configured, you should open a new terminal and (as with the Rails server in <a href="beginning_fragment.html#sec-rails_server" class="hyperref">Section <span class="ref">1.3.2</span></a>) run it at the command line as follows:</p>
+<div class="code"><div class="highlight"><pre>$ bundle exec guard
+</pre></div></div>
+<p>The rules in <a href="static_pages_fragment.html#code-guardfile" class="hyperref">Listing <span class="ref">3.45</span></a> are optimized for this tutorial, automatically running (for example) the integration tests when a controller is changed.<span class="intersentencespace"></span> To run <em>all</em> the tests, hit return at the <code>guard&gt;</code> prompt.<span class="intersentencespace"></span> (This may sometimes give an error indicating a failure to connect to the Spring server.<span class="intersentencespace"></span> To fix the problem, just hit return again.)</p>
+<p>To exit Guard, press Ctrl-D.<span class="intersentencespace"></span> To add additional matchers to Guard, refer to the examples in <a href="static_pages_fragment.html#code-guardfile" class="hyperref">Listing <span class="ref">3.45</span></a>, the <a href="https://github.com/guard/guard" target="_blank" rel="noopener">Guard README</a>, and the <a href="https://github.com/guard/guard/wiki" target="_blank" rel="noopener">Guard wiki</a>.</p>
+<p>Before proceeding, you should add your changes and make a commit:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git add -A
+<span class="gp">$</span> git commit -m <span class="s2">"Complete advanced setup"</span>
+</pre></div></div>
+</div></div><div id="cha-3_footnotes">
+  <ol class="footnotes">
+    <li id="cha-3_footnote-1">If you’re using the cloud IDE, it’s often useful to use the “Goto Anything” command, which makes it easy to navigate the filesystem by typing in partial filenames.<span class="intersentencespace"></span> In this context, having the hello, toy, and sample apps present in the same project can be inconvenient due to the many common filenames.<span class="intersentencespace"></span> For example, when searching for a file called “Gemfile”, six possibilities will show up, because each project has matching files called <code>Gemfile</code> and <code>Gemfile.lock</code>.<span class="intersentencespace"></span> Thus, you may want to consider removing the first two apps before proceeding, which you can do by navigating to the <code>workspace</code> directory and running <code>rm -rf hello_app/ toy_app/</code> (<a href="beginning_fragment.html#table-unix_commands" class="hyperref">Table <span class="ref">1.1</span></a>).<span class="intersentencespace"></span> (As long as you pushed the corresponding repositories up to Bitbucket, you can always recover them later.) <a class="arrow" href="#cha-3_footnote-ref-1">↑</a></li>
+    <li id="cha-3_footnote-2">bitbucket.org/railstutorial/sample_app_4th_ed <a class="arrow" href="#cha-3_footnote-ref-2">↑</a></li>
+    <li id="cha-3_footnote-3">It’s worth noting that <code>--without production</code> is a “remembered option”, which means it will be included automatically the next time we run <code>bundle install</code>. <a class="arrow" href="#cha-3_footnote-ref-3">↑</a></li>
+    <li id="cha-3_footnote-4">I recommend eventually learning how to install and configure PostgreSQL in development, but the chances are now is not that time.<span class="intersentencespace"></span> When the time comes, Google “install configure postgresql &lt;your system&gt;” and “rails postgresql setup”, and prepare for a challenge.<span class="intersentencespace"></span> (On the cloud IDE, &lt;your system&gt; is Ubuntu.) <a class="arrow" href="#cha-3_footnote-ref-4">↑</a></li>
+    <li id="cha-3_footnote-5">The README also makes reference to a LICENSE file, which I’ve added by hand to the official <a href="https://bitbucket.org/railstutorial/sample_app_4th_ed" target="_blank" rel="noopener">reference implementation</a>, but it isn’t present by default.<span class="intersentencespace"></span> You can <a href="https://bitbucket.org/railstutorial/sample_app_4th_ed/raw/c1582bec74354124650524a45ebb72388e5a299e/LICENSE.md" target="_blank" rel="noopener">download a copy</a> from the reference implementation repo if you want it for completeness, but it’s not necessary for completing the tutorial. <a class="arrow" href="#cha-3_footnote-ref-5">↑</a></li>
+    <li id="cha-3_footnote-6">Our method for making static pages is probably the simplest, but it’s not the only way.<span class="intersentencespace"></span> The optimal method really depends on your needs; if you expect a <em>large</em> number of static pages, using a Static Pages controller can get quite cumbersome, but in our sample app we’ll only need a few.<span class="intersentencespace"></span> If you do need a lot of static pages, take a look at the <a href="https://github.com/thoughtbot/high_voltage" target="_blank" rel="noopener"><code class="tt">high_voltage</code></a> gem. <a class="arrow" href="#cha-3_footnote-ref-6">↑</a></li>
+    <li id="cha-3_footnote-7">In fact, many Rails developers also add an <em>alias</em> (as <a href="https://www.learnenough.com/text-editor-tutorial#sec-saving_and_quitting_files" target="_blank" rel="noopener">described</a> in <a href="http://learnenough.com/text-editor-tutorial" target="_blank" rel="noopener"><em>Learn Enough Text Editor to Be Dangerous</em></a>) for the <code>rails</code> command, typically shortening it to just <code>r</code>.<span class="intersentencespace"></span> This allows us to run, e.g., a Rails server using the compact command <code>r s</code>. <a class="arrow" href="#cha-3_footnote-ref-7">↑</a></li>
+    <li id="cha-3_footnote-8">See, e.g., “<a href="http://david.heinemeierhansson.com/2014/tdd-is-dead-long-live-testing.html" target="_blank" rel="noopener">TDD is dead. Long live testing.</a>” by Rails creator David Heinemeier Hansson. <a class="arrow" href="#cha-3_footnote-ref-8">↑</a></li>
+    <li id="cha-3_footnote-9">By default, <code>rails test</code> shows red when the tests fail, but doesn’t show green when the tests pass.<span class="intersentencespace"></span> To arrange for a true Red–Green cycle, see <a href="static_pages_fragment.html#sec-minitest_reporters" class="hyperref">Section <span class="ref">3.6.1</span></a>. <a class="arrow" href="#cha-3_footnote-ref-9">↑</a></li>
+    <li id="cha-3_footnote-10">You can also use the <code>c9</code> command via <code>c9 open &lt;filename&gt;</code> to create and open a file at the same time. <a class="arrow" href="#cha-3_footnote-ref-10">↑</a></li>
+    <li id="cha-3_footnote-11">HTML changes with time; by explicitly making a doctype declaration we make it likelier that browsers will render our pages properly in the future.<span class="intersentencespace"></span> The simple doctype <code>&lt;!DOCTYPE html&gt;</code> is characteristic of the latest HTML standard, HTML5. <a class="arrow" href="#cha-3_footnote-ref-11">↑</a></li>
+    <li id="cha-3_footnote-12">For a list of common minitest assertions, see the <a href="http://guides.rubyonrails.org/testing.html#available-assertions" target="_blank" rel="noopener">table of available assertions in the Rails Guides testing article</a>. <a class="arrow" href="#cha-3_footnote-ref-12">↑</a></li>
+    <li id="cha-3_footnote-13">Most of the screenshots in this book use Google Chrome, but <a href="static_pages_fragment.html#fig-home_view_full_html" class="hyperref">Figure <span class="ref">3.6</span></a> uses Safari because Chrome doesn’t display the full page title.<span class="intersentencespace"></span> (As of this writing, Safari displays the page title only if you include an additional tab, which explains the second tab shown in <a href="static_pages_fragment.html#fig-home_view_full_html" class="hyperref">Figure <span class="ref">3.6</span></a>.)<span class="intersentencespace"></span> Also note that the URL in <a href="static_pages_fragment.html#fig-home_view_full_html" class="hyperref">Figure <span class="ref">3.6</span></a> is actually /static_pages/home, but Safari displays only the base URL, which in this case is my development server at Cloud9. <a class="arrow" href="#cha-3_footnote-ref-13">↑</a></li>
+    <li id="cha-3_footnote-14">There is a second popular template system called <a href="http://haml.info/" target="_blank" rel="noopener">Haml</a> (note: not “HAML”), which I personally love, but it’s not <em>quite</em> standard enough for use in an introductory tutorial. <a class="arrow" href="#cha-3_footnote-ref-14">↑</a></li>
+    <li id="cha-3_footnote-15">Experienced Rails developers might have expected the use of <code>content_for</code> at this point, but it doesn’t work well with the asset pipeline.<span class="intersentencespace"></span> The <code>provide</code> function is its replacement. <a class="arrow" href="#cha-3_footnote-ref-15">↑</a></li>
+    <li id="cha-3_footnote-16">If you’ve studied Ruby before, you might suspect that Rails is <em>yielding</em> the contents to a block, and your suspicion would be correct.<span class="intersentencespace"></span> But you don’t need to know this to develop applications with Rails. <a class="arrow" href="#cha-3_footnote-ref-16">↑</a></li>
+    <li id="cha-3_footnote-17">This exercise is solved in <a href="filling_in_the_layout_fragment.html#sec-contact_page" class="hyperref">Section <span class="ref">5.3.1</span></a>. <a class="arrow" href="#cha-3_footnote-ref-17">↑</a></li>
+    <li id="cha-3_footnote-18">If you get an error message saying that the Spring process id (pid) file would be overwritten by the merge, just remove the file using <code>rm -f *.pid</code> at the command line. <a class="arrow" href="#cha-3_footnote-ref-18">↑</a></li>
+    <li id="cha-3_footnote-19">The code in <a href="static_pages_fragment.html#code-minitest_reporters" class="hyperref">Listing <span class="ref">3.44</span></a> mixes single- and double-quoted strings.<span class="intersentencespace"></span> This is because <code>rails new</code> generates single-quoted strings, whereas the <a href="https://github.com/kern/minitest-reporters" target="_blank" rel="noopener">minitest reporters documentation</a> uses double-quoted strings.<span class="intersentencespace"></span> This mixing of the two string types is common in Ruby; see <a href="rails_flavored_ruby_fragment.html#sec-strings" class="hyperref">Section <span class="ref">4.2.2</span></a> for more information. <a class="arrow" href="#cha-3_footnote-ref-19">↑</a></li>
+    <li id="cha-3_footnote-20">The screenshot was taken using Rails 4.2, which as noted in <a href="toy_app_fragment.html#aside-rake" class="hyperref">Box <span class="ref">2.1</span></a> uses <code>rake test</code> in place of <code>rails test</code>.<span class="intersentencespace"></span> Resolving such minor discrepancies is a good exercise in technical sophistication (<a href="beginning_fragment.html#aside-technical_sophistication" class="hyperref">Box <span class="ref">1.1</span></a>). <a class="arrow" href="#cha-3_footnote-ref-20">↑</a></li>
+  </ol>
+</div>x1V��      Y��Y��>,YY�4�  {    a,:https://softcover.s3-us-west-2.amazonaws.com/636/ruby_on_rails_tutorial_4th_edition/html/static_pages_fragment.html?X-Amz-Expires=604800&X-Amz-Date=20170908T004304Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJMNNDDBSYVXVHGAA/20170908/us-west-2/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=0f2b1de26963e1fa127e8226aa27e5a9eb2fcaa0a5a02a80f5d50c973c1cac2f necko:classified 1 strongly-framed 1 security-info FnhllAKWRHGAlo+ESXykKAAAAAAAAAAAwAAAAAAAAEaphjojH6pBabDSgSnsfLHeAAQAAgAAAAAAAAAAAAAAAAAAAAAB4vFIJp5wRkeyPxAQ9RJGKPqbqVvKO0mKuIl8ec8o/uhmCjImkVxP+7sgiYWmMt8FvcOXmlQiTNWFiWlrbpbqgwAAAAAAAAYbMIIGFzCCBP+gAwIBAgIQDZGC1mcUJmdk1QxKRyD/nDANBgkqhkiG9w0BAQsFADBkMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSMwIQYDVQQDExpEaWdpQ2VydCBCYWx0aW1vcmUgQ0EtMiBHMjAeFw0xNzA0MjQwMDAwMDBaFw0xNzEwMjYxMjAwMDBaMHUxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdTZWF0dGxlMRgwFgYDVQQKEw9BbWF6b24uY29tIEluYy4xJTAjBgNVBAMMHCouczMtdXMtd2VzdC0yLmFtYXpvbmF3cy5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCwtmIjR6oNpqAXwTmoYvJLpUeoRtjeWsjPSIgqi+uUcLqJhLGq5G9wzDhKwuZ42MlWUJQzmdXgzxHgZgOi29o38bTM2phMysULRZhTjr6kV/FR0TTGaEblTcM9l+3hP9xG3NqnGXwlZHcBpWaylTqtYv+7ykOfpqemx/hkTpko+BXMsef40yp2xfndU+PX4A/QYnKT6UGUFzBLDRwzmqeD/vTkXVBX30TTJLfrSfJhMktitr4XMyzllo5SiHKyyipLH+5LJMpl/9lwxdGMpJ7YClW/ZbfN30leJuMdgu2qDeYAFqJhPnXQDI1U/zBfzlDEoC5E+MttjVbtS+NwjyT/AgMBAAGjggKyMIICrjAfBgNVHSMEGDAWgBTAErIodGhGZ+lwJXQaAEVbBn1cRDAdBgNVHQ4EFgQUTKbpPmZZpTXbpwI4JRVElkndHyAwgeEGA1UdEQSB2TCB1oIaczMtdXMtd2VzdC0yLmFtYXpvbmF3cy5jb22CHCouczMtdXMtd2VzdC0yLmFtYXpvbmF3cy5jb22CGnMzLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tghwqLnMzLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tgiRzMy5kdWFsc3RhY2sudXMtd2VzdC0yLmFtYXpvbmF3cy5jb22CJiouczMuZHVhbHN0YWNrLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tghIqLnMzLmFtYXpvbmF3cy5jb20wDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjCBgQYDVR0fBHoweDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QmFsdGltb3JlQ0EtMkcyLmNybDA6oDigNoY0aHR0cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QmFsdGltb3JlQ0EtMkcyLmNybDBMBgNVHSAERTBDMDcGCWCGSAGG/WwBATAqMCgGCCsGAQUFBwIBFhxodHRwczovL3d3dy5kaWdpY2VydC5jb20vQ1BTMAgGBmeBDAECAjB5BggrBgEFBQcBAQRtMGswJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBDBggrBgEFBQcwAoY3aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QmFsdGltb3JlQ0EtMkcyLmNydDAMBgNVHRMBAf8EAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQAbgCf3k3sXpQT241mNzFz4Xl/qyfpy8M5BAu7hwR8xjEcZeh+deXB+1FCZUbN1C+DJevPDIKahxl5MmYrzZlW6q4OQAjujLVyWCGisevL496/VO0jrjkloYPh/3scvd8lqNIX9stQXvMe8OrXGJosXTaOwMMJdkuGJM6uWRNOwjClTx2oqeU78s2cwwLbJMaSrNiTCOXzEhwlgXvisH1OO98clyYdRQbXE0MWafIz9Q52y1CCmE4P86GtqapfrgJn3OhGXyNWKAzqxeMlZIquDHYwPWofWTV6sDHyNNi2r8S7Z9oE/P1+Rw+22gWuoznyEW8ZnDEfdwRvIoy4Pi9ftwC8BAwAAAAABAQAAAAA= request-method GET request-Origin https://www.railstutorial.org response-head HTTP/1.1 200 OK
+x-amz-id-2: JKLIIf20XSrOPBwXorwMunnDZ82wa6WjEFLIRZgIAuGz8fODkeG+88uQPQr4KgKHmuZiLZvGIZs=
+x-amz-request-id: D37FF308DFA7800A
+Date: Fri, 08 Sep 2017 00:43:10 GMT
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET
+Access-Control-Max-Age: 3000
+Vary: Origin, Access-Control-Request-Headers, Access-Control-Request-Method
+Last-Modified: Tue, 29 Aug 2017 03:42:45 GMT
+ETag: "d4786679ad7d50cadcfcdd6bb678ec4a"
+Accept-Ranges: bytes
+Content-Type: text/html
+Content-Length: 181358
+Server: AmazonS3
+ original-response-headers x-amz-id-2: JKLIIf20XSrOPBwXorwMunnDZ82wa6WjEFLIRZgIAuGz8fODkeG+88uQPQr4KgKHmuZiLZvGIZs=
+x-amz-request-id: D37FF308DFA7800A
+Date: Fri, 08 Sep 2017 00:43:10 GMT
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET
+Access-Control-Max-Age: 3000
+Vary: Origin, Access-Control-Request-Headers, Access-Control-Request-Method
+Last-Modified: Tue, 29 Aug 2017 03:42:45 GMT
+ETag: "d4786679ad7d50cadcfcdd6bb678ec4a"
+Accept-Ranges: bytes
+Content-Type: text/html
+Content-Length: 181358
+Server: AmazonS3
+ uncompressed-len 0 net-response-time-onstart 458 net-response-time-onstop 2712  �n

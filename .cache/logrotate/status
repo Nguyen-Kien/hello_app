@@ -1,0 +1,15 @@
+logrotate state -- version 2
+"/home/nguyenkien/.cache/upstart/unity-panel-service-lockscreen.log" 2017-9-8-11:0:0
+"/home/nguyenkien/.cache/upstart/bamfdaemon.log" 2017-9-7-23:17:16
+"/home/nguyenkien/.cache/upstart/indicator-sound.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/gnome-keyring-ssh.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/unity-panel-service.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/unity7.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/upstart-event-bridge.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/ssh-agent.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/window-stack-bridge.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/update-notifier-release.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/gpg-agent.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/hud.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/dbus.log" 2017-9-8-11:41:39
+"/home/nguyenkien/.cache/upstart/unity-settings-daemon.log" 2017-9-8-11:41:39

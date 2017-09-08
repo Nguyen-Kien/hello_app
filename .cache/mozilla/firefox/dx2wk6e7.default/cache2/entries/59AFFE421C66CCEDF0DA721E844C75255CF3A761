@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="vi" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+            <title>Adblock Plus :: Tiện ích Firefox</title>
+
+    <link rel="shortcut icon" type="image/x-icon"
+          href="https://addons.cdn.mozilla.net/static/img/favicon.ico">
+
+    
+        <link title="Firefox Tiện ích"
+          rel="search" type="application/opensearchdescription+xml"
+          href="/vi/firefox/opensearch.xml" />
+
+          <link href="https://addons.cdn.mozilla.net/static/css/tabzilla/tabzilla.css" rel="stylesheet" />
+              <link rel="stylesheet" media="all" href="https://addons.cdn.mozilla.net/static/css/zamboni/impala-min.css?build=9582f6a" />
+      <link rel="stylesheet" media="all" href="https://addons.cdn.mozilla.net/static/css/restyle/css-min.css?build=56faabf" />
+    
+        <meta property="og:title" content="Adblock Plus">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://addons.cdn.mozilla.net/user-media/addon_icons/1/1865-64.png?modified=1496848819">
+  <meta property="og:url" content="https://addons.mozilla.org/vi/firefox/addon/adblock-plus/">
+  <meta property="og:description" content="Bực bội vì quảng cáo? Khó chịu vì bị theo dõi? Phiền vì biểu ngữ (banner)? Cài đặt Adblock Plus ngay để giành lại quyền kiểm soát internet và thay đổi cách thức mà bạn xem web.
+
+Xem đoạn phim giới thiệu ở http://www.youtube.com/watch?v=oNvb2SjVjjI">
+    <noscript><link rel="stylesheet" href="https://addons.cdn.mozilla.net/static/css/impala/nojs.css?b=5239d2b9-59a59b86"></noscript>
+
+    
+    <script src="https://addons.cdn.mozilla.net/static/js/preload-min.js?build=5239d2b9-59a59b86"></script>
+  </head>
+  <body class="html-ltr firefox moz-header-slim gutter addon-details  is-impala restyle"
+        data-app="firefox"
+        data-appname="Firefox"
+        data-appid="1"
+        data-anonymous="true"
+        data-readonly="false"
+        data-media-url="https://addons.cdn.mozilla.net/user-media/"
+        data-static-url="https://addons.cdn.mozilla.net/static/"
+        data-raven-dsn="https://8c1c5936578948a9a0614cbbafccf049@sentry.prod.mozaws.net/78"
+        data-raven-urls="[&#39;addons.mozilla.org&#39;, &#39;addons.cdn.mozilla.net&#39;]"
+        data-fxa-config="{&#34;state&#34;: &#34;43088c289d84056ae916d3302cdfbbea62f6810ca0c3ccdaae7485f276b9f4f5&#34;, &#34;clientId&#34;: &#34;a4907de5fa9d78fc&#34;, &#34;oauthHost&#34;: &#34;https://oauth.accounts.firefox.com/v1&#34;, &#34;profileHost&#34;: &#34;https://profile.accounts.firefox.com/v1&#34;, &#34;redirectUrl&#34;: &#34;https://addons.mozilla.org/api/v3/accounts/authenticate/&#34;, &#34;scope&#34;: &#34;profile&#34;, &#34;contentHost&#34;: &#34;https://accounts.firefox.com&#34;}"
+        >
+
+    <div id="main-wrapper">
+      <div id="page" class="c">
+                  <div class="header-bg">
+            <div class="amo-header-wrapper">
+              <div id="tabzilla">
+    <a href="https://www.mozilla.org/">Mozilla</a>
+</div>              <div class="amo-header">
+                <nav id="aux-nav" role="navigation" class="menu-nav c">
+                  <ul>
+                                            <li class="account anonymous nomenu login legacy">
+    <a href="https://oauth.accounts.firefox.com/v1/authorization?action=signup&amp;scope=profile&amp;state=43088c289d84056ae916d3302cdfbbea62f6810ca0c3ccdaae7485f276b9f4f5%3AL3ZpL2ZpcmVmb3gvYWRkb24vYWRibG9jay1wbHVzLw&amp;redirect_url=https%3A%2F%2Faddons.mozilla.org%2Fapi%2Fv3%2Faccounts%2Fauthenticate%2F&amp;client_id=a4907de5fa9d78fc">Đăng kí</a> hoặc <a href="https://oauth.accounts.firefox.com/v1/authorization?action=signin&amp;scope=profile&amp;state=43088c289d84056ae916d3302cdfbbea62f6810ca0c3ccdaae7485f276b9f4f5%3AL3ZpL2ZpcmVmb3gvYWRkb24vYWRibG9jay1wbHVzLw&amp;redirect_url=https%3A%2F%2Faddons.mozilla.org%2Fapi%2Fv3%2Faccounts%2Fauthenticate%2F&amp;client_id=a4907de5fa9d78fc">Đăng nhập</a>  </li>
+
+                                                              <li>
+                        <a href="#" id="other-apps" title="Tìm tiện ích cho các ứng dụng khác">Ứng dụng Khác</a>
+                        <ul class="other-apps">
+                                                                                                                                          <li id="app-thunderbird" class="thunderbird">
+                                <a href="/vi/thunderbird">Thunderbird</a>
+                              </li>
+                                                                                                                <li id="app-android" class="android">
+                                <a href="/vi/android">Firefox cho Android</a>
+                              </li>
+                                                                                                                <li id="app-seamonkey" class="seamonkey">
+                                <a href="/vi/seamonkey">SeaMonkey</a>
+                              </li>
+                                                                              </ul>
+                      </li>
+                                      </ul>
+                </nav>
+                <div class="header-search" role="search">
+                                                                                  <form id="search" action="/vi/firefox/search/" data-no-csrf>
+  <input id="search-q" type="text" name="q" autocomplete="off" title=""
+         class="text placeholder"
+         placeholder="tìm kiếm tiện ích"
+         value="">
+        <input id="id_appver" name="appver" type="hidden" />
+    <input id="id_platform" name="platform" type="hidden" />
+    <button class="search-button" type="submit" title="Tìm kiếm"
+         src="https://addons.cdn.mozilla.net/static/img/zamboni/global/btn-search.png?b=5239d2b9-59a59b86"></button>
+      <div id="site-search-suggestions"
+         data-cat="all"
+         data-src="/vi/firefox/search/suggestions"></div>
+  </form>                                                      </div>
+                <div id="masthead">
+                                    <h1 class="site-title">
+  <a href="/vi/firefox/" title="Trở lại trang chủ Tiện ích Firefox">
+    <img alt="Firefox" src="https://addons.cdn.mozilla.net/static/img/icons/firefox.png?b=5239d2b9-59a59b86">
+    Tiện ích
+</a>
+</h1>                  
+
+<nav id="site-nav" class="menu-nav c">
+  <ul>
+      <li id="extensions">
+    <a href="/vi/firefox/extensions/">Phần mở rộng</a>
+    <ul class="two-col">
+              <li><em><a href="/vi/firefox/extensions/?sort=featured">Nên dùng</a></em></li>
+              <li><em><a href="/vi/firefox/extensions/?sort=users">Thông dụng Nhất</a></em></li>
+              <li><em><a href="/vi/firefox/extensions/?sort=rating">Xếp hạng Cao nhất</a></em></li>
+                  <li><a href="/vi/firefox/extensions/search-tools/">Công cụ Tìm kiếm</a></li>
+            <li><a href="/vi/firefox/extensions/alerts-updates/">Cảnh báo &amp; Cập nhật</a></li>
+            <li><a href="/vi/firefox/extensions/appearance/">Diện mạo</a></li>
+            <li><a href="/vi/firefox/extensions/feeds-news-blogging/">Feed, Tin tức &amp; Blog</a></li>
+            <li><a href="/vi/firefox/extensions/social-communication/">Giao lưu &amp; Liên lạc</a></li>
+            <li><a href="/vi/firefox/extensions/photos-music-videos/">Hình ảnh, Âm nhạc và Phim</a></li>
+            <li><a href="/vi/firefox/extensions/language-support/">Hỗ trợ Ngôn ngữ</a></li>
+            <li><a href="/vi/firefox/extensions/shopping/">Mua sắm</a></li>
+            <li><a href="/vi/firefox/extensions/web-development/">Phát triển Web</a></li>
+            <li><a href="/vi/firefox/extensions/download-management/">Quản lí Tải xuống</a></li>
+            <li><a href="/vi/firefox/extensions/privacy-security/">Riêng tư &amp; Bảo mật</a></li>
+            <li><a href="/vi/firefox/extensions/tabs/">Thẻ</a></li>
+            <li><a href="/vi/firefox/extensions/games-entertainment/">Trò chơi &amp; Giải trí</a></li>
+            <li><a href="/vi/firefox/extensions/bookmarks/">Đánh dấu</a></li>
+            <li><a href="/vi/firefox/extensions/other/">Khác</a></li>
+          </ul>
+  </li>
+
+    
+        <li id="themes">
+      <a href="/vi/firefox/themes/">Giao diện</a>
+              <ul class="two-col">
+                      <li><em><a href="/vi/firefox/themes/?sort=popular">Thông dụng Nhất</a></em></li>
+                      <li><em><a href="/vi/firefox/themes/?sort=rating">Xếp hạng Cao nhất</a></em></li>
+                      <li><em><a href="/vi/firefox/themes/?sort=created">Mới nhất</a></em></li>
+                                <li><a href="/vi/firefox/themes/firefox">Firefox</a></li>
+                      <li><a href="/vi/firefox/themes/foxkeh">Foxkeh</a></li>
+                      <li><a href="/vi/firefox/themes/other">Khác</a></li>
+                      <li><a href="/vi/firefox/themes/solid">Màu đồng nhất</a></li>
+                      <li><a href="/vi/firefox/themes/causes">Mục đích</a></li>
+                      <li><a href="/vi/firefox/themes/holiday">Ngày lễ</a></li>
+                      <li><a href="/vi/firefox/themes/film-and-tv">Phim và TV</a></li>
+                      <li><a href="/vi/firefox/themes/scenery">Phong cảnh</a></li>
+                      <li><a href="/vi/firefox/themes/seasonal">Theo mùa</a></li>
+                      <li><a href="/vi/firefox/themes/nature">Thiên nhiên</a></li>
+                      <li><a href="/vi/firefox/themes/sports">Thể thao</a></li>
+                      <li><a href="/vi/firefox/themes/fashion">Thời trang</a></li>
+                      <li><a href="/vi/firefox/themes/websites">Trang web</a></li>
+                      <li><a href="/vi/firefox/themes/abstract">Trừu tượng</a></li>
+                      <li><a href="/vi/firefox/themes/music">Âm nhạc</a></li>
+                  </ul>
+        <div>
+          <a class="complete-themes" href="/vi/firefox/complete-themes/">
+            Want more customization? Try <b>Complete Themes</b>          </a>
+        </div>
+          </li>
+
+        <li id="collections">
+            <a href="/vi/firefox/collections/">Bộ sưu tập</a>
+      <ul>
+                  <li><em><a href="/vi/firefox/collections/?sort=featured">Nên dùng</a></em></li>
+                  <li><em><a href="/vi/firefox/collections/?sort=users">Most Followers</a></em></li>
+                  <li><em><a href="/vi/firefox/collections/?sort=created">Mới nhất</a></em></li>
+                <hr>
+        <li><a href="/vi/firefox/collections/mine/">
+          Bộ sưu tập Tôi đã tạo</a></li>
+        <li><a href="/vi/firefox/collections/following/">
+          Bộ sưu tập Tôi đang theo dõi</a></li>
+                <li><a href="/vi/firefox/collections/mine/favorites">
+          Tiện ích Ưa thích của Tôi</a></li>
+      </ul>
+          </li>
+    <li id="more">
+      <a href="#">Thêm&hellip;</a>
+      <ul>
+                  <li class="more-mobile"><a href="/vi/android">
+            Tiện ích Di động</a></li>
+                <li class="more-lang"><a href="/vi/firefox/language-tools/">
+          Gói Ngôn ngữ & Từ điển</a></li>
+        <li><a href="/vi/firefox/search-tools/">Công cụ Tìm kiếm</a></li>
+        <li><a href="/vi/developers/">Trung tâm Nhà phát triển</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                                  </div>
+                                                                                                      <div class="site-balloon" id="site-nonfx">
+                      <p>
+                        To try the thousands of add-ons available here, download <a href="http://mozilla.org/firefox/?src=amo">Mozilla Firefox</a>, a fast, free way to surf the Web!                      </p>
+                      <a href="#" class="close">Đóng</a>
+                    </div>
+                                    <div class="site-balloon" id="site-welcome">
+                                        <h3>Welcome to Firefox Add-ons.</h3>
+                    <p>
+                                              Choose from thousands of extra features and styles to make Firefox your own.                                          </p>
+                    <a href="#" class="close">Đóng</a>
+                  </div>
+                  <div class="site-balloon" id="mobile-banner">
+                    <h3>On the go?</h3>
+                    <p>
+                      Check out our <a class="mobile-link" href="#">Mobile Add-ons site</a>.                    </p>
+                    <a href="#" class="close">Đóng</a>
+                  </div>
+                                <div itemscope itemtype="http://schema.org/WebApplication">
+  <link itemprop="SoftwareApplicationCategory" href="http://schema.org/OtherApplication" />
+  <aside class="secondary addon-vitals">
+
+        <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+      <meta itemprop="price" content="$0" />
+      <meta itemprop="priceCurrency" content="USD" />
+      <link itemprop="availability" href="http://schema.org/InStock" />
+    </span>
+
+    <div itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
+      <meta content="4.82" itemprop="ratingValue">
+        <span class="stars large stars-5" title="Rated 5 out of 5 stars">
+      Rated 5 out of 5 stars  </span>
+
+
+      <div>
+        <a id="reviews-link" href="/vi/firefox/addon/adblock-plus/reviews/">
+          <span itemprop="ratingCount">5.701</span> đánh giá của người dùng<span itemprop="ratingCount">5.701</span> đánh giá của người dùng        </a>
+      </div>
+    </div>
+
+                                                    <div id="daily-users">
+                  <a class="stats" title="View statistics"
+             href="/vi/firefox/addon/adblock-plus/statistics/">14.039.867 người dùng14.039.867 người dùng</a>
+                <meta itemprop="interactionCount" content="UserDownloads:458577914" />
+      </div>
+    
+    <div class="widgets">
+      
+      <a class="collection-add widget collection"
+  data-listurl="/vi/firefox/collections/ajax/list"
+  data-addurl="/vi/firefox/collections/ajax/add"
+  data-removeurl="/vi/firefox/collections/ajax/remove"
+  data-newurl="/vi/firefox/collections/ajax/new"
+  data-addonid="1865"
+  title=""
+  href="#"
+  >
+  Thêm vào bộ sưu tập
+</a>    </div>
+              </aside>
+
+  
+    <section class="primary addon-description-header">
+    <div id="addon" class="island c" role="main" data-id="1865">
+      <hgroup>
+                <img id="addon-icon" itemprop="image" src="https://addons.cdn.mozilla.net/user-media/addon_icons/1/1865-64.png?modified=1496848819" class="icon" alt="Icon of Adblock Plus">
+        <h1 class="addon" lang="en-US" dir="ltr">
+          <span itemprop="name">Adblock Plus</span>
+                      <span class="version-number" itemprop="version">2.9.1</span>
+                          
+                  </h1>
+        <h4 class="author">bởi <a href="/vi/firefox/user/Wladimir-Palant/" title="Wladimir Palant">Wladimir Palant</a></h4>
+      </hgroup>
+      <p id="addon-summary" itemprop="description" >Bực bội vì quảng cáo? Khó chịu vì bị theo dõi? Phiền vì biểu ngữ (banner)? Cài đặt Adblock Plus ngay để giành lại quyền kiểm soát internet và thay đổi cách thức mà bạn xem web.<br/><br/>Xem đoạn phim giới thiệu ở <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/53bef0e0769bb5d1d134b467eec73a45d619110732f8552f5e3927aac00a9a43/http%3A//www.youtube.com/watch%3Fv=oNvb2SjVjjI">http://www.youtube.com/watch?v=oNvb2SjVjjI</a></p>
+              <div class="install-wrapper ">
+<div class="install-shell">
+<div class="install "
+       data-addon="1865"
+  data-icon="https://addons.cdn.mozilla.net/user-media/addon_icons/1/1865-32.png?modified=1496848819"
+  data-developers="/vi/firefox/addon/adblock-plus/developers"
+  data-versions="/vi/firefox/addon/1865/versions/"
+  data-name="Adblock Plus"
+  
+  data-min="51.0"
+  data-max="56.*"
+  data-is-compatible-by-default="false"
+  data-is-compatible-app="true"
+  data-compat-overrides="[]"
+>
+  <p class="install-button">
+                        <a class="button download prominent "
+  data-hash="sha256:199b9e3a8531bd10451c3e8e8adc4c529b29a55979e742cbe52d9f308c3d606d"
+      href="/firefox/downloads/latest/adblock-plus/addon-1865-latest.xpi?src=dp-btn-primary"
+  >
+  <b></b>
+  <span>
+    Tải xuống ngay
+      </span>
+</a>              <span class="download-anyway "> | <a href="/firefox/downloads/latest/adblock-plus/type:attachment/addon-1865-latest.xpi?src=dp-btn-primary" download>Download Anyway</a></span>
+            </p>
+</div> 
+
+  <div class="detailed">
+      <a class="privacy-policy badge" href="/vi/firefox/addon/adblock-plus/privacy/">
+      Chính sách Riêng tư
+    </a>
+          <a class="webext-permissions badge" href="#">
+              <img src="https://addons.cdn.mozilla.net/static/img/developers/test-warning.png?b=5239d2b9-59a59b86" alt="[Cảnh báo]"
+		>Sự cho phép
+    </a>
+    </div>
+  </div> </div>
+                </div>
+
+    
+
+          <div class="notice c author" id="contribution">
+
+            <img class="avatar" alt="Wladimir Palant"
+           src="https://addons.cdn.mozilla.net/static//img/zamboni/anon_user.png">
+      
+  <div class="aux">
+    <div class="button-wrapper">
+      <a class="button contribute prominent" id="contribute-button" href="#">
+        <b></b>Đóng góp
+      </a>
+    </div>
+    <p class="suggestion">
+              Đề nghị đóng góp <b>US$ 5,00</b>          </p>
+      </div>
+  <h3>Thích dùng tiện ích này?</h3>
+  <p class="">
+          The <a href="/vi/firefox/addon/adblock-plus/developers">developer of this add-on</a> asks that you help support its continued development by making a small contribution.      </p>
+
+  <div id="contribute-box" class="jqmWindow modal">
+  <form action="/vi/firefox/addon/adblock-plus/contribute/" method="post" data-no-csrf="anon-only">
+        <input type="hidden" name="source" value="dp-btn-primary"/>
+    <h2>Tạo một Khoản đóng góp</h2>
+    <p class="support">
+                        Help support the continued development of <strong>Adblock Plus</strong> by making a small contribution through <a href="http://paypal.com">PayPal</a>.                  </p>
+
+    <h4>Bạn muốn đóng góp bao nhiêu?</h4>
+    <div class="error" id="contrib-too-much"
+         data-max-amount="1000">
+        Khoản đóng góp tối đa là US$ 1.000,00.
+    </div>
+    <div class="error" id="contrib-too-little">
+        Khoản đóng góp tối thiểu là $0.01.
+    </div>
+    <div class="error" id="contrib-not-entered">
+        Khoản đóng góp phải là một số.
+    </div>
+    <div class="error" id="paypal-error">
+    </div>
+    <ul>
+            <li>
+        <input type="radio" name="type" value="suggested"
+               id="contrib-suggested" checked="checked"/>
+        <label for="contrib-suggested">
+                    Khoản đóng góp đề nghị cho một lần duy nhất là US$ 5,00
+        </label>
+      </li>
+            <li>
+        <input type="radio" name="type" value="onetime"
+               id="contrib-onetime"
+               />
+        <label>
+                    Đóng góp một lần $ <input type="text" name="onetime-amount" value=""/>
+        </label>
+      </li>
+    </ul>
+
+    <h4 class="comment">
+      <label for="contrib-comment">
+        Để lại một bình luận hoặc yêu cầu cho khoản đóng góp của bạn.
+      </label>
+    </h4><span>(phụ)</span>
+    <textarea name="comment" id="contrib-comment" maxlength="255"></textarea>
+    <span class="commentlen"></span>
+
+    <div id="contribute-actions">
+        <button id="contribute-confirm" type="submit" class="prominent">
+          Tạo khoản đóng góp
+        </button>
+        <span class="js-hidden ajax-loading">Contacting PayPal</span>
+        <span class="cancel"><a href="#">Không, cảm ơn</a></span>
+    </div>
+    <div id="paypal-complete" class="js-hidden">
+        <strong>Contribution made, thank you.</strong>
+    </div>
+
+  </form>
+</div>
+</div>
+      </section>
+</div>
+              </div>
+            </div>           </div>         
+                                              
+  
+      <section class="previews">
+      <div class="carousel">
+        <a href="#" class="control prev">&laquo;</a>
+        <a href="#" class="control next">&raquo;</a>
+        <ul id="preview" class="slider"><li class="panel">
+              <a class="screenshot thumbnail" rel="jquery-lightbox"
+                 href="https://addons.cdn.mozilla.net/user-media/previews/full/137/137084.png?modified=1401935427" title="Easily remove all annoying ads from Firefox.">
+                                <img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137084.png?modified=1401935427" alt="Add-on screenshot #1">
+              </a>
+            </li><li class="panel">
+              <a class="screenshot thumbnail" rel="jquery-lightbox"
+                 href="https://addons.cdn.mozilla.net/user-media/previews/full/137/137086.png?modified=1401935427" title="Adblock Plus can do more than adblocking. Enable powerful features in one click.">
+                                <img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137086.png?modified=1401935427" alt="Add-on screenshot #2">
+              </a>
+            </li><li class="panel">
+              <a class="screenshot thumbnail" rel="jquery-lightbox"
+                 href="https://addons.cdn.mozilla.net/user-media/previews/full/137/137088.png?modified=1401935427" title="Clean up your Facebook experience with Adblock Plus.">
+                                <img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137088.png?modified=1401935427" alt="Add-on screenshot #3">
+              </a>
+            </li><li class="panel">
+              <a class="screenshot thumbnail" rel="jquery-lightbox"
+                 href="https://addons.cdn.mozilla.net/user-media/previews/full/137/137090.png?modified=1401935427" title="Adblock Plus even removes those annoying 30-second video ads on YouTube.">
+                                <img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137090.png?modified=1401935427" alt="Add-on screenshot #4">
+              </a>
+            </li><li class="panel">
+              <a class="screenshot thumbnail" rel="jquery-lightbox"
+                 href="https://addons.cdn.mozilla.net/user-media/previews/full/137/137092.png?modified=1401935427" title="Remove all annoying blinking banners!">
+                                <img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137092.png?modified=1401935427" alt="Add-on screenshot #5">
+              </a>
+            </li><li class="panel">
+              <a class="screenshot thumbnail" rel="jquery-lightbox"
+                 href="https://addons.cdn.mozilla.net/user-media/previews/full/137/137094.png?modified=1401935427" title="Browse the web as it once used to be.">
+                                <img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137094.png?modified=1401935427" alt="Add-on screenshot #6">
+              </a>
+            </li><li class="panel">
+              <a class="screenshot thumbnail" rel="jquery-lightbox"
+                 href="https://addons.cdn.mozilla.net/user-media/previews/full/137/137096.png?modified=1401935427" title="Please help us by reporting bugs.">
+                                <img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137096.png?modified=1401935427" alt="Add-on screenshot #7">
+              </a>
+            </li><li class="panel">
+              <a class="screenshot thumbnail" rel="jquery-lightbox"
+                 href="https://addons.cdn.mozilla.net/user-media/previews/full/137/137098.png?modified=1401935427" title="You can even create your own blocking lists to customize the web to your exact needs.">
+                                <img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137098.png?modified=1401935427" alt="Add-on screenshot #8">
+              </a>
+            </li></ul>
+      </div>
+    </section>
+    <div id="lightbox">
+      <section>
+        <div class="content">
+          <a class="close" href="#">Close</a>
+        </div>
+        <div class="controls">
+          <a href="#" class="control next">&raquo;</a>
+          <a href="#" class="control prev">&laquo;</a>
+          <div class="caption"><span></span></div>
+        </div>
+      </section>
+    </div>
+  
+<aside class="secondary metadata c">
+  <ul class="links">
+          <li><a class="home" href="https://outgoing.prod.mozaws.net/v1/588bf951fe9d128c591ea8f408e395f8e8b4ecb792ffadb12cd2ce5793fba7c2/https%3A//adblockplus.org/">
+        Trang chủ tiện ích</a></li>
+              <li><a class="support" href="https://outgoing.prod.mozaws.net/v1/a97a28c0b336b92743b60d9bc6b39d40ce0d16f21e2590ce4cdd5323831ffc47/http%3A//adblockplus.org/forum/">Trang trợ giúp</a></li>
+          </ul>
+      <ul>
+      <li>Version 2.9.1 <a class="scrollto" href="#detail-relnotes">Thông tin</a></li>
+      <li>Last Updated: June  7, 2017</li>
+      <li class="source-license">
+                                      Được phát hành theo <a href="http://www.gnu.org/licenses/gpl-3.0.html">Giấy phép Công cộng GNU, phiên bản 3.0</a>                        </li>
+    </ul>
+  </aside>
+
+<section class="primary island c">
+  <h2>Giới thiệu về Tiện ích này</h2>
+  <div class="prose">
+      <div id="addon-description" class="prose" >Adblock Plus cho phép bạn giành lại quyền kiểm soát internet và xem web theo cách bạn muốn. Tiện ích này được hỗ trợ bởi hơn bốn mươi bộ lọc trọn gói với hàng chục ngôn ngữ, sẽ tự động cấu hình cho các mục đích từ gỡ bỏ quảng cáo trực tuyến cho đến việc chặn các tên miền chứa phần mềm độc hại. Adblock Plus cũng cho phép bạn tùy biến bộ lọc với sự hỗ trợ của nhiều tính năng hữu ích khác nhau, bao gồm tùy chọn ngữ cảnh cho hình ảnh, thẻ chặn đối với các đối tượng Flash và Java, và một danh sách các mục có thể chặn được để gỡ bỏ script và stylesheet.</div>
+    </div>
+</section>
+
+<div id="more-webpage" class="primary c" data-more-url="/vi/firefox/addon/adblock-plus/more"></div>
+
+<section class="primary island more-island">
+  
+      <section id="detail-relnotes" class="expando">
+      <h2>Thông tin về Phiên bản<a class="toggle" href="#detail-relnotes"><b></b></a></h2>
+      <div class="content listing">
+        <div class="items">
+          <div class="version item" id="version-2.9.1">
+  <div class="info">
+    <h3><a href="/vi/firefox/addon/adblock-plus/versions/2.9.1"
+           title="Liên kết tĩnh đến tiện ích này">
+      Version 2.9.1</a>
+      <span class="meta">
+        <time datetime="2017-06-07T12:01:35Z">
+                    Phát hành vào June  7, 2017
+        </time>
+                  <span class="filesize">
+            1.0 MiB
+          </span>
+              </span>
+              <span class="meta compat">
+                    Hoạt động trên
+                      Firefox cho Android 51.0 - 56.*,             Firefox 51.0 - 56.*,             SeaMonkey 2.48 - *,             Thunderbird 51.0 - 57.0        </span>
+          </h3>
+
+    <div class="desc prose"  lang="en-us" dir="ltr">
+      * Counting filter hits is now disabled by default, to alleviate performance issues experienced by some users (can be enabled again under "Options" if necessary).<br/>* Fixes regression in Adblock Plus 2.9, extension being broken in Thunderbird and SeaMonkey.<br/><br/>We are still trying to reproduce issues experienced by some Firefox users, with filter changes not being saved. We are also still looking into ways to address performance issues caused by using Web Extensions storage starting with Adblock Plus 2.0.
+    </div>
+
+    <ul class="source">
+                  <li>
+                      Mã nguồn được phát hành theo <a href="http://www.gnu.org/licenses/gpl-3.0.html">Giấy phép Công cộng GNU, phiên bản 3.0</a>                  </li>
+        <li>
+          <a class="license-faq" href="/vi/faq#license">
+            Đây là gì?</a>
+        </li>
+        </ul>
+
+  </div>
+  <div class="action">
+          
+<div class="install-shell">
+<div class="install "
+       data-addon="1865"
+  data-icon="https://addons.cdn.mozilla.net/user-media/addon_icons/1/1865-32.png?modified=1496848819"
+  data-developers="/vi/firefox/addon/adblock-plus/developers"
+  data-versions="/vi/firefox/addon/1865/versions/"
+  data-name="Adblock Plus"
+  
+  data-min="51.0"
+  data-max="56.*"
+  data-is-compatible-by-default="false"
+  data-is-compatible-app="true"
+  data-compat-overrides="[]"
+>
+  <p class="install-button">
+                        <a class="button download "
+  data-hash="sha256:199b9e3a8531bd10451c3e8e8adc4c529b29a55979e742cbe52d9f308c3d606d"
+      href="https://addons.mozilla.org/firefox/downloads/file/660890/adblock_plus-2.9.1-an+fx+sm+tb.xpi?src=dp-btn-version"
+  >
+  <b></b>
+  <span>
+    Tải xuống ngay
+      </span>
+</a>            </p>
+</div> 
+
+</div> 
+      </div>
+</div>
+        </div>
+        <p class="more c">
+          <a class="more-info" href="/vi/firefox/addon/adblock-plus/versions/">
+            Xem lịch sử phiên bản đầy đủ
+          </a>
+        </p>
+      </div>
+    </section>
+  
+      <section id="beta-channel" class="expando">
+      <h2>Kênh Phát triển<a class="toggle" href="#beta-channel"><b></b></a></h2>
+      <div class="content">
+        <p>
+          The Development Channel lets you test an experimental new version of this add-on before it's released to the general public. Once you install the development version, you will continue to get updates from this channel. To stop receiving development updates, reinstall the default version from the link above.        </p>
+        <div class="install-beta" id="install-beta">
+          <p>
+            <strong>Caution:</strong> Development versions of this add-on have not been reviewed by Mozilla.          </p>
+          <dl>
+            <dt class="beta-version">Version 2.99.0.1838beta</dt>
+            <dd>
+<div class="install-shell">
+<div class="install unreviewed beta"
+       data-addon="1865"
+  data-icon="https://addons.cdn.mozilla.net/user-media/addon_icons/1/1865-32.png?modified=1496848819"
+  data-developers="/vi/firefox/addon/adblock-plus/developers"
+  data-versions="/vi/firefox/addon/1865/versions/"
+  data-name="Adblock Plus"
+  
+  data-min="50.0"
+  data-max="*"
+  data-is-compatible-by-default="true"
+  data-is-compatible-app="true"
+  data-compat-overrides="[]"
+>
+  <p class="install-button">
+                        <a class="button download caution "
+  data-hash="sha256:3a1b93fa1b802f77c7b19d989076bf09a96a9a06187cd2991c79a2e9a3b87f01"
+      href="/firefox/downloads/latest-beta/adblock-plus/addon-1865-latest.xpi?src=dp-btn-devchannel"
+  >
+  <b></b>
+  <span>
+    Tải xuống ngay
+      </span>
+</a>            </p>
+</div> 
+
+</div> </dd>
+          </dl>
+        </div>
+        <p class="more c">
+          <a class="more-info" href="/vi/firefox/addon/adblock-plus/versions/beta">
+            Xem lịch sử kênh phát triển đầy đủ
+          </a>
+        </p>
+      </div>
+    </section>
+  </section>
+
+
+</div>
+              </div>
+      <div id="tooltip">
+        <span></span>
+      </div>
+      <div id="popup-staging">
+        <div id="add-to-collection" class="popup">
+          <div class="collection-add-login">
+            <p>Để tạo ra bộ sưu tập của riêng mình, bạn phải có một tài khoản trên Tiện ích Mozilla.</p>
+            <p class="register-button">
+              <a class="button" href="https://oauth.accounts.firefox.com/v1/authorization?action=signup&amp;scope=profile&amp;state=43088c289d84056ae916d3302cdfbbea62f6810ca0c3ccdaae7485f276b9f4f5%3AL3ZpL2ZpcmVmb3gvYWRkb24vYWRibG9jay1wbHVzLw&amp;redirect_url=https%3A%2F%2Faddons.mozilla.org%2Fapi%2Fv3%2Faccounts%2Fauthenticate%2F&amp;client_id=a4907de5fa9d78fc">Tạo một Tài khoản Tiện ích</a>
+            </p>
+            <p>
+              hoặc <a href="https://oauth.accounts.firefox.com/v1/authorization?action=signin&amp;scope=profile&amp;state=43088c289d84056ae916d3302cdfbbea62f6810ca0c3ccdaae7485f276b9f4f5%3AL3ZpL2ZpcmVmb3gvYWRkb24vYWRibG9jay1wbHVzLw&amp;redirect_url=https%3A%2F%2Faddons.mozilla.org%2Fapi%2Fv3%2Faccounts%2Fauthenticate%2F&amp;client_id=a4907de5fa9d78fc">đăng nhập vào tài khoản hiện tại của bạn</a>            </p>
+          </div>
+        </div>
+              <div class="modal" id="privacy-policy">
+      <a href="#" class="close">close</a>
+      <h2>Chính sách Riêng tư</h2>
+      <div class="prose">
+        The full privacy policy with formatting intact is available at <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/6cc76054b18ee782223a11e30aa45833853e670eab2f94deceaba2e884189b22/http%3A//adblockplus.org/en/privacy">http://adblockplus.org/en/privacy</a>.<br/><br/><b>Extension update checks</b><br/><br/>Your browser periodically checks for updates of all your extensions including Adblock Plus. Some general information, such as browser version, extension version, operating system and your IP address, are transmitted during an update check. Adblock Plus nightly build updates as well as updates for Adblock Plus on Android and Internet Explorer are handled by <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/3e9baa8729455e9e719b3249df43ba29a0f024f0243ee8bb42b97f1ef457c9ca/http%3A//AdblockPlus.org">AdblockPlus.org</a> website and the data transmitted is subject to <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/aa55d7d34cd96f73c99b8b50f0997dd543aef05a68c77e510dbcfe8920b41682/https%3A//adblockplus.org/en/privacy%23logs%22">its privacy policy</a>. Updates to stable Adblock Plus for Firefox releases are handled by <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/34f5fec941d53b6b8021aa1a57ef22216469ae692060bd5bba9a41152d9b2d14/http%3A//Addons.Mozilla.Org">Addons.Mozilla.Org</a> website and are subject to the <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/74420f401a11bfcea8e40fa7e78c5fa879633a35465a67f8fd816131dab18075/http%3A//www.mozilla.com/en-US/legal/privacy/firefox-en.html">Firefox Privacy Policy</a>. Updates to stable Adblock Plus for Chrome releases are handled by the Google Web Store website and is subject to the <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/075ef309d1142ff83e471cbe3a1b432ad4f4a1e6444c7b328480194ff9c205b8/http%3A//www.google.com/policies/privacy/">Google Privacy Policy</a>. Updates to stable Adblock Plus for Opera releases are handled by the Opera Add-ons website and are subject to the <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/990ce18bcb4c7d1456064c5ef1bbb8347e97d88a48291af1ec1d0f32d89f2424/http%3A//www.opera.com/privacy%23web">Opera privacy policy</a>. <br/><br/><b>Subscription downloads</b><br/><br/>If you add filter subscriptions to your Adblock Plus installation the subscription will be requested regularly to retrieve updates. Every update results in the hosting website receiving your IP address as well as some general information like your Adblock Plus version, browser and browser version. This data is subject to the privacy policy of the website in question. <br/><br/>Furthermore, if a subscription download fails on several consecutive occasions, the updated address of the filter list is requested from the <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/3e9baa8729455e9e719b3249df43ba29a0f024f0243ee8bb42b97f1ef457c9ca/http%3A//AdblockPlus.org">AdblockPlus.org</a> domain. The data transmitted includes Adblock Plus version, subscription address, and information about the error encountered. This data is used to identify issues that have not been reported by subscription maintainers and is subject to the usual <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/aa55d7d34cd96f73c99b8b50f0997dd543aef05a68c77e510dbcfe8920b41682/https%3A//adblockplus.org/en/privacy%23logs%22">AdblockPlus.org privacy policy</a>. <br/><br/><b>Issue reporter</b><br/><br/>Adblock Plus for Firefox allows you to send issue reports to be temporarily stored on <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/3e9baa8729455e9e719b3249df43ba29a0f024f0243ee8bb42b97f1ef457c9ca/http%3A//AdblockPlus.org">AdblockPlus.org</a> domain. These reports contain information required to investigate the issue including Adblock Plus version, browser version, address of the web page where the problem is visible, blockable items on this web page, matching filters and active subscriptions. Parameter values are removed from all transmitted addresses to avoid unintentionally leaking private information. It is also possible to provide additional information, which may be privacy-sensitive: <br/><br/><ul><li> Website screenshot provides a scaled-down and color-reduced version of the page viewed. It is possible to remove particularly sensitive sections of the page before the report is sent. </li><li> Email address is only used to request more information or to update the user on the issue. </li><li> List of installed extensions is necessary for the investigation of conflicts with other extensions. </li></ul><br/>The processed reports can only be accessed by somebody who knows their unique address. These addresses are only shared with the maintainers of the filter subscriptions mentioned in the report and are unlikely to be found by others unless a link is provided. All reports and their associated data are automatically removed after 30 days. <br/><br/><b>Emergency notification</b><br/><br/>Recent Adblock Plus versions contain an emergency notification mechanism that allows them to notify users about important issues affecting their Adblock Plus installation. This feature requires all Adblock Plus installations to query an address in the <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/3e9baa8729455e9e719b3249df43ba29a0f024f0243ee8bb42b97f1ef457c9ca/http%3A//AdblockPlus.org">AdblockPlus.org</a> domain regularly to retrieve the list of active notifications. This request makes your IP address visible to the website and also sends some general information like your Adblock Plus version, browser and browser version. This data allows serving different notifications to different clients and is subject to the usual <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/aa55d7d34cd96f73c99b8b50f0997dd543aef05a68c77e510dbcfe8920b41682/https%3A//adblockplus.org/en/privacy%23logs%22">AdblockPlus.org privacy policy</a>. <br/><br/><b>Further <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/3e9baa8729455e9e719b3249df43ba29a0f024f0243ee8bb42b97f1ef457c9ca/http%3A//AdblockPlus.org">AdblockPlus.org</a> website requests</b><br/><br/>Adblock Plus may make further requests to the <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/3e9baa8729455e9e719b3249df43ba29a0f024f0243ee8bb42b97f1ef457c9ca/http%3A//AdblockPlus.org">AdblockPlus.org</a> website as required, for example if a documentation link is clicked or if the full list of filter subscriptions needs to be downloaded. These requests are subject to the usual <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/aa55d7d34cd96f73c99b8b50f0997dd543aef05a68c77e510dbcfe8920b41682/https%3A//adblockplus.org/en/privacy%23logs%22">AdblockPlus.org privacy policy</a>. <br/><br/><b>Data retention</b><br/><br/>Adblock Plus stores some data in <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/68dd4defc83aec7aa2b96ba9685c5e116edee1572a54d199076ede6121193cc8/http%3A//support.mozilla.com/en-US/kb/Profiles">the Firefox profile</a> on your computer. Adblock Plus never transmits this data to any servers, but other extensions and services, such as <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/9e067135438c854874379a2bc3ab7e43218fe02056f98eff3545e33872cf3a2c/https%3A//services.mozilla.com/privacy-policy/">Firefox Sync</a>, may do so. Most of the data (your preferences, filter subscriptions and custom filters) is unobjectionable privacy-wise. However, filter hit statistics and recent issue reports could be used to reconstruct your browsing history. Adblock Plus treats this information identically to how history data is treated by the browser: this data isn't stored if you are using <a rel="nofollow" href="https://outgoing.prod.mozaws.net/v1/3def97d2eba738b13a3d9b222dcc69058ba18121f7608edb6b0a21d5a1d89507/http%3A//support.mozilla.com/en-US/kb/Private%2BBrowsing">Private Browsing mode</a> and is removed if you choose to clear your browsing history.
+      </div>
+    </div>
+        <div class="modal" id="webext-permissions">
+      <a href="#" class="close">close</a>
+      <h2>Sự cho phép</h2>
+              <div class="prose">
+          <img src="https://addons.cdn.mozilla.net/static/img/developers/test-warning.png?b=5239d2b9-59a59b86" alt="[Cảnh báo]">
+          <p>
+          Some add-ons ask for permission to perform certain functions. Since you’re in control of your Firefox, the choice to grant or deny these requests is yours.
+          </p><p>
+          Please note this add-on uses legacy technology, which gives it access to all browser functions and data without requesting your permission.
+          </p>
+        </div>
+          </div>
+            <div id="abuse-modal" class="modal">
+      <a href="#" class="close">close</a>
+      <h2>Báo cáo Lạm dụng</h2>
+      <form method="post" action="/vi/firefox/addon/adblock-plus/abuse/" data-no-csrf="anon-only">
+    <fieldset class="abuse">
+        <ol >
+      <li>
+        <p>If you suspect this add-on violates <a href="https://developer.mozilla.org/en-US/Add-ons/AMO/Policy">our policies</a> or has security or privacy issues, please use the form below to describe your concerns. Please do not use this form for any other reason.        </p>
+      </li>
+      <li>
+        <textarea cols="40" id="id_text" name="text" rows="10">
+</textarea>
+        
+      </li>
+              <script src='https://www.google.com/recaptcha/api.js?hl=vi' async defer></script>
+<div class="g-recaptcha" data-sitekey="6LcsBhYTAAAAAKpVTZ16Lh7nmTxVRKoKSr8e3vsV"></div>
+<noscript>
+  <div style="width: 302px; height: 484px;">
+    <div style="width: 302px; height: 424px; position: relative;">
+      <div style="width: 302px; height: 424px; position: absolute;">
+        <iframe src="https://www.google.com/recaptcha/api/fallback?k=6LcsBhYTAAAAAKpVTZ16Lh7nmTxVRKoKSr8e3vsV&amp;hl=vi"
+                frameborder="0" scrolling="no"
+                style="width: 302px; height:424px; border-style: none;">
+        </iframe>
+      </div>
+    </div>
+    <div style="width: 300px; height: 60px; border-style: none;
+                bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px;
+                background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
+      <textarea id="g-recaptcha-response" name="g-recaptcha-response"
+                class="g-recaptcha-response"
+                style="width: 250px; height: 40px; border: 1px solid #c1c1c1;
+                       margin: 10px 25px; padding: 0px; resize: none;" >
+      </textarea>
+    </div>
+  </div>
+</noscript>
+        
+            <li class="footer-submit">
+        <button type="submit">Gửi báo cáo</button>
+              </li>
+    </ol>
+  </fieldset>
+</form>
+    </div>
+        </div>
+    </div>
+          <div id="footer" role="contentinfo">
+        <div class="section">
+                    <img class="footerlogo" src="https://addons.cdn.mozilla.net/static/img/zamboni/footer-logo-med.png?b=5239d2b9-59a59b86" alt="Footer logo">
+                                <div class="links-footer">
+  <ul>
+    <li>biết thêm về <b>tiện ích</b></li>
+    <li><a href="/vi/about">Giới thiệu</a></li>
+    <li><a href="http://blog.mozilla.com/addons">Blog</a></li>
+    <li class="footer-devhub-link"><a href="/vi/developers/">Trung tâm Nhà phát triển</a></li>
+    <li><a href="/vi/faq">FAQ</a></li>
+    <li><a href="https://discourse.mozilla-community.org/c/add-ons">Diễn đàn</a></li>
+  </ul>
+</div>
+<div id="footer-content">
+                <form class="languages go" id="lang_form" method="get" action="" data-no-csrf>
+          <label for="language">Ngôn ngữ khác</label>
+          <select id="language" name="lang" dir="ltr">
+            <option value="af">
+                Afrikaans
+              </option><option value="ar">
+                عربي
+              </option><option value="bg">
+                Български
+              </option><option value="bn-bd">
+                বাংলা (বাংলাদেশ)
+              </option><option value="ca">
+                Català
+              </option><option value="cs">
+                Čeština
+              </option><option value="da">
+                Dansk
+              </option><option value="de">
+                Deutsch
+              </option><option value="dsb">
+                Dolnoserbšćina
+              </option><option value="el">
+                Ελληνικά
+              </option><option value="en-gb">
+                English (British)
+              </option><option value="en-us">
+                English (US)
+              </option><option value="es">
+                Español
+              </option><option value="eu">
+                Euskara
+              </option><option value="fa">
+                فارسی
+              </option><option value="fi">
+                suomi
+              </option><option value="fr">
+                Français
+              </option><option value="ga-ie">
+                Gaeilge
+              </option><option value="he">
+                עברית
+              </option><option value="hsb">
+                Hornjoserbsce
+              </option><option value="hu">
+                magyar
+              </option><option value="id">
+                Bahasa Indonesia
+              </option><option value="it">
+                Italiano
+              </option><option value="ja">
+                日本語
+              </option><option value="ka">
+                ქართული
+              </option><option value="kab">
+                Taqbaylit
+              </option><option value="ko">
+                한국어
+              </option><option value="mk">
+                Македонски
+              </option><option value="mn">
+                Монгол
+              </option><option value="nl">
+                Nederlands
+              </option><option value="nn-no">
+                Norsk nynorsk
+              </option><option value="pl">
+                Polski
+              </option><option value="pt-br">
+                Português (do Brasil)
+              </option><option value="pt-pt">
+                Português (Europeu)
+              </option><option value="ro">
+                Română
+              </option><option value="ru">
+                Русский
+              </option><option value="sk">
+                slovenčina
+              </option><option value="sl">
+                Slovenščina
+              </option><option value="sq">
+                Shqip
+              </option><option value="sv-se">
+                Svenska
+              </option><option value="uk">
+                Українська
+              </option><option value="ur">
+                اُردو
+              </option><option value="vi" selected>
+                Tiếng Việt
+              </option><option value="zh-cn">
+                中文 (简体)
+              </option><option value="zh-tw">
+                正體中文 (繁體)
+              </option>          </select>
+                    <noscript><button type="submit">Đi</button></noscript>
+        </form>
+            <div id="copyright">
+  <p id="footer-links">
+          <a href="https://www.mozilla.org/privacy/websites/">
+        Chính sách Riêng tư
+      </a> &nbsp;|&nbsp;
+      <a href="https://www.mozilla.org/about/legal/">
+        Lưu ý Pháp lí
+      </a> &nbsp;|&nbsp;
+      <a href="https://www.mozilla.org/about/legal/fraud-report/">
+        Report Trademark Abuse
+      </a>
+                        &nbsp;|&nbsp;<a class="mobile-link" href="#">Xem trang Di động</a>
+                &nbsp;|&nbsp;<a href="https://status.mozilla.org/#addons.mozilla.org_service_history">Site Status </a>
+        &nbsp;|&nbsp;<a href="https://developer.mozilla.org/en-US/Add-ons/AMO/Policy/Contact">Report a bug</a>
+            </p>
+  <p>
+    Except where otherwise <a href="https://www.mozilla.org/about/legal/">noted</a>, content on this site is licensed under the <br /> <a href="https://creativecommons.org/licenses/by-sa/3.0/"> Creative Commons Attribution Share-Alike License v3.0 </a> or any later version.  </p>
+</div>    </div>
+                  </div>       </div>                   <script src="https://addons.cdn.mozilla.net/vi/firefox/jsi18n.js?b=5239d2b9-59a59b86"></script>
+      <script src="https://addons.cdn.mozilla.net/static/js/impala-min.js?build=5239d2b9-59a59b86"></script>
+              <script async defer src="https://www.paypalobjects.com/js/external/dg.js"></script>
+        </body>
+</html>X      Y�q�Y�q�>+�,       :    :https://addons.mozilla.org/vi/firefox/addon/adblock-plus/ necko:classified 1 strongly-framed 1 security-info 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 request-method GET request-User-Agent Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0 response-head HTTP/1.1 200 OK
+content-security-policy: script-src https://ssl.google-analytics.com/ga.js https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://www.paypalobjects.com/js/external/dg.js https://addons.cdn.mozilla.net; style-src 'self' 'unsafe-inline' https://addons.cdn.mozilla.net; default-src 'self'; frame-src 'self' https://ic.paypal.com https://paypal.com https://www.google.com/recaptcha/ https://www.paypal.com; child-src 'self' https://ic.paypal.com https://paypal.com https://www.google.com/recaptcha/ https://www.paypal.com; img-src 'self' data: blob: https://www.paypal.com/webapps/checkout/ https://www.paypal.com/webapps/hermes/api/logger https://ssl.google-analytics.com https://addons.cdn.mozilla.net https://static.addons.mozilla.net https://sentry.prod.mozaws.net; media-src https://videos.cdn.mozilla.net; object-src 'none'; connect-src 'self' https://sentry.prod.mozaws.net; font-src 'self' https://addons.cdn.mozilla.net; form-action 'self' https://developer.mozilla.org; base-uri 'self' https://addons.mozilla.org; report-uri /__cspreport__
+Content-Type: text/html; charset=utf-8
+Date: Thu, 07 Sep 2017 16:20:57 GMT
+Etag: "dd361f19ccffcb1ee2f900bcb11bdee2"
+Public-Key-Pins: max-age=5184000; includeSubDomains; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="; pin-sha256="r/mIkG3eEpVdm+u/ko/cwxzOMo1bk4TyHIlByibiA5E="
+Server: nginx
+Strict-Transport-Security: max-age=31536000
+Vary: X-Requested-With, User-Agent
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+ original-response-headers content-security-policy: script-src https://ssl.google-analytics.com/ga.js https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://www.paypalobjects.com/js/external/dg.js https://addons.cdn.mozilla.net; style-src 'self' 'unsafe-inline' https://addons.cdn.mozilla.net; default-src 'self'; frame-src 'self' https://ic.paypal.com https://paypal.com https://www.google.com/recaptcha/ https://www.paypal.com; child-src 'self' https://ic.paypal.com https://paypal.com https://www.google.com/recaptcha/ https://www.paypal.com; img-src 'self' data: blob: https://www.paypal.com/webapps/checkout/ https://www.paypal.com/webapps/hermes/api/logger https://ssl.google-analytics.com https://addons.cdn.mozilla.net https://static.addons.mozilla.net https://sentry.prod.mozaws.net; media-src https://videos.cdn.mozilla.net; object-src 'none'; connect-src 'self' https://sentry.prod.mozaws.net; font-src 'self' https://addons.cdn.mozilla.net; form-action 'self' https://developer.mozilla.org; base-uri 'self' https://addons.mozilla.org; report-uri /__cspreport__
+Content-Type: text/html; charset=utf-8
+Date: Thu, 07 Sep 2017 16:20:57 GMT
+Etag: "dd361f19ccffcb1ee2f900bcb11bdee2"
+Public-Key-Pins: max-age=5184000; includeSubDomains; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="; pin-sha256="r/mIkG3eEpVdm+u/ko/cwxzOMo1bk4TyHIlByibiA5E="
+Server: nginx
+Set-Cookie: sessionid=".eJwFwdsNgDAIAMBdmAAppdRlDOWxgP0wMe7u3Qv12HVv2wkncENVJ52hjF0s5yHRGpJHrZUmVKIHuqE39zDLwdqLhqxZXB2-H71gF2A:1dpzY1:OUovt1c6b4OqMlPijdVVNv4fTkQ"; Domain=.addons.mozilla.org; expires=Sat, 07-Oct-2017 16:20:57 GMT; httponly; Max-Age=2592000; Path=/; secure
+Strict-Transport-Security: max-age=31536000
+Vary: X-Requested-With
+Vary: User-Agent
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Transfer-Encoding: chunked
+Connection: keep-alive
+ charset UTF-8 uncompressed-len 0 predictor::resource-count 46 predictor::https://addons.cdn.mozilla.net/static/css/tabzilla/tabzilla.css 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/css/zamboni/impala-min.css?build=9582f6a 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/css/restyle/css-min.css?build=56faabf 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/js/preload-min.js?build=5239d2b9-59a59b86 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/icons/firefox.png?b=5239d2b9-59a59b86 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/addon_icons/1/1865-64.png?modified=1496848819 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/developers/test-warning.png?b=5239d2b9-59a59b86 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static//img/zamboni/anon_user.png 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137084.png?modified=1401935427 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137086.png?modified=1401935427 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137088.png?modified=1401935427 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137090.png?modified=1401935427 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137092.png?modified=1401935427 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137094.png?modified=1401935427 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137096.png?modified=1401935427 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/previews/thumbs/137/137098.png?modified=1401935427 1,1,1504801256,4096 predictor::https://ssl.google-analytics.com/ga.js 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/tabzilla/tabzilla-static.png 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/icons/search.png?eaad389 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/icons/go-arrow.png?ad8fa66 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/impala/stars-16.png?c518520 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/impala/button-icons.png?76a8a6e 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/impala/home.png?54712b2 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/css/impala/fonts/OpenSans-Regular.ttf?629a55a 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/css/impala/fonts/OpenSans-Bold.ttf?5014568 1,1,1504801256,4096 predictor::https://www.google.com/recaptcha/api.js?hl=vi 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/zamboni/footer-logo-med.png?b=5239d2b9-59a59b86 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/vi/firefox/jsi18n.js?b=5239d2b9-59a59b86 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/js/impala-min.js?build=5239d2b9-59a59b86 1,1,1504801256,4096 predictor::https://www.paypalobjects.com/js/external/dg.js 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/impala/loading-more.gif?4b3afb8 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/impala/expando-large.png?4f1cc6f 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/css/impala/fonts/OpenSans-Italic.ttf?c7dcce0 1,1,1504801256,4096 net-response-time-onstart 947 net-response-time-onstop 1838 predictor::https://www.gstatic.com/recaptcha/api2/r20170829114530/recaptcha__vi.js 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/impala/search-stem.png?11fc7d4 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/impala/banner-close-style-refresh.png?3241be0 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/collection_icons/16/16651.png?m=1499940884 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/icons/collection.png 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/collection_icons/32/32177.png?m=1504744988 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/addon_icons/4/4364-32.png?modified=1493199298 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/addon_icons/10/10345-32.png?modified=1473535216 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/addon_icons/351/351740-32.png?modified=1502097621 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/addon-icons/appearance-32.png 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/addon-icons/default-32.png 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/user-media/addon_icons/2/2871-32.png?modified=1493199324 1,1,1504801256,4096 predictor::https://addons.cdn.mozilla.net/static/img/impala/stars.png?5f99704 1,1,1504801256,4096   �z

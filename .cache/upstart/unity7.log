@@ -1,0 +1,4 @@
+ERROR 2017-09-08 11:44:01 unity <unknown>:0 unity::appstream::Application::Application(const string&): assertion 'as_app' failed
+WARN  2017-09-08 11:44:01 unityct(io) <unknown>:0 Unable to load keyfile from file '[Invalid UTF-8]': No such file or directory
+WARN  2017-09-08 12:23:26 unity.iconloader IconLoader.cpp:756 Unable to load icon file:/// at size -1x22: Can't open directory
+ERROR 2017-09-08 13:26:59 unity.settings UnitySettings.cpp:318 Invalid monitor index: -1. Returning index 0 monitor instead.

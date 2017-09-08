@@ -1,0 +1,910 @@
+<div id="cha-a_toy_app" data-tralics-id="cid8" class="chapter" data-number="2" data-chapter="toy_app"><h1><a href="toy_app_fragment.html#cha-a_toy_app" class="heading hyperref"><span class="number">Chapter 2 </span>A toy app</a></h1>
+<p>In this chapter, we’ll develop a toy demo application to show off some of the power of Rails.<span class="intersentencespace"></span> The purpose is to get a high-level overview of Ruby on Rails programming (and web development in general) by rapidly generating an application using <em>scaffold generators</em>, which create a large amount of functionality automatically.<span class="intersentencespace"></span> As discussed in <a href="beginning_fragment.html#aside-scaffolding" class="hyperref">Box <span class="ref">1.2</span></a>, the rest of the book will take the opposite approach, developing a full sample application incrementally and explaining each new concept as it arises, but for a quick overview (and some instant gratification) there is no substitute for scaffolding.<span class="intersentencespace"></span> The resulting toy app will allow us to interact with it through its URLs, giving us insight into the structure of a Rails application, including a first example of the <em>REST architecture</em> favored by Rails.</p>
+<p>As with the forthcoming sample application, the toy app will consist of <em>users</em> and their associated <em>microposts</em> (thus constituting a minimalist Twitter-style app).<span class="intersentencespace"></span> The functionality will be utterly under-developed, and many of the steps will seem like magic, but worry not: the full sample app will develop a similar application from the ground up starting in <a href="static_pages_fragment.html#cha-static_pages" class="hyperref">Chapter <span class="ref">3</span></a>, and I will provide plentiful forward-references to later material.<span class="intersentencespace"></span> In the mean time, have patience and a little faith—the whole point of this tutorial is to take you <em>beyond</em> this superficial, scaffold-driven approach to achieve a deeper understanding of Rails.</p>
+</div><div id="sec-planning_the_application" data-tralics-id="cid9" class="section" data-number="2.1"><h2><a href="toy_app_fragment.html#sec-planning_the_application" class="heading hyperref"><span class="number">2.1 </span>Planning the application</a></h2>
+<p>In this section, we’ll outline our plans for the toy application.<span class="intersentencespace"></span> As in <a href="beginning_fragment.html#sec-the_hello_application" class="hyperref">Section <span class="ref">1.3</span></a>, we’ll start by generating the application skeleton using the <code>rails new</code> command with a specific Rails version number:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd</span> ~/workspace
+<span class="gp">$</span> rails _5.1.2_ new toy_app
+<span class="gp">$</span> <span class="nb">cd </span>toy_app/
+</pre></div></div>
+<p>If you’re using the cloud IDE as recommended in <a href="beginning_fragment.html#sec-development_environment" class="hyperref">Section <span class="ref">1.2.1</span></a>, note that this second app can be created in the same workspace as the first.<span class="intersentencespace"></span> It is not necessary to create a new workspace.<span class="intersentencespace"></span> In order to get the files to appear, you may need to click the gear icon in the file navigator area and select “Refresh File Tree”.</p>
+<p>Next, we’ll use a text editor to update the <code>Gemfile</code> needed by Bundler with the contents of <a href="toy_app_fragment.html#code-demo_gemfile_sqlite_version_redux" class="hyperref">Listing <span class="ref">2.1</span></a>.<span class="intersentencespace"></span> <strong>Important note: For all the Gemfiles in this book, you should use the version numbers listed at <a href="http://gemfiles-4th-ed.railstutorial.org/" target="_blank" rel="noopener">gemfiles-4th-ed.railstutorial.org</a> instead of the ones listed below (although they should be identical if you are reading this online).</strong></p>
+<div class="codelisting" id="code-demo_gemfile_sqlite_version_redux" data-tralics-id="uid152" data-number="2.1"><div class="heading"><span class="number">Listing 2.1:</span> 
+
+<span class="description">A <code>Gemfile</code> for the toy app.</span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="n">source</span> <span class="s1">'https://rubygems.org'</span>
+
+<span class="n">gem</span> <span class="s1">'rails'</span><span class="p">,</span>        <span class="s1">'5.1.2'</span>
+<span class="n">gem</span> <span class="s1">'puma'</span><span class="p">,</span>         <span class="s1">'3.9.1'</span>
+<span class="n">gem</span> <span class="s1">'sass-rails'</span><span class="p">,</span>   <span class="s1">'5.0.6'</span>
+<span class="n">gem</span> <span class="s1">'uglifier'</span><span class="p">,</span>     <span class="s1">'3.2.0'</span>
+<span class="n">gem</span> <span class="s1">'coffee-rails'</span><span class="p">,</span> <span class="s1">'4.2.2'</span>
+<span class="n">gem</span> <span class="s1">'jquery-rails'</span><span class="p">,</span> <span class="s1">'4.3.1'</span>
+<span class="n">gem</span> <span class="s1">'turbolinks'</span><span class="p">,</span>   <span class="s1">'5.0.1'</span>
+<span class="n">gem</span> <span class="s1">'jbuilder'</span><span class="p">,</span>     <span class="s1">'2.7.0'</span>
+
+<span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'sqlite3'</span><span class="p">,</span> <span class="s1">'1.3.13'</span>
+  <span class="n">gem</span> <span class="s1">'byebug'</span><span class="p">,</span>  <span class="s1">'9.0.6'</span><span class="p">,</span> <span class="ss">platform</span><span class="p">:</span> <span class="ss">:mri</span>
+<span class="k">end</span>
+
+<span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'web-console'</span><span class="p">,</span>           <span class="s1">'3.5.1'</span>
+  <span class="n">gem</span> <span class="s1">'listen'</span><span class="p">,</span>                <span class="s1">'3.0.8'</span>
+  <span class="n">gem</span> <span class="s1">'spring'</span><span class="p">,</span>                <span class="s1">'2.0.2'</span>
+  <span class="n">gem</span> <span class="s1">'spring-watcher-listen'</span><span class="p">,</span> <span class="s1">'2.0.1'</span>
+<span class="k">end</span>
+
+<span class="n">group</span> <span class="ss">:production</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'pg'</span><span class="p">,</span> <span class="s1">'0.20.0'</span>
+<span class="k">end</span>
+
+<span class="c1"># Windows does not include zoneinfo files, so bundle the tzinfo-data gem</span>
+<span class="n">gem</span> <span class="s1">'tzinfo-data'</span><span class="p">,</span> <span class="ss">platforms</span><span class="p">:</span> <span class="o">[</span><span class="ss">:mingw</span><span class="p">,</span> <span class="ss">:mswin</span><span class="p">,</span> <span class="ss">:x64_mingw</span><span class="p">,</span> <span class="ss">:jruby</span><span class="o">]</span>
+</pre></div></div></div><p>Note that <a href="toy_app_fragment.html#code-demo_gemfile_sqlite_version_redux" class="hyperref">Listing <span class="ref">2.1</span></a> is identical to <a href="beginning_fragment.html#code-gemfile_pg_gem" class="hyperref">Listing <span class="ref">1.14</span></a>.</p>
+<p>As in <a href="beginning_fragment.html#sec-heroku_setup" class="hyperref">Section <span class="ref">1.5.1</span></a>, we’ll install the local gems while suppressing the installation of production gems using the <code>--without production</code> option:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> bundle install --without production
+</pre></div></div>
+<p>As noted in <a href="beginning_fragment.html#sec-bundler" class="hyperref">Section <span class="ref">1.3.1</span></a>, you may need to run <code>bundle update</code> as well (<a href="beginning_fragment.html#aside-technical_sophistication" class="hyperref">Box <span class="ref">1.1</span></a>).</p>
+<p>Finally, we’ll put the toy app under version control with Git:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git init
+<span class="gp">$</span> git add -A
+<span class="gp">$</span> git commit -m <span class="s2">"Initialize repository"</span>
+</pre></div></div>
+<p>You should also <a href="https://bitbucket.org/repo/create" target="_blank" rel="noopener">create a new repository</a> by clicking on the “Create” button at Bitbucket (<a href="toy_app_fragment.html#fig-create_demo_repository" class="hyperref">Figure <span class="ref">2.1</span></a>), and then push up to the remote repository:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git remote add origin git@bitbucket.org:&lt;username&gt;/toy_app.git
+<span class="gp">$</span> git push -u origin --all
+</pre></div></div>
+<div class="center figure" id="fig-create_demo_repository" data-tralics-id="uid153" data-number="2.1">
+<div class="graphics image"><img src="images/figures/create_demo_repo_bitbucket.png" alt="images/figures/create_demo_repo_bitbucket"></div><div class="caption"><span class="header">Figure 2.1: </span><span class="description">Creating the toy app repository at Bitbucket.
+</span></div></div>
+<p>Finally, it’s never too early to deploy, which I suggest doing by following the same “hello, world!” steps from <a href="beginning_fragment.html#sec-hello_world" class="hyperref">Section <span class="ref">1.3.4</span></a>, as shown in <a href="toy_app_fragment.html#code-hello_action_redux" class="hyperref">Listing <span class="ref">2.2</span></a> and <a href="toy_app_fragment.html#code-hello_root_route_redux" class="hyperref">Listing <span class="ref">2.3</span></a>.</p>
+<div class="codelisting" id="code-hello_action_redux" data-tralics-id="uid154" data-number="2.2"><div class="heading"><span class="number">Listing 2.2:</span> 
+
+<span class="description">Adding a <code>hello</code> action to the Application controller.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/controllers/application_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">protect_from_forgery</span> <span class="ss">with</span><span class="p">:</span> <span class="ss">:exception</span>
+
+  <span class="k">def</span> <span class="nf">hello</span>
+<span class="hll">    <span class="n">render</span> <span class="ss">html</span><span class="p">:</span> <span class="s2">"hello, world!"</span>
+</span>  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="codelisting" id="code-hello_root_route_redux" data-tralics-id="uid155" data-number="2.3"><div class="heading"><span class="number">Listing 2.3:</span> 
+
+<span class="description">Setting the root route.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">config/routes.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+  <span class="n">root</span> <span class="s1">'application#hello'</span>
+<span class="k">end</span>
+</pre></div></div></div><p>Then commit the changes and push up to Heroku:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git commit -am <span class="s2">"Add hello"</span>
+<span class="gp">$</span> heroku create
+<span class="gp">$</span> git push heroku master
+</pre></div></div>
+<p>(As in <a href="beginning_fragment.html#sec-deploying" class="hyperref">Section <span class="ref">1.5</span></a>, you may see some warning messages, which you should ignore for now.<span class="intersentencespace"></span> We’ll deal with them in <a href="sign_up_fragment.html#sec-professional_grade_deployment" class="hyperref">Section <span class="ref">7.5</span></a>.)<span class="intersentencespace"></span> Apart from the URL of the Heroku app, the result should be the same as in <a href="beginning_fragment.html#fig-heroku_app" class="hyperref">Figure <span class="ref">1.20</span></a>.</p>
+<p>Now we’re ready to start making the app itself.<span class="intersentencespace"></span> The typical first step when making a web application is to create a <em>data model</em>, which is a representation of the structures needed by our application.<span class="intersentencespace"></span> In our case, the toy app will be a Twitter-style microblog, with only users and short (micro)posts.<span class="intersentencespace"></span> Thus, we’ll begin with a model for <em>users</em> of the app (<a href="toy_app_fragment.html#sec-modeling_demo_users" class="hyperref">Section <span class="ref">2.1.1</span></a>), and then we’ll add a model for <em>microposts</em> (<a href="toy_app_fragment.html#sec-modeling_demo_microposts" class="hyperref">Section <span class="ref">2.1.2</span></a>).</p>
+<div id="sec-modeling_demo_users" data-tralics-id="uid156" class="subsection" data-number="2.1.1"><h3><a href="toy_app_fragment.html#sec-modeling_demo_users" class="heading hyperref"><span class="number">2.1.1 </span>A toy model for users</a></h3>
+<p>There are as many choices for a user data model as there are different registration forms on the web; for simplicity, we’ll go with a distinctly minimalist approach.<span class="intersentencespace"></span> Users of our toy app will have a unique identifier called <code>id</code> (of type <code>integer</code>), a publicly viewable <code>name</code> (of type <code>string</code>), and an <code>email</code> address (also of type <code>string</code>) that will double as a unique username.<span class="intersentencespace"></span> A summary of the data model for users appears in <a href="toy_app_fragment.html#fig-demo_user_model" class="hyperref">Figure <span class="ref">2.2</span></a>.</p>
+<div class="center figure" id="fig-demo_user_model" data-tralics-id="uid157" data-number="2.2"><span class="graphics"><img src="images/figures/demo_user_model.png" alt="demo_user_model"></span>
+<div class="caption"><span class="header">Figure 2.2: </span><span class="description">The data model for users.
+</span></div></div>
+<p>As we’ll see starting in <a href="modeling_users_fragment.html#sec-database_migrations" class="hyperref">Section <span class="ref">6.1.1</span></a>, the label <code>users</code> in <a href="toy_app_fragment.html#fig-demo_user_model" class="hyperref">Figure <span class="ref">2.2</span></a> corresponds to a <em>table</em> in a database, and the <code>id</code>, <code>name</code>, and <code>email</code> attributes are <em>columns</em> in that table.</p>
+</div>
+<div id="sec-modeling_demo_microposts" data-tralics-id="uid158" class="subsection" data-number="2.1.2"><h3><a href="toy_app_fragment.html#sec-modeling_demo_microposts" class="heading hyperref"><span class="number">2.1.2 </span>A toy model for microposts</a></h3>
+<p>The core of the micropost data model is even simpler than the one for users: a micropost has only an <code>id</code> and a <code>content</code> field for the micropost’s text (of type <code>text</code>).<sup id="cha-2_footnote-ref-1" class="footnote"><a href="#cha-2_footnote-1">1</a></sup><span class="intersentencespace"></span> There’s an additional complication, though: we want to <em>associate</em> each micropost with a particular user.<span class="intersentencespace"></span> We’ll accomplish this by recording the <code>user_id</code> of the owner of the post.<span class="intersentencespace"></span> The results are shown in <a href="toy_app_fragment.html#fig-demo_micropost_model" class="hyperref">Figure <span class="ref">2.3</span></a>.</p>
+<div class="center figure" id="fig-demo_micropost_model" data-tralics-id="uid160" data-number="2.3"><span class="graphics"><img src="images/figures/demo_micropost_model.png" alt="demo_micropost_model"></span>
+<div class="caption"><span class="header">Figure 2.3: </span><span class="description">The data model for microposts.
+</span></div></div>
+<p>We’ll see in <a href="toy_app_fragment.html#sec-demo_user_has_many_microposts" class="hyperref">Section <span class="ref">2.3.3</span></a> (and more fully in <a href="user_microposts_fragment.html#cha-user_microposts" class="hyperref">Chapter <span class="ref">13</span></a>) how this <code>user_id</code> attribute allows us to succinctly express the notion that a user potentially has many associated microposts.</p>
+</div></div><div id="sec-demo_users_resource" data-tralics-id="cid10" class="section" data-number="2.2"><h2><a href="toy_app_fragment.html#sec-demo_users_resource" class="heading hyperref"><span class="number">2.2 </span>The Users resource</a></h2>
+<p>In this section, we’ll implement the users data model in <a href="toy_app_fragment.html#sec-modeling_demo_users" class="hyperref">Section <span class="ref">2.1.1</span></a>, along with a web interface to that model.<span class="intersentencespace"></span> The combination will constitute a <em>Users resource</em>, which will allow us to think of users as objects that can be created, read, updated, and deleted through the web via the <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" target="_blank" rel="noopener">HTTP protocol</a>.<span class="intersentencespace"></span> As promised in the introduction, our Users resource will be created by a scaffold generator program, which comes standard with each Rails project.<span class="intersentencespace"></span> I urge you not to look too closely at the generated code; at this stage, it will only serve to confuse you.</p>
+<p>Rails scaffolding is generated by passing the <code>scaffold</code> command to the <code>rails generate</code> script.<span class="intersentencespace"></span> The argument of the <code>scaffold</code> command is the singular version of the resource name (in this case, <code>User</code>), together with optional parameters for the data model’s attributes:<sup id="cha-2_footnote-ref-2" class="footnote"><a href="#cha-2_footnote-2">2</a></sup></p>
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="gp">$</span> rails generate scaffold User name:string email:string
+</span><span class="go">      invoke  active_record</span>
+<span class="go">      create    db/migrate/20160515001017_create_users.rb</span>
+<span class="go">      create    app/models/user.rb</span>
+<span class="go">      invoke    test_unit</span>
+<span class="go">      create      test/models/user_test.rb</span>
+<span class="go">      create      test/fixtures/users.yml</span>
+<span class="go">      invoke  resource_route</span>
+<span class="go">       route    resources :users</span>
+<span class="go">      invoke  scaffold_controller</span>
+<span class="go">      create    app/controllers/users_controller.rb</span>
+<span class="go">      invoke    erb</span>
+<span class="go">      create      app/views/users</span>
+<span class="go">      create      app/views/users/index.html.erb</span>
+<span class="go">      create      app/views/users/edit.html.erb</span>
+<span class="go">      create      app/views/users/show.html.erb</span>
+<span class="go">      create      app/views/users/new.html.erb</span>
+<span class="go">      create      app/views/users/_form.html.erb</span>
+<span class="go">      invoke    test_unit</span>
+<span class="go">      create      test/controllers/users_controller_test.rb</span>
+<span class="go">      invoke    helper</span>
+<span class="go">      create      app/helpers/users_helper.rb</span>
+<span class="go">      invoke      test_unit</span>
+<span class="go">      invoke    jbuilder</span>
+<span class="go">      create      app/views/users/index.json.jbuilder</span>
+<span class="go">      create      app/views/users/show.json.jbuilder</span>
+<span class="go">      invoke  assets</span>
+<span class="go">      invoke    coffee</span>
+<span class="go">      create      app/assets/javascripts/users.coffee</span>
+<span class="go">      invoke    scss</span>
+<span class="go">      create      app/assets/stylesheets/users.scss</span>
+<span class="go">      invoke  scss</span>
+<span class="go">      create    app/assets/stylesheets/scaffolds.scss</span>
+</pre></div></div>
+<p>By including <code>name:string</code> and <code>email:string</code>, we have arranged for the User model to have the form shown in <a href="toy_app_fragment.html#fig-demo_user_model" class="hyperref">Figure <span class="ref">2.2</span></a>.<span class="intersentencespace"></span> (Note that there is no need to include a parameter for <code>id</code>; it is created automatically by Rails for use as the <em>primary key</em> in the database.)</p>
+<p>To proceed with the toy application, we first need to <em>migrate</em> the database using <code>rails db:migrate</code>, as shown in <a href="toy_app_fragment.html#code-first_migration" class="hyperref">Listing <span class="ref">2.4</span></a>.</p>
+<div class="codelisting" id="code-first_migration" data-tralics-id="uid162" data-number="2.4"><div class="heading"><span class="number">Listing 2.4:</span> 
+
+<span class="description">Migrating the database.</span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll">$ rails db:migrate
+</span>==  CreateUsers: migrating ====================================================
+-- create_table(:users)
+   -&gt; 0.0017s
+==  CreateUsers: migrated (0.0018s) ===========================================
+</pre></div></div></div><p>The effect of <a href="toy_app_fragment.html#code-first_migration" class="hyperref">Listing <span class="ref">2.4</span></a> is to update the database with our new <code>users</code> data model.<span class="intersentencespace"></span> (We’ll learn more about database migrations starting in <a href="modeling_users_fragment.html#sec-database_migrations" class="hyperref">Section <span class="ref">6.1.1</span></a>.)</p>
+<p>By the way, it is important to note that in every version of Rails before Rails 5, the <code>db:migrate</code> command used <code>rake</code> in place of <code>rails</code>, so for the sake of legacy applications it’s important to know how to use Rake (<a href="toy_app_fragment.html#aside-rake" class="hyperref">Box <span class="ref">2.1</span></a>)</p>
+<div class="aside" id="aside-rake" data-tralics-id="uid163" data-number="2.1"><div class="heading"><span class="number">Box 2.1.</span> 
+
+<span class="description">Rake</span></div>
+<p>In the Unix tradition, the <a href="http://en.wikipedia.org/wiki/Make_(software)" target="_blank" rel="noopener"><em>Make</em></a> utility has played an important role in building executable programs from source code.<span class="intersentencespace"></span> <em>Rake</em> is <em>Ruby make</em>, a Make-like language written in Ruby.</p>
+<p>Before Rails 5, Ruby on Rails used Rake extensively, so for the sake of legacy Rails applications it’s important to know how to use it.<span class="intersentencespace"></span> Probably the two most common Rake commands in a Rails context are <code class="tt">rake db:migrate</code> (to update the database with a data model) and <code class="tt">rake test</code> (to run the automated test suite).<span class="intersentencespace"></span> In these and other uses of <code class="tt">rake</code>, it’s important to ensure that the command uses the version of Rake corresponding to the Rails application’s <code class="tt">Gemfile</code>, which is accomplished using the Bundler command <code class="tt">bundle exec</code>.<span class="intersentencespace"></span> Thus, the migration command</p>
+<pre>  $ rake db:migrate</pre>
+<p>would be written as</p>
+<pre>  $ bundle exec rake db:migrate</pre>
+
+</div><p>Having run the migration in <a href="toy_app_fragment.html#code-first_migration" class="hyperref">Listing <span class="ref">2.4</span></a>, we can run the local webserver in a separate tab (<a href="beginning_fragment.html#fig-rails_server_new_tab" class="hyperref">Figure <span class="ref">1.8</span></a>) as follows:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> rails server -b <span class="nv">$IP</span> -p <span class="nv">$PORT</span>    <span class="c"># Use `rails server` if running locally.</span>
+</pre></div></div>
+<p>Now the toy application should be available on the local server as described in <a href="beginning_fragment.html#sec-rails_server" class="hyperref">Section <span class="ref">1.3.2</span></a>.<span class="intersentencespace"></span> (If you’re using the cloud IDE, be sure to open the resulting development server in a new <em>browser</em> tab, not inside the IDE itself.)</p>
+<div id="sec-a_user_tour" data-tralics-id="uid164" class="subsection" data-number="2.2.1"><h3><a href="toy_app_fragment.html#sec-a_user_tour" class="heading hyperref"><span class="number">2.2.1 </span>A user tour</a></h3>
+<p>If we visit the root URL at / (read “slash”, as noted in <a href="beginning_fragment.html#sec-hello_world" class="hyperref">Section <span class="ref">1.3.4</span></a>), we get the same “hello, world!” page shown in <a href="beginning_fragment.html#fig-hello_world_hello_app" class="hyperref">Figure <span class="ref">1.12</span></a>, but in generating the Users resource scaffolding we have also created a large number of pages for manipulating users.<span class="intersentencespace"></span> For example, the page for listing all users is at /users, and the
+page for making a new user is at /users/new.<span class="intersentencespace"></span> The rest of this section is dedicated to taking a whirlwind tour through these user pages.<span class="intersentencespace"></span> As we proceed, it may help to refer to <a href="toy_app_fragment.html#table-user_urls" class="hyperref">Table <span class="ref">2.1</span></a>, which shows the correspondence between pages and URLs.</p>
+<div class="table" id="table-user_urls" data-tralics-id="uid165" data-number="2.1"><table class="tabular">
+<tbody><tr class="bottom_border"><td class="align_left"><strong>URL</strong></td>
+<td class="align_left"><strong>Action</strong></td>
+<td class="align_left"><strong>Purpose</strong></td>
+</tr><tr><td class="align_left">/users</td>
+<td class="align_left"><code>index</code></td>
+<td class="align_left">page to list all users</td>
+</tr><tr><td class="align_left">/users/1</td>
+<td class="align_left"><code>show</code></td>
+<td class="align_left">page to show user with id <code>1</code></td>
+</tr><tr><td class="align_left">/users/new</td>
+<td class="align_left"><code>new</code></td>
+<td class="align_left">page to make a new user</td>
+</tr><tr><td class="align_left">/users/1/edit</td>
+<td class="align_left"><code>edit</code></td>
+<td class="align_left">page to edit user with id <code>1</code></td>
+</tr></tbody></table><div class="caption"><span class="header">Table 2.1: </span><span class="description">The correspondence between pages and URLs for the Users resource.
+</span></div></div>
+<p>We start with the page to show all the users in our application, called <code>index</code> and located at /users.<span class="intersentencespace"></span> As you might expect, initially there are no users at all (<a href="toy_app_fragment.html#fig-demo_blank_user_index_rails_3" class="hyperref">Figure <span class="ref">2.4</span></a>).</p>
+<div class="center figure" id="fig-demo_blank_user_index_rails_3" data-tralics-id="uid166" data-number="2.4">
+<div class="graphics image"><img src="images/figures/demo_blank_user_index_3rd_edition.png" alt="images/figures/demo_blank_user_index_3rd_edition"></div><div class="caption"><span class="header">Figure 2.4: </span><span class="description">The initial index page for the Users resource (/users).
+</span></div></div>
+<p>To make a new user, we visit the <code>new</code> page at /users/new, as shown in <a href="toy_app_fragment.html#fig-demo_new_user_rails_3" class="hyperref">Figure <span class="ref">2.5</span></a>.<span class="intersentencespace"></span> In <a href="sign_up_fragment.html#cha-sign_up" class="hyperref">Chapter <span class="ref">7</span></a>, this will become the user signup page.</p>
+<div class="center figure" id="fig-demo_new_user_rails_3" data-tralics-id="uid167" data-number="2.5">
+<div class="graphics image"><img src="images/figures/demo_new_user_3rd_edition.png" alt="images/figures/demo_new_user_3rd_edition"></div><div class="caption"><span class="header">Figure 2.5: </span><span class="description">The new user page (/users/new).
+</span></div></div>
+<p>We can create a user by entering name and email values in the text fields and then clicking the Create User button.<span class="intersentencespace"></span> The result is the user <code>show</code> page at /users/1, as seen in <a href="toy_app_fragment.html#fig-demo_show_user_rails_3" class="hyperref">Figure <span class="ref">2.6</span></a>.<span class="intersentencespace"></span> (The green welcome message is accomplished using the <em>flash</em>, which we’ll learn about in <a href="sign_up_fragment.html#sec-the_flash" class="hyperref">Section <span class="ref">7.4.2</span></a>.)<span class="intersentencespace"></span> Note that the URL is /users/1; as you might suspect, the number <code>1</code> is simply the user’s <code>id</code> attribute from <a href="toy_app_fragment.html#fig-demo_user_model" class="hyperref">Figure <span class="ref">2.2</span></a>.<span class="intersentencespace"></span> In <a href="sign_up_fragment.html#sec-showing_users" class="hyperref">Section <span class="ref">7.1</span></a>, this page will become the user’s profile page.</p>
+<div class="center figure" id="fig-demo_show_user_rails_3" data-tralics-id="uid168" data-number="2.6">
+<div class="graphics image"><img src="images/figures/demo_show_user_3rd_edition.png" alt="images/figures/demo_show_user_3rd_edition"></div><div class="caption"><span class="header">Figure 2.6: </span><span class="description">The page to show a user (/users/1).
+</span></div></div>
+<p>To change a user’s information, we visit the <code>edit</code> page at /users/1/edit (<a href="toy_app_fragment.html#fig-demo_edit_user_rails_3" class="hyperref">Figure <span class="ref">2.7</span></a>).<span class="intersentencespace"></span> By modifying the user information and clicking the Update User button, we arrange to change the information for the user in the toy application (<a href="toy_app_fragment.html#fig-demo_update_user_rails_3" class="hyperref">Figure <span class="ref">2.8</span></a>).<span class="intersentencespace"></span> (As we’ll see in detail starting in <a href="modeling_users_fragment.html#cha-modeling_users" class="hyperref">Chapter <span class="ref">6</span></a>, this user data is stored in a database back-end.)<span class="intersentencespace"></span> We’ll add user edit/update functionality to the sample application in <a href="updating_and_deleting_users_fragment.html#sec-updating_users" class="hyperref">Section <span class="ref">10.1</span></a>.</p>
+<div class="center figure" id="fig-demo_edit_user_rails_3" data-tralics-id="uid169" data-number="2.7">
+<div class="graphics image"><img src="images/figures/demo_edit_user_3rd_edition.png" alt="images/figures/demo_edit_user_3rd_edition"></div><div class="caption"><span class="header">Figure 2.7: </span><span class="description">The user edit page (/users/1/edit).
+</span></div></div>
+<div class="center figure" id="fig-demo_update_user_rails_3" data-tralics-id="uid170" data-number="2.8">
+<div class="graphics image"><img src="images/figures/demo_update_user_3rd_edition.png" alt="images/figures/demo_update_user_3rd_edition"></div><div class="caption"><span class="header">Figure 2.8: </span><span class="description">A user with updated information.
+</span></div></div>
+<p>Now we’ll create a second user by revisiting the <code>new</code> page at /users/new and submitting a second set of user information.<span class="intersentencespace"></span> The resulting user <code>index</code> is shown in <a href="toy_app_fragment.html#fig-demo_user_index_two_rails_3" class="hyperref">Figure <span class="ref">2.9</span></a>.<span class="intersentencespace"></span> <a href="sign_up_fragment.html#sec-showing_users" class="hyperref">Section <span class="ref">7.1</span></a> will develop the user index into a more polished page for showing all users.</p>
+<div class="center figure" id="fig-demo_user_index_two_rails_3" data-tralics-id="uid171" data-number="2.9">
+<div class="graphics image"><img src="images/figures/demo_user_index_two_3rd_edition.png" alt="images/figures/demo_user_index_two_3rd_edition"></div><div class="caption"><span class="header">Figure 2.9: </span><span class="description">The user index page (/users) with a second user.
+</span></div></div>
+<p>Having shown how to create, show, and edit users, we come finally to destroying them (<a href="toy_app_fragment.html#fig-demo_destroy_user" class="hyperref">Figure <span class="ref">2.10</span></a>).<span class="intersentencespace"></span> You should verify that clicking on the link in <a href="toy_app_fragment.html#fig-demo_destroy_user" class="hyperref">Figure <span class="ref">2.10</span></a> destroys the second user, yielding an index page with only one user.<span class="intersentencespace"></span> (If it doesn’t work, be sure that JavaScript is enabled in your browser; Rails uses JavaScript to issue the request needed to destroy a user.)<span class="intersentencespace"></span> <a href="updating_and_deleting_users_fragment.html#sec-deleting_users" class="hyperref">Section <span class="ref">10.4</span></a> adds user deletion to the sample app, taking care to restrict its use to a special class of administrative users.</p>
+<div class="center figure" id="fig-demo_destroy_user" data-tralics-id="uid172" data-number="2.10">
+<div class="graphics image"><img src="images/figures/demo_destroy_user_3rd_edition.png" alt="images/figures/demo_destroy_user_3rd_edition"></div><div class="caption"><span class="header">Figure 2.10: </span><span class="description">Destroying a user.
+</span></div></div>
+<div id="sec-exercises_a_user_tour" data-tralics-id="uid173" class="subsubsection" data-number="2.2.1.1"><h4><a href="#sec-exercises_a_user_tour" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>(For readers who know CSS) Create a new user, then use your browser’s HTML inspector to determine the CSS id for the text “User was successfully created.”<span class="intersentencespace"></span> What happens when you refresh your browser? <span class="exercise" id="ex-2ab034"></span>
+</li>
+<li>What happens if you try to create a user with a name but no email address? <span class="exercise" id="ex-ec690f"></span>
+</li>
+<li>What happens if you try create a user with an invalid email address, like “@example.com”? <span class="exercise" id="ex-6accd1"></span>
+</li>
+<li>Destroy each of the users created in the previous exercises.<span class="intersentencespace"></span> Does Rails display a message by default when a user is destroyed? <span class="exercise" id="ex-abc7bd"></span>
+</li></ol>
+</div></div>
+<div id="sec-mvc_in_action" data-tralics-id="uid178" class="subsection" data-number="2.2.2"><h3><a href="toy_app_fragment.html#sec-mvc_in_action" class="heading hyperref"><span class="number">2.2.2 </span>MVC in action</a></h3>
+<p>Now that we’ve completed a quick overview of the Users resource, let’s examine one particular part of it in the context of the Model-View-Controller (MVC) pattern introduced in <a href="beginning_fragment.html#sec-mvc" class="hyperref">Section <span class="ref">1.3.3</span></a>.<span class="intersentencespace"></span> Our strategy will be to describe the results of a typical browser hit—a visit to the user index page at /users—in terms of MVC (<a href="toy_app_fragment.html#fig-mvc_detailed" class="hyperref">Figure <span class="ref">2.11</span></a>).</p>
+<div class="center figure" id="fig-mvc_detailed" data-tralics-id="uid179" data-number="2.11">
+<div class="graphics image"><img src="images/figures/mvc_detailed.png" alt="images/figures/mvc_detailed"></div><div class="caption"><span class="header">Figure 2.11: </span><span class="description">A detailed diagram of MVC in Rails.
+</span></div></div>
+<p>Here is a summary of the steps shown in <a href="toy_app_fragment.html#fig-mvc_detailed" class="hyperref">Figure <span class="ref">2.11</span></a>:</p>
+<ol>
+<li>The browser issues a request for the /users URL.
+</li>
+<li>Rails routes /users to the <code>index</code> action in the Users controller.<span class="intersentencespace"></span>
+</li>
+<li>The <code>index</code> action asks the User model to retrieve all users (<code>User.all</code>).<span class="intersentencespace"></span>
+</li>
+<li>The User model pulls all the users from the database.<span class="intersentencespace"></span>
+</li>
+<li>The User model returns the list of users to the controller.<span class="intersentencespace"></span>
+</li>
+<li>The controller captures the users in the <code>@users</code> variable, which is passed to the <code>index</code> view.<span class="intersentencespace"></span>
+</li>
+<li>The view uses embedded Ruby to render the page as HTML.
+</li>
+<li>The controller passes the HTML back to the browser.<sup id="cha-2_footnote-ref-3" class="footnote"><a href="#cha-2_footnote-3">3</a></sup>
+</li></ol>
+<p>Now let’s take a look at the above steps in more detail.<span class="intersentencespace"></span> We start with a request issued from the browser—i.e., the result of typing a URL in the address bar or clicking on a link (Step 1 in <a href="toy_app_fragment.html#fig-mvc_detailed" class="hyperref">Figure <span class="ref">2.11</span></a>).<span class="intersentencespace"></span> This request hits the <em>Rails router</em> (Step 2), which dispatches the request to the proper <em>controller action</em> based on the URL (and, as we’ll see in <a href="static_pages_fragment.html#aside-get_etc" class="hyperref">Box <span class="ref">3.2</span></a>, the type of request).<span class="intersentencespace"></span> The code to create the mapping of user URLs to controller actions for the Users resource appears in <a href="toy_app_fragment.html#code-rails_routes" class="hyperref">Listing <span class="ref">2.5</span></a>.<span class="intersentencespace"></span> This code effectively sets up the table of URL/action pairs seen in <a href="toy_app_fragment.html#table-user_urls" class="hyperref">Table <span class="ref">2.1</span></a>.<span class="intersentencespace"></span> (The strange notation <code>:users</code> is a <em>symbol</em>, which we’ll learn about in <a href="rails_flavored_ruby_fragment.html#sec-hashes_and_symbols" class="hyperref">Section <span class="ref">4.3.3</span></a>.)</p>
+<div class="codelisting" id="code-rails_routes" data-tralics-id="uid189" data-number="2.5"><div class="heading"><span class="number">Listing 2.5:</span> 
+
+<span class="description">The Rails routes, with a rule for the Users resource.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">config/routes.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+<span class="hll">  <span class="n">resources</span> <span class="ss">:users</span>
+</span>  <span class="n">root</span> <span class="s1">'application#hello'</span>
+<span class="k">end</span>
+</pre></div></div></div><p>While we’re looking at the routes file, let’s take a moment to associate the root route with the users index, so that “slash” goes to /users.<span class="intersentencespace"></span> Recall from <a href="toy_app_fragment.html#code-hello_root_route_redux" class="hyperref">Listing <span class="ref">2.3</span></a> that we added the root route</p>
+<div class="code"><div class="highlight"><pre><span class="n">root</span> <span class="s1">'application#hello'</span>
+</pre></div></div>
+<p>so that the root route went to the <code>hello</code> action in the Application controller.<span class="intersentencespace"></span> In the present case, we want to use the <code>index</code> action in the Users controller, which we can arrange using the code shown in <a href="toy_app_fragment.html#code-rails_routes_root_route" class="hyperref">Listing <span class="ref">2.6</span></a>.</p>
+<div class="codelisting" id="code-rails_routes_root_route" data-tralics-id="uid190" data-number="2.6"><div class="heading"><span class="number">Listing 2.6:</span> 
+
+<span class="description">Adding a root route for users.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">config/routes.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+  <span class="n">resources</span> <span class="ss">:users</span>
+<span class="hll">  <span class="n">root</span> <span class="s1">'users#index'</span>
+</span><span class="k">end</span>
+</pre></div></div></div><p>A <em>controller</em> contains a collection of related <em>actions</em>, and the pages from the tour in <a href="toy_app_fragment.html#sec-a_user_tour" class="hyperref">Section <span class="ref">2.2.1</span></a> correspond to actions in the Users controller.<span class="intersentencespace"></span> The controller generated by the scaffolding is shown schematically in <a href="toy_app_fragment.html#code-demo_users_controller" class="hyperref">Listing <span class="ref">2.7</span></a>.<span class="intersentencespace"></span> Note the code <code>class UsersController &lt; ApplicationController</code>, which is an example of a Ruby <em>class</em> with <em>inheritance</em>.<span class="intersentencespace"></span> (We’ll discuss inheritance briefly in <a href="toy_app_fragment.html#sec-inheritance_hierarchies" class="hyperref">Section <span class="ref">2.3.4</span></a> and cover both subjects in more detail in <a href="rails_flavored_ruby_fragment.html#sec-ruby_classes" class="hyperref">Section <span class="ref">4.4</span></a>.)</p>
+<div class="codelisting" id="code-demo_users_controller" data-tralics-id="uid191" data-number="2.7"><div class="heading"><span class="number">Listing 2.7:</span> 
+
+<span class="description">The Users controller in schematic form.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/controllers/users_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">new</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">edit</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">update</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div><p>You may notice that there are more actions than there are pages; the <code>index</code>, <code>show</code>, <code>new</code>, and <code>edit</code> actions all correspond to pages from <a href="toy_app_fragment.html#sec-a_user_tour" class="hyperref">Section <span class="ref">2.2.1</span></a>, but there are additional <code>create</code>, <code>update</code>, and <code>destroy</code> actions as well.<span class="intersentencespace"></span> These actions don’t typically render pages (although they can); instead, their main purpose is to modify information about users in the database.<span class="intersentencespace"></span> This full suite of controller actions, summarized in <a href="toy_app_fragment.html#table-demo_RESTful_users" class="hyperref">Table <span class="ref">2.2</span></a>, represents the implementation of the REST architecture in Rails (<a href="toy_app_fragment.html#aside-REST" class="hyperref">Box <span class="ref">2.2</span></a>), which is based on the ideas of <em>representational state transfer</em> identified and named by computer scientist <a href="http://en.wikipedia.org/wiki/Roy_Fielding" target="_blank" rel="noopener">Roy Fielding</a>.<sup id="cha-2_footnote-ref-4" class="footnote"><a href="#cha-2_footnote-4">4</a></sup><span class="intersentencespace"></span> Note from <a href="toy_app_fragment.html#table-demo_RESTful_users" class="hyperref">Table <span class="ref">2.2</span></a> that there is some overlap in the URLs; for example, both the user <code>show</code> action and the <code>update</code> action correspond to the URL /users/1.<span class="intersentencespace"></span> The difference between them is the <a href="http://en.wikipedia.org/wiki/HTTP_request#Request_methods" target="_blank" rel="noopener">HTTP request method</a> they respond to.<span class="intersentencespace"></span> We’ll learn more about HTTP request methods starting in <a href="static_pages_fragment.html#sec-getting_started_with_testing" class="hyperref">Section <span class="ref">3.3</span></a>.</p>
+<div class="table" id="table-demo_RESTful_users" data-tralics-id="uid193" data-number="2.2"><table class="tabular">
+<tbody><tr class="bottom_border"><td class="align_left"><strong>HTTP request</strong></td>
+<td class="align_left"><strong>URL</strong></td>
+<td class="align_left"><strong>Action</strong></td>
+<td class="align_left"><strong>Purpose</strong></td>
+</tr><tr><td class="align_left"><code class="tt">GET</code></td>
+<td class="align_left">/users</td>
+<td class="align_left"><code>index</code></td>
+<td class="align_left">page to list all users</td>
+</tr><tr><td class="align_left"><code class="tt">GET</code></td>
+<td class="align_left">/users/1</td>
+<td class="align_left"><code>show</code></td>
+<td class="align_left">page to show user with id <code>1</code></td>
+</tr><tr><td class="align_left"><code class="tt">GET</code></td>
+<td class="align_left">/users/new</td>
+<td class="align_left"><code>new</code></td>
+<td class="align_left">page to make a new user</td>
+</tr><tr><td class="align_left"><code class="tt">POST</code></td>
+<td class="align_left">/users</td>
+<td class="align_left"><code>create</code></td>
+<td class="align_left">create a new user</td>
+</tr><tr><td class="align_left"><code class="tt">GET</code></td>
+<td class="align_left">/users/1/edit</td>
+<td class="align_left"><code>edit</code></td>
+<td class="align_left">page to edit user with id <code>1</code></td>
+</tr><tr><td class="align_left"><code class="tt">PATCH</code></td>
+<td class="align_left">/users/1</td>
+<td class="align_left"><code>update</code></td>
+<td class="align_left">update user with id <code>1</code></td>
+</tr><tr><td class="align_left"><code class="tt">DELETE</code></td>
+<td class="align_left">/users/1</td>
+<td class="align_left"><code>destroy</code></td>
+<td class="align_left">delete user with id <code>1</code></td>
+</tr></tbody></table><div class="caption"><span class="header">Table 2.2: </span><span class="description">RESTful routes provided by the Users resource in <a href="toy_app_fragment.html#code-rails_routes" class="hyperref">Listing <span class="ref">2.5</span></a>.
+</span></div></div>
+<div class="aside" id="aside-REST" data-tralics-id="uid194" data-number="2.2"><div class="heading"><span class="number">Box 2.2.</span> 
+
+<span class="description">REpresentational State Transfer (REST)</span></div>
+<p>If you read much about Ruby on Rails web development, you’ll see a lot of references to “REST”, which is an acronym for REpresentational State Transfer.<span class="intersentencespace"></span> REST is an architectural style for developing distributed, networked systems and software applications such as the World Wide Web and web applications.<span class="intersentencespace"></span> Although REST theory is rather abstract, in the context of Rails applications REST means that most application components (such as users and microposts) are modeled as <em>resources</em> that can be created, read, updated, and deleted—operations that correspond both to the <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete" target="_blank" rel="noopener">CRUD operations of relational databases</a> and to the four fundamental <a href="http://en.wikipedia.org/wiki/HTTP_request#Request_methods" target="_blank" rel="noopener">HTTP request methods</a>: <code class="tt">POST</code>, <code class="tt">GET</code>, <code class="tt">PATCH</code>, and <code class="tt">DELETE</code>.<span class="intersentencespace"></span> (We’ll learn more about HTTP requests in <a href="static_pages_fragment.html#sec-getting_started_with_testing" class="hyperref">Section <span class="ref">3.3</span></a> and especially <a href="static_pages_fragment.html#aside-get_etc" class="hyperref">Box <span class="ref">3.2</span></a>.)</p>
+<p>As a Rails application developer, the RESTful style of development helps you make choices about which controllers and actions to write: you simply structure the application using resources that get created, read, updated, and deleted.<span class="intersentencespace"></span> In the case of users and microposts, this process is straightforward, since they are naturally resources in their own right.<span class="intersentencespace"></span> In <a href="following_users_fragment.html#cha-following_users" class="hyperref">Chapter <span class="ref">14</span></a>, we’ll see an example where REST principles allow us to model a subtler problem, “following users”, in a natural and convenient way.</p>
+
+</div><p>To examine the relationship between the Users controller and the User model, let’s focus on a simplified version of the <code>index</code> action, shown in <a href="toy_app_fragment.html#code-demo_index_action" class="hyperref">Listing <span class="ref">2.8</span></a>.<span class="intersentencespace"></span> (Learning how to read code even when you don’t fully understand it is an important aspect of technical sophistication (<a href="beginning_fragment.html#aside-technical_sophistication" class="hyperref">Box <span class="ref">1.1</span></a>).)</p>
+<div class="codelisting" id="code-demo_index_action" data-tralics-id="uid195" data-number="2.8"><div class="heading"><span class="number">Listing 2.8:</span> 
+
+<span class="description">The simplified user <code>index</code> action for the toy application.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/controllers/users_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="k">def</span> <span class="nf">index</span>
+<span class="hll">    <span class="vi">@users</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">all</span>
+</span>  <span class="k">end</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+<span class="k">end</span>
+</pre></div></div></div><p>This <code>index</code> action has the line <code>@users = User.all</code> (Step 3 in <a href="toy_app_fragment.html#fig-mvc_detailed" class="hyperref">Figure <span class="ref">2.11</span></a>), which asks the User model to retrieve a list of all the users from the database (Step 4), and then places them in the variable <code>@users</code> (pronounced “at-users”) (Step 5).<span class="intersentencespace"></span> The User model itself appears in <a href="toy_app_fragment.html#code-demo_user_model" class="hyperref">Listing <span class="ref">2.9</span></a>; although it is rather plain, it comes equipped with a large amount of functionality because of inheritance (<a href="toy_app_fragment.html#sec-inheritance_hierarchies" class="hyperref">Section <span class="ref">2.3.4</span></a> and <a href="rails_flavored_ruby_fragment.html#sec-ruby_classes" class="hyperref">Section <span class="ref">4.4</span></a>).<span class="intersentencespace"></span> In particular, by using the Rails library called <em>Active Record</em>, the code in <a href="toy_app_fragment.html#code-demo_user_model" class="hyperref">Listing <span class="ref">2.9</span></a> arranges for <code>User.all</code> to return all the users in the database.</p>
+<div class="codelisting" id="code-demo_user_model" data-tralics-id="uid196" data-number="2.9"><div class="heading"><span class="number">Listing 2.9:</span> 
+
+<span class="description">The User model for the toy application.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/models/user.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="k">end</span>
+</pre></div></div></div><p>Once the <code>@users</code> variable is defined, the controller calls the <em>view</em> (Step 6), shown in <a href="toy_app_fragment.html#code-demo_index_view" class="hyperref">Listing <span class="ref">2.10</span></a>.<span class="intersentencespace"></span> Variables that start with the <code>@</code> sign, called <em>instance variables</em>, are automatically available in the views; in this case, the <code>index.html.erb</code> view in <a href="toy_app_fragment.html#code-demo_index_view" class="hyperref">Listing <span class="ref">2.10</span></a> iterates through the <code>@users</code> list and outputs a line of HTML for each one.<span class="intersentencespace"></span> (Remember, you aren’t supposed to understand this code right now.<span class="intersentencespace"></span> It is shown only for purposes of illustration.)</p>
+<div class="codelisting" id="code-demo_index_view" data-tralics-id="uid197" data-number="2.10"><div class="heading"><span class="number">Listing 2.10:</span> 
+
+<span class="description">The view for the user index.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/views/users/index.html.erb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>Listing users<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;table&gt;</span>
+  <span class="nt">&lt;thead&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Name<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Email<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;th</span> <span class="na">colspan=</span><span class="s">"3"</span><span class="nt">&gt;&lt;/th&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+  <span class="nt">&lt;/thead&gt;</span>
+
+<span class="hll"><span class="cp">&lt;%</span> <span class="vi">@users</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span> <span class="cp">%&gt;</span>
+</span>  <span class="nt">&lt;tr&gt;</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Show'</span><span class="p">,</span> <span class="n">user</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Edit'</span><span class="p">,</span> <span class="n">edit_user_path</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Destroy'</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span>
+                                     <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">'Are you sure?'</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span>
+  <span class="nt">&lt;/tr&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+
+<span class="nt">&lt;br&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'New User'</span><span class="p">,</span> <span class="n">new_user_path</span> <span class="cp">%&gt;</span>
+</pre></div></div></div><p>The view converts its contents to HTML (Step 7), which is then returned by the controller to the browser for display (Step 8).</p>
+<div id="sec-exercises_mvc_in_action" data-tralics-id="uid198" class="subsubsection" data-number="2.2.2.1"><h4><a href="#sec-exercises_mvc_in_action" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>By referring to <a href="toy_app_fragment.html#fig-mvc_detailed" class="hyperref">Figure <span class="ref">2.11</span></a>, write out the analogous steps for visiting the URL /users/1/edit. <span class="exercise" id="ex-6ddbca"></span>
+</li>
+<li>Find the line in the scaffolding code that retrieves the user from the database in the previous exercise. <span class="exercise" id="ex-2ab482"></span>
+</li>
+<li>What is the name of the view file for the user edit page? <span class="exercise" id="ex-d9449a"></span>
+</li></ol>
+</div></div>
+<div id="sec-weaknesses_of_this_users_resource" data-tralics-id="uid202" class="subsection" data-number="2.2.3"><h3><a href="toy_app_fragment.html#sec-weaknesses_of_this_users_resource" class="heading hyperref"><span class="number">2.2.3 </span>Weaknesses of this Users resource</a></h3>
+<p>Though good for getting a general overview of Rails, the scaffold Users resource suffers from a number of severe weaknesses.</p>
+<ul>
+<li><strong>No data validations.</strong><span class="intersentencespace"></span> Our User model accepts data such as blank names and invalid email addresses without complaint.<span class="intersentencespace"></span>
+</li>
+<li><strong>No authentication.</strong><span class="intersentencespace"></span> We have no notion of logging in or out, and no way to prevent any user from performing any operation.<span class="intersentencespace"></span>
+</li>
+<li><strong>No tests.</strong><span class="intersentencespace"></span> This isn’t technically true—the scaffolding includes rudimentary tests—but the generated tests don’t test for data validation, authentication, or any other custom requirements.<span class="intersentencespace"></span>
+</li>
+<li><strong>No style or layout.</strong><span class="intersentencespace"></span> There is no consistent site styling or navigation.<span class="intersentencespace"></span>
+</li>
+<li><strong>No real understanding.</strong><span class="intersentencespace"></span> If you understand the scaffold code, you probably shouldn’t be reading this book.<span class="intersentencespace"></span>
+</li></ul>
+</div></div><div id="sec-microposts_resource" data-tralics-id="cid11" class="section" data-number="2.3"><h2><a href="toy_app_fragment.html#sec-microposts_resource" class="heading hyperref"><span class="number">2.3 </span>The Microposts resource</a></h2>
+<p>Having generated and explored the Users resource, we turn now to the associated Microposts resource.<span class="intersentencespace"></span> Throughout this section, I recommend comparing the elements of the Microposts resource with the analogous user elements from <a href="toy_app_fragment.html#sec-demo_users_resource" class="hyperref">Section <span class="ref">2.2</span></a>; you should see that the two resources parallel each other in many ways.<span class="intersentencespace"></span> The RESTful structure of Rails applications is best absorbed by this sort of repetition of form—indeed, seeing the parallel structure of Users and Microposts even at this early stage is one of the prime motivations for this chapter.</p>
+<div id="sec-a_micropost_microtour" data-tralics-id="uid208" class="subsection" data-number="2.3.1"><h3><a href="toy_app_fragment.html#sec-a_micropost_microtour" class="heading hyperref"><span class="number">2.3.1 </span>A micropost microtour</a></h3>
+<p>As with the Users resource, we’ll generate scaffold code for the Microposts resource using <code>rails generate scaffold</code>, in this case implementing the data model from <a href="toy_app_fragment.html#fig-demo_micropost_model" class="hyperref">Figure <span class="ref">2.3</span></a>:<sup id="cha-2_footnote-ref-5" class="footnote"><a href="#cha-2_footnote-5">5</a></sup></p>
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="gp">$</span> rails generate scaffold Micropost content:text user_id:integer
+</span><span class="go">      invoke  active_record</span>
+<span class="go">      create    db/migrate/20160515211229_create_microposts.rb</span>
+<span class="go">      create    app/models/micropost.rb</span>
+<span class="go">      invoke    test_unit</span>
+<span class="go">      create      test/models/micropost_test.rb</span>
+<span class="go">      create      test/fixtures/microposts.yml</span>
+<span class="go">      invoke  resource_route</span>
+<span class="go">       route    resources :microposts</span>
+<span class="go">      invoke  scaffold_controller</span>
+<span class="go">      create    app/controllers/microposts_controller.rb</span>
+<span class="go">      invoke    erb</span>
+<span class="go">      create      app/views/microposts</span>
+<span class="go">      create      app/views/microposts/index.html.erb</span>
+<span class="go">      create      app/views/microposts/edit.html.erb</span>
+<span class="go">      create      app/views/microposts/show.html.erb</span>
+<span class="go">      create      app/views/microposts/new.html.erb</span>
+<span class="go">      create      app/views/microposts/_form.html.erb</span>
+<span class="go">      invoke    test_unit</span>
+<span class="go">      create      test/controllers/microposts_controller_test.rb</span>
+<span class="go">      invoke    helper</span>
+<span class="go">      create      app/helpers/microposts_helper.rb</span>
+<span class="go">      invoke      test_unit</span>
+<span class="go">      invoke    jbuilder</span>
+<span class="go">      create      app/views/microposts/index.json.jbuilder</span>
+<span class="go">      create      app/views/microposts/show.json.jbuilder</span>
+<span class="go">      invoke  assets</span>
+<span class="go">      invoke    coffee</span>
+<span class="go">      create      app/assets/javascripts/microposts.coffee</span>
+<span class="go">      invoke    scss</span>
+<span class="go">      create      app/assets/stylesheets/microposts.scss</span>
+<span class="go">      invoke  scss</span>
+<span class="go">   identical    app/assets/stylesheets/scaffolds.scss</span>
+</pre></div></div>
+<p>(If you get an error related to Spring, just run the command again.)<span class="intersentencespace"></span> To update our database with the new data model, we need to run a migration as in <a href="toy_app_fragment.html#sec-demo_users_resource" class="hyperref">Section <span class="ref">2.2</span></a>:</p>
+<div class="code"><div class="highlight"><pre><span class="hll">$ rails db:migrate
+</span>==  CreateMicroposts: migrating ===============================================
+-- create_table(:microposts)
+   -&gt; 0.0023s
+==  CreateMicroposts: migrated (0.0026s) ======================================
+</pre></div></div>
+<p>Now we are in a position to create microposts in the same way we created users in <a href="toy_app_fragment.html#sec-a_user_tour" class="hyperref">Section <span class="ref">2.2.1</span></a>.<span class="intersentencespace"></span> As you might guess, the scaffold generator has updated the Rails routes file with a rule for Microposts resource, as seen in <a href="toy_app_fragment.html#code-demo_microposts_resource" class="hyperref">Listing <span class="ref">2.11</span></a>.<sup id="cha-2_footnote-ref-6" class="footnote"><a href="#cha-2_footnote-6">6</a></sup><span class="intersentencespace"></span> As with users, the <code>resources :microposts</code> routing rule maps micropost URLs to actions in the Microposts controller, as seen in <a href="toy_app_fragment.html#table-demo_RESTful_microposts" class="hyperref">Table <span class="ref">2.3</span></a>.</p>
+<div class="codelisting" id="code-demo_microposts_resource" data-tralics-id="uid211" data-number="2.11"><div class="heading"><span class="number">Listing 2.11:</span> 
+
+<span class="description">The Rails routes, with a new rule for Microposts resources.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">config/routes.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+<span class="hll">  <span class="n">resources</span> <span class="ss">:microposts</span>
+</span>  <span class="n">resources</span> <span class="ss">:users</span>
+  <span class="n">root</span> <span class="s1">'users#index'</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="table" id="table-demo_RESTful_microposts" data-tralics-id="uid212" data-number="2.3"><table class="tabular">
+<tbody><tr class="bottom_border"><td class="align_left"><strong>HTTP request</strong></td>
+<td class="align_left"><strong>URL</strong></td>
+<td class="align_left"><strong>Action</strong></td>
+<td class="align_left"><strong>Purpose</strong></td>
+</tr><tr><td class="align_left"><code class="tt">GET</code></td>
+<td class="align_left">/microposts</td>
+<td class="align_left"><code>index</code></td>
+<td class="align_left">page to list all microposts</td>
+</tr><tr><td class="align_left"><code class="tt">GET</code></td>
+<td class="align_left">/microposts/1</td>
+<td class="align_left"><code>show</code></td>
+<td class="align_left">page to show micropost with id <code>1</code></td>
+</tr><tr><td class="align_left"><code class="tt">GET</code></td>
+<td class="align_left">/microposts/new</td>
+<td class="align_left"><code>new</code></td>
+<td class="align_left">page to make a new micropost</td>
+</tr><tr><td class="align_left"><code class="tt">POST</code></td>
+<td class="align_left">/microposts</td>
+<td class="align_left"><code>create</code></td>
+<td class="align_left">create a new micropost</td>
+</tr><tr><td class="align_left"><code class="tt">GET</code></td>
+<td class="align_left">/microposts/1/edit</td>
+<td class="align_left"><code>edit</code></td>
+<td class="align_left">page to edit micropost with id <code>1</code></td>
+</tr><tr><td class="align_left"><code class="tt">PATCH</code></td>
+<td class="align_left">/microposts/1</td>
+<td class="align_left"><code>update</code></td>
+<td class="align_left">update micropost with id <code>1</code></td>
+</tr><tr><td class="align_left"><code class="tt">DELETE</code></td>
+<td class="align_left">/microposts/1</td>
+<td class="align_left"><code>destroy</code></td>
+<td class="align_left">delete micropost with id <code>1</code></td>
+</tr></tbody></table><div class="caption"><span class="header">Table 2.3: </span><span class="description">RESTful routes provided by the Microposts resource in <a href="toy_app_fragment.html#code-demo_microposts_resource" class="hyperref">Listing <span class="ref">2.11</span></a>.
+</span></div></div>
+<p>The Microposts controller itself appears in schematic form in <a href="toy_app_fragment.html#code-demo_microposts_controller" class="hyperref">Listing <span class="ref">2.12</span></a>.<span class="intersentencespace"></span> Note that, apart from having <code>MicropostsController</code> in place of <code>UsersController</code>, <a href="toy_app_fragment.html#code-demo_microposts_controller" class="hyperref">Listing <span class="ref">2.12</span></a> is <em>identical</em> to the code in <a href="toy_app_fragment.html#code-demo_users_controller" class="hyperref">Listing <span class="ref">2.7</span></a>.<span class="intersentencespace"></span> This is a reflection of the REST architecture common to both resources.</p>
+<div class="codelisting" id="code-demo_microposts_controller" data-tralics-id="uid213" data-number="2.12"><div class="heading"><span class="number">Listing 2.12:</span> 
+
+<span class="description">The Microposts controller in schematic form.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/controllers/microposts_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MicropostsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">new</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">edit</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">update</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div><p>To make some actual microposts, we enter information at the new microposts page, /microposts/new, as seen in <a href="toy_app_fragment.html#fig-demo_new_micropost" class="hyperref">Figure <span class="ref">2.12</span></a>.</p>
+<div class="center figure" id="fig-demo_new_micropost" data-tralics-id="uid214" data-number="2.12">
+<div class="graphics image"><img src="images/figures/demo_new_micropost_3rd_edition.png" alt="images/figures/demo_new_micropost_3rd_edition"></div><div class="caption"><span class="header">Figure 2.12: </span><span class="description">The new micropost page (/microposts/new).
+</span></div></div>
+<p>At this point, go ahead and create a micropost or two, taking care to make sure that at least one has a <code>user_id</code> of <code>1</code> to match the id of the first user created in <a href="toy_app_fragment.html#sec-a_user_tour" class="hyperref">Section <span class="ref">2.2.1</span></a>.<span class="intersentencespace"></span> The result should look something like <a href="toy_app_fragment.html#fig-demo_micropost_index" class="hyperref">Figure <span class="ref">2.13</span></a>.</p>
+<div class="center figure" id="fig-demo_micropost_index" data-tralics-id="uid215" data-number="2.13">
+<div class="graphics image"><img src="images/figures/demo_micropost_index_3rd_edition.png" alt="images/figures/demo_micropost_index_3rd_edition"></div><div class="caption"><span class="header">Figure 2.13: </span><span class="description">The micropost index page (/microposts).
+</span></div></div>
+<div id="sec-exercises_a_micropost_microtour" data-tralics-id="uid216" class="subsubsection" data-number="2.3.1.1"><h4><a href="#sec-exercises_a_micropost_microtour" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>(For readers who know CSS) Create a new micropost, then use your browser’s HTML inspector to determine the CSS id for the text “Micropost was successfully created.”<span class="intersentencespace"></span> What happens when you refresh your browser? <span class="exercise" id="ex-4bdc33"></span>
+</li>
+<li>Try to create a micropost with empty content and no user id. <span class="exercise" id="ex-f1eed6"></span>
+</li>
+<li>Try to create a micropost with over 140 characters of content (say, the first paragraph from the <a href="https://en.wikipedia.org/wiki/Ruby_(programming_language)" target="_blank" rel="noopener">Wikipedia article on Ruby</a>). <span class="exercise" id="ex-df2990"></span>
+</li>
+<li>Destroy the microposts from the previous exercises. <span class="exercise" id="ex-afd85d"></span>
+</li></ol>
+</div></div>
+<div id="sec-putting_the_micro_in_microposts" data-tralics-id="uid221" class="subsection" data-number="2.3.2"><h3><a href="toy_app_fragment.html#sec-putting_the_micro_in_microposts" class="heading hyperref"><span class="number">2.3.2 </span>Putting the <em>micro</em> in microposts</a></h3>
+<p>Any <em>micro</em>post worthy of the name should have some means of enforcing the length of the post.<span class="intersentencespace"></span> Implementing this constraint in Rails is easy with <em>validations</em>; to accept microposts with at most 140 characters (à la Twitter), we use a <em>length</em> validation.<span class="intersentencespace"></span> At this point, you should open the file <code>app/models/micropost.rb</code> in your text editor or IDE and fill it with the contents of <a href="toy_app_fragment.html#code-demo_length_validation" class="hyperref">Listing <span class="ref">2.13</span></a>.</p>
+<div class="codelisting" id="code-demo_length_validation" data-tralics-id="uid222" data-number="2.13"><div class="heading"><span class="number">Listing 2.13:</span> 
+
+<span class="description">Constraining microposts to be at most 140 characters.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/models/micropost.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Micropost</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="hll">  <span class="n">validates</span> <span class="ss">:content</span><span class="p">,</span> <span class="ss">length</span><span class="p">:</span> <span class="p">{</span> <span class="ss">maximum</span><span class="p">:</span> <span class="mi">140</span> <span class="p">}</span>
+</span><span class="k">end</span>
+</pre></div></div></div><p>The code in <a href="toy_app_fragment.html#code-demo_length_validation" class="hyperref">Listing <span class="ref">2.13</span></a> may look rather mysterious—we’ll cover validations more thoroughly starting in <a href="modeling_users_fragment.html#sec-user_validations" class="hyperref">Section <span class="ref">6.2</span></a>—but its effects are readily apparent if we go to the new micropost page and enter more than 140 characters for the content of the post.<span class="intersentencespace"></span> As seen in <a href="toy_app_fragment.html#fig-micropost_length_error" class="hyperref">Figure <span class="ref">2.14</span></a>, Rails renders <em>error messages</em> indicating that the micropost’s content is too long.<span class="intersentencespace"></span> (We’ll learn more about error messages in <a href="sign_up_fragment.html#sec-signup_error_messages" class="hyperref">Section <span class="ref">7.3.3</span></a>.)</p>
+<div class="center figure" id="fig-micropost_length_error" data-tralics-id="uid223" data-number="2.14">
+<div class="graphics image"><img src="images/figures/micropost_length_error_3rd_edition.png" alt="images/figures/micropost_length_error_3rd_edition"></div><div class="caption"><span class="header">Figure 2.14: </span><span class="description">Error messages for a failed micropost creation.
+</span></div></div>
+<div id="sec-exercises_putting_the_micro_in_microposts" data-tralics-id="uid224" class="subsubsection" data-number="2.3.2.1"><h4><a href="#sec-exercises_putting_the_micro_in_microposts" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>Try to create a micropost with the same long content used in a previous exercise (<a href="toy_app_fragment.html#sec-exercises_a_micropost_microtour" class="hyperref">Section <span class="ref">2.3.1.1</span></a>).<span class="intersentencespace"></span> How has the behavior changed? <span class="exercise" id="ex-c44144"></span>
+</li>
+<li>(For readers who know CSS) Use your browser’s HTML inspector to determine the CSS id of the error message produced by the previous exercise. <span class="exercise" id="ex-c125dc"></span>
+</li></ol>
+</div></div>
+<div id="sec-demo_user_has_many_microposts" data-tralics-id="uid227" class="subsection" data-number="2.3.3"><h3><a href="toy_app_fragment.html#sec-demo_user_has_many_microposts" class="heading hyperref"><span class="number">2.3.3 </span>A user <code class="tt">has_many</code> microposts</a></h3>
+<p>One of the most powerful features of Rails is the ability to form <em>associations</em> between different data models.<span class="intersentencespace"></span> In the case of our User model, each user potentially has many microposts.<span class="intersentencespace"></span> We can express this in code by updating the User and Micropost models as in <a href="toy_app_fragment.html#code-demo_user_has_many_microposts" class="hyperref">Listing <span class="ref">2.14</span></a> and <a href="toy_app_fragment.html#code-demo_micropost_belongs_to_user" class="hyperref">Listing <span class="ref">2.15</span></a>.</p>
+<div class="codelisting" id="code-demo_user_has_many_microposts" data-tralics-id="uid228" data-number="2.14"><div class="heading"><span class="number">Listing 2.14:</span> 
+
+<span class="description">A user has many microposts.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/models/user.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="hll">  <span class="n">has_many</span> <span class="ss">:microposts</span>
+</span><span class="k">end</span>
+</pre></div></div></div><div class="codelisting" id="code-demo_micropost_belongs_to_user" data-tralics-id="uid229" data-number="2.15"><div class="heading"><span class="number">Listing 2.15:</span> 
+
+<span class="description">A micropost belongs to a user.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/models/micropost.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Micropost</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="hll">  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span>  <span class="n">validates</span> <span class="ss">:content</span><span class="p">,</span> <span class="ss">length</span><span class="p">:</span> <span class="p">{</span> <span class="ss">maximum</span><span class="p">:</span> <span class="mi">140</span> <span class="p">}</span>
+<span class="k">end</span>
+</pre></div></div></div><p>We can visualize the result of this association in <a href="toy_app_fragment.html#fig-micropost_user_association" class="hyperref">Figure <span class="ref">2.15</span></a>.<span class="intersentencespace"></span> Because of the <code>user_id</code> column in the <code>microposts</code> table, Rails (using Active Record) can infer the microposts associated with each user.</p>
+<div class="center figure" id="fig-micropost_user_association" data-tralics-id="uid230" data-number="2.15">
+<div class="graphics image"><img src="images/figures/micropost_user_association.png" alt="images/figures/micropost_user_association"></div><div class="caption"><span class="header">Figure 2.15: </span><span class="description">The association between microposts and users.
+</span></div></div>
+<p>In <a href="user_microposts_fragment.html#cha-user_microposts" class="hyperref">Chapter <span class="ref">13</span></a> and <a href="following_users_fragment.html#cha-following_users" class="hyperref">Chapter <span class="ref">14</span></a>, we will use the association of users and microposts both to display all of a user’s microposts and to construct a Twitter-like micropost feed.<span class="intersentencespace"></span> For now, we can examine the implications of the user-micropost association by using the <em>console</em>, which is a useful tool for interacting with Rails applications.<span class="intersentencespace"></span> We first invoke the console with <code>rails console</code> at the command line, and then retrieve the first user from the database using <code>User.first</code> (putting the results in the variable <code>first_user</code>):<sup id="cha-2_footnote-ref-7" class="footnote"><a href="#cha-2_footnote-7">7</a></sup></p>
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="go">$ rails console</span>
+</span><span class="gp">&gt;&gt; </span><span class="n">first_user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">first</span>
+<span class="go">=&gt; #&lt;User id: 1, name: "Michael Hartl", email: "michael@example.org",</span>
+<span class="go">created_at: "2016-05-15 02:01:31", updated_at: "2016-05-15 02:01:31"&gt;</span>
+<span class="gp">&gt;&gt; </span><span class="n">first_user</span><span class="o">.</span><span class="n">microposts</span>
+<span class="go">=&gt; [#&lt;Micropost id: 1, content: "First micropost!", user_id: 1, created_at:</span>
+<span class="go">"2016-05-15 02:37:37", updated_at: "2016-05-15 02:37:37"&gt;, #&lt;Micropost id: 2,</span>
+<span class="go">content: "Second micropost", user_id: 1, created_at: "2016-05-15 02:38:54",</span>
+<span class="go">updated_at: "2016-05-15 02:38:54"&gt;]</span>
+<span class="gp">&gt;&gt; </span><span class="n">micropost</span> <span class="o">=</span> <span class="n">first_user</span><span class="o">.</span><span class="n">microposts</span><span class="o">.</span><span class="n">first</span>    <span class="c1"># Micropost.first would also work.</span>
+<span class="go">=&gt; #&lt;Micropost id: 1, content: "First micropost!", user_id: 1, created_at:</span>
+<span class="go">"2016-05-15 02:37:37", updated_at: "2016-05-15 02:37:37"&gt;</span>
+<span class="gp">&gt;&gt; </span><span class="n">micropost</span><span class="o">.</span><span class="n">user</span>
+<span class="go">=&gt; #&lt;User id: 1, name: "Michael Hartl", email: "michael@example.org",</span>
+<span class="go">created_at: "2016-05-15 02:01:31", updated_at: "2016-05-15 02:01:31"&gt;</span>
+<span class="gp">&gt;&gt; </span><span class="nb">exit</span>
+</pre></div></div>
+<p>(I include <code>exit</code> in the last line just to demonstrate how to exit the console.<span class="intersentencespace"></span> On most systems, you can also use Ctrl-D for the same purpose.)<sup id="cha-2_footnote-ref-8" class="footnote"><a href="#cha-2_footnote-8">8</a></sup> Here we have accessed the user’s microposts using the code <code>first_user.microposts</code>.<span class="intersentencespace"></span> With this code, Active Record automatically returns all the microposts with <code>user_id</code> equal to the id of <code>first_user</code> (in this case, <code>1</code>).<span class="intersentencespace"></span> We’ll learn much more about the association facilities in Active Record in <a href="user_microposts_fragment.html#cha-user_microposts" class="hyperref">Chapter <span class="ref">13</span></a> and <a href="following_users_fragment.html#cha-following_users" class="hyperref">Chapter <span class="ref">14</span></a>.</p>
+<div id="sec-exercises_demo_user_has_many_microposts" data-tralics-id="uid233" class="subsubsection" data-number="2.3.3.1"><h4><a href="#sec-exercises_demo_user_has_many_microposts" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>Edit the user show page to display the content of the user’s first micropost.<span class="intersentencespace"></span> (Use your technical sophistication (<a href="beginning_fragment.html#aside-technical_sophistication" class="hyperref">Box <span class="ref">1.1</span></a>) to guess the syntax based on the other content in the file.)<span class="intersentencespace"></span> Confirm by visiting /users/1 that it worked. <span class="exercise" id="ex-dd981f"></span>
+</li>
+<li>The code in <a href="toy_app_fragment.html#code-validates_content_presence" class="hyperref">Listing <span class="ref">2.16</span></a> shows how to add a validation for the presence of micropost content in order to ensure that microposts can’t be blank.<span class="intersentencespace"></span> Verify that you get the behavior shown in <a href="toy_app_fragment.html#fig-micropost_content_cant_be_blank" class="hyperref">Figure <span class="ref">2.16</span></a>. <span class="exercise" id="ex-f69a36"></span>
+</li>
+<li>Update <a href="toy_app_fragment.html#code-toy_user_presence_valications" class="hyperref">Listing <span class="ref">2.17</span></a> by replacing <code>FILL_IN</code> with the appropriate code to validate the presence of name and email attributes in the User model (<a href="toy_app_fragment.html#fig-user_presence_validations" class="hyperref">Figure <span class="ref">2.17</span></a>). <span class="exercise" id="ex-eabbb1"></span>
+</li></ol>
+<div class="codelisting" id="code-validates_content_presence" data-tralics-id="uid237" data-number="2.16"><div class="heading"><span class="number">Listing 2.16:</span> 
+
+<span class="description">Code to validate the presence of micropost content.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/models/micropost.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Micropost</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+  <span class="n">validates</span> <span class="ss">:content</span><span class="p">,</span> <span class="ss">length</span><span class="p">:</span> <span class="p">{</span> <span class="ss">maximum</span><span class="p">:</span> <span class="mi">140</span> <span class="p">},</span>
+<span class="hll">                      <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class="k">end</span>
+</pre></div></div></div><div class="center figure" id="fig-micropost_content_cant_be_blank" data-tralics-id="uid238" data-number="2.16">
+<div class="graphics image"><img src="images/figures/micropost_content_cant_be_blank.png" alt="images/figures/micropost_content_cant_be_blank"></div><div class="caption"><span class="header">Figure 2.16: </span><span class="description">The effect of a micropost presence validation.
+</span></div></div>
+<div class="codelisting" id="code-toy_user_presence_valications" data-tralics-id="uid239" data-number="2.17"><div class="heading"><span class="number">Listing 2.17:</span> 
+
+<span class="description">Adding presence validations to the User model.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/models/user.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:microposts</span>
+<span class="hll">  <span class="n">validates</span> <span class="no">FILL_IN</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>    <span class="c1"># Replace FILL_IN with the right code.</span>
+</span><span class="hll">  <span class="n">validates</span> <span class="no">FILL_IN</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>    <span class="c1"># Replace FILL_IN with the right code.</span>
+</span><span class="k">end</span>
+</pre></div></div></div><div class="center figure" id="fig-user_presence_validations" data-tralics-id="uid240" data-number="2.17">
+<div class="graphics image"><img src="images/figures/user_presence_validations.png" alt="images/figures/user_presence_validations"></div><div class="caption"><span class="header">Figure 2.17: </span><span class="description">The effect of presence validations on the User model.
+</span></div></div>
+</div></div>
+<div id="sec-inheritance_hierarchies" data-tralics-id="uid241" class="subsection" data-number="2.3.4"><h3><a href="toy_app_fragment.html#sec-inheritance_hierarchies" class="heading hyperref"><span class="number">2.3.4 </span>Inheritance hierarchies</a></h3>
+<p>We end our discussion of the toy application with a brief description of the controller and model class hierarchies in Rails.<span class="intersentencespace"></span> This discussion will only make much sense if you have some experience with object-oriented programming (OOP), particularly <em>classes</em>.<span class="intersentencespace"></span> Don’t worry if it’s confusing for now; we’ll discuss these ideas more thoroughly in <a href="rails_flavored_ruby_fragment.html#sec-ruby_classes" class="hyperref">Section <span class="ref">4.4</span></a>.</p>
+<p>We start with the inheritance structure for models.<span class="intersentencespace"></span> Comparing <a href="toy_app_fragment.html#code-demo_user_class" class="hyperref">Listing <span class="ref">2.18</span></a> and <a href="toy_app_fragment.html#code-demo_micropost_class" class="hyperref">Listing <span class="ref">2.19</span></a>, we see that both the User model and the Micropost model inherit (via the left angle bracket <code>&lt;</code>) from <code>ApplicationRecord</code>, which in turn inherits from <code>ActiveRecord::Base</code>, which is the base class for models provided by Active Record; a diagram summarizing this relationship appears in <a href="toy_app_fragment.html#fig-demo_model_inheritance" class="hyperref">Figure <span class="ref">2.18</span></a>.<span class="intersentencespace"></span> It is by inheriting from <code>ActiveRecord::Base</code> that our model objects gain the ability to communicate with the database, treat the database columns as Ruby attributes, and so on.</p>
+<div class="codelisting" id="code-demo_user_class" data-tralics-id="uid242" data-number="2.18"><div class="heading"><span class="number">Listing 2.18:</span> 
+
+<span class="description">The <code>User</code> class, highlighting inheritance.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/models/user.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span>  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="codelisting" id="code-demo_micropost_class" data-tralics-id="uid243" data-number="2.19"><div class="heading"><span class="number">Listing 2.19:</span> 
+
+<span class="description">The <code>Micropost</code> class, highlighting inheritance.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/models/micropost.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="k">class</span> <span class="nc">Micropost</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span>  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="center figure" id="fig-demo_model_inheritance" data-tralics-id="uid244" data-number="2.18">
+<div class="graphics image"><img src="images/figures/demo_model_inheritance_4th_ed.png" alt="images/figures/demo_model_inheritance_4th_ed"></div><div class="caption"><span class="header">Figure 2.18: </span><span class="description">The inheritance hierarchy for the User and Micropost models.
+</span></div></div>
+<p>The inheritance structure for controllers is essentially the same as that for models.<span class="intersentencespace"></span> Comparing <a href="toy_app_fragment.html#code-demo_users_controller_class" class="hyperref">Listing <span class="ref">2.20</span></a> and <a href="toy_app_fragment.html#code-demo_microposts_controller_class" class="hyperref">Listing <span class="ref">2.21</span></a>, we see that both the Users controller and the Microposts controller inherit from the Application controller.<span class="intersentencespace"></span> Examining <a href="toy_app_fragment.html#code-toy_application_controller_class" class="hyperref">Listing <span class="ref">2.22</span></a>, we see that <code>ApplicationController</code> itself inherits from <code>ActionController::Base</code>, which is the base class for controllers provided by the Rails library Action Pack.<span class="intersentencespace"></span> The relationships between these classes is illustrated in <a href="toy_app_fragment.html#fig-demo_controller_inheritance" class="hyperref">Figure <span class="ref">2.19</span></a>.</p>
+<div class="codelisting" id="code-demo_users_controller_class" data-tralics-id="uid245" data-number="2.20"><div class="heading"><span class="number">Listing 2.20:</span> 
+
+<span class="description">The <code>UsersController</code> class, highlighting inheritance.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/controllers/users_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span>  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="codelisting" id="code-demo_microposts_controller_class" data-tralics-id="uid246" data-number="2.21"><div class="heading"><span class="number">Listing 2.21:</span> 
+
+<span class="description">The <code>MicropostsController</code> class, highlighting inheritance.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/controllers/microposts_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="k">class</span> <span class="nc">MicropostsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span>  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="codelisting" id="code-toy_application_controller_class" data-tralics-id="uid247" data-number="2.22"><div class="heading"><span class="number">Listing 2.22:</span> 
+
+<span class="description">The <code>ApplicationController</code> class, highlighting inheritance.<span class="intersentencespace"></span> <span class="break"></span> <code class="filepath">app/controllers/application_controller.rb</code></span>
+</div>
+
+<div class="code"><div class="highlight"><pre><span class="hll"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+</span>  <span class="o">.</span>
+  <span class="o">.</span>
+  <span class="o">.</span>
+<span class="k">end</span>
+</pre></div></div></div><div class="center figure" id="fig-demo_controller_inheritance" data-tralics-id="uid248" data-number="2.19">
+<div class="graphics image"><img src="images/figures/demo_controller_inheritance.png" alt="images/figures/demo_controller_inheritance"></div><div class="caption"><span class="header">Figure 2.19: </span><span class="description">The inheritance hierarchy for the Users and Microposts controllers.
+</span></div></div>
+<p>As with model inheritance, both the Users and Microposts controllers gain a large amount of functionality by inheriting from a base class (in this case, <code>ActionController::Base</code>), including the ability to manipulate model objects, filter inbound HTTP requests, and render views as HTML.<span class="intersentencespace"></span> Since all Rails controllers inherit from <code>ApplicationController</code>, rules defined in the Application controller automatically apply to every action in the application.<span class="intersentencespace"></span> For example, in <a href="advanced_login_fragment.html#sec-remember_me" class="hyperref">Section <span class="ref">9.1</span></a> we’ll see how to include helpers for logging in and logging out of all of the sample application’s controllers.</p>
+<div id="sec-exercises_inheritance_hierarchies" data-tralics-id="uid249" class="subsubsection" data-number="2.3.4.1"><h4><a href="#sec-exercises_inheritance_hierarchies" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>By examining the contents of the Application controller file, find the line that causes <code>ApplicationController</code> to inherit from <code>ActionController::Base</code>. <span class="exercise" id="ex-c8ba88"></span>
+</li>
+<li>Is there an analogous file containing a line where <code>ApplicationRecord</code> inherits from <code>ActiveRecord::Base</code>?<span class="intersentencespace"></span> <em>Hint</em>: It would probably be a file called something like <code>application_record.rb</code> in the <code>app/models</code> directory. <span class="exercise" id="ex-dec71b"></span>
+</li></ol>
+</div></div>
+<div id="sec-deploying_the_toy_app" data-tralics-id="uid252" class="subsection" data-number="2.3.5"><h3><a href="toy_app_fragment.html#sec-deploying_the_toy_app" class="heading hyperref"><span class="number">2.3.5 </span>Deploying the toy app</a></h3>
+<p>With the completion of the Microposts resource, now is a good time to push the repository up to Bitbucket:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git status
+<span class="gp">$</span> git add -A
+<span class="gp">$</span> git commit -m <span class="s2">"Finish toy app"</span>
+<span class="gp">$</span> git push
+</pre></div></div>
+<p>Ordinarily, you should make smaller, more frequent commits, but for the purposes of this chapter a single big commit at the end is fine.</p>
+<p>At this point, you can also deploy the toy app to Heroku as in <a href="beginning_fragment.html#sec-deploying" class="hyperref">Section <span class="ref">1.5</span></a>:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> git push heroku
+</pre></div></div>
+<p>(This assumes you created the Heroku app in <a href="toy_app_fragment.html#sec-planning_the_application" class="hyperref">Section <span class="ref">2.1</span></a>.<span class="intersentencespace"></span> Otherwise, you should run <code>heroku create</code> and then <code>git push heroku master</code>.)</p>
+<p>To get the application’s database to work, you’ll also have to migrate the production database, which involves running the migration command from <a href="toy_app_fragment.html#code-first_migration" class="hyperref">Listing <span class="ref">2.4</span></a> prefixed with <code>heroku run</code>:</p>
+<div class="code"><div class="highlight"><pre><span class="gp">$</span> heroku run rails db:migrate
+</pre></div></div>
+<p>This updates the database at Heroku with the necessary user and micropost data models.<span class="intersentencespace"></span> After running the migration, you should be able to use the toy app in production, with a real PostgreSQL database back-end (<a href="toy_app_fragment.html#fig-toy_app_production" class="hyperref">Figure <span class="ref">2.20</span></a>).</p>
+<p>Finally, if you completed the exercises in <a href="toy_app_fragment.html#sec-exercises_demo_user_has_many_microposts" class="hyperref">Section <span class="ref">2.3.3.1</span></a>, you will have to remove the code to display the first user’s micropost in order to get the app to load properly.<span class="intersentencespace"></span> In this case, simply delete the offending code, make another commit, and push again to Heroku.</p>
+<div class="center figure" id="fig-toy_app_production" data-tralics-id="uid253" data-number="2.20">
+<div class="graphics image"><img src="images/figures/toy_app_production.png" alt="images/figures/toy_app_production"></div><div class="caption"><span class="header">Figure 2.20: </span><span class="description">Running the toy app in production.
+</span></div></div>
+<div id="sec-exercises_deploying_the_toy_app" data-tralics-id="uid254" class="subsubsection" data-number="2.3.5.1"><h4><a href="#sec-exercises_deploying_the_toy_app" class="heading">Exercises</a></h4>
+<p> </p><div class="society-note">
+<p>Solutions to exercises are available for free at <a href="http://railstutorial.org/solutions" target="_blank" rel="noopener">railstutorial.org/solutions</a> with any Rails Tutorial purchase.<span class="intersentencespace"></span> To see other people’s answers and to record your own, join the <a href="http://learnenough.com/society" target="_blank" rel="noopener">Learn Enough Society</a> at <a href="http://learnenough.com/society" target="_blank" rel="noopener">learnenough.com/society</a>.<span class="intersentencespace"></span>  </p></div>
+<ol>
+<li>Create a few users on the production app. <span class="exercise" id="ex-f84295"></span>
+</li>
+<li>Create a few production microposts for the first user. <span class="exercise" id="ex-916144"></span>
+</li>
+<li>By trying to create a micropost with content over 140 characters, confirm that the validation from <a href="toy_app_fragment.html#code-demo_length_validation" class="hyperref">Listing <span class="ref">2.13</span></a> works on the production app. <span class="exercise" id="ex-debcc6"></span>
+</li></ol>
+</div></div></div><div id="sec-toy_app_conclusion" data-tralics-id="cid12" class="section" data-number="2.4"><h2><a href="toy_app_fragment.html#sec-toy_app_conclusion" class="heading hyperref"><span class="number">2.4 </span>Conclusion</a></h2>
+<p>We’ve come now to the end of the high-level overview of a Rails application.<span class="intersentencespace"></span> The toy app developed in this chapter has several strengths and a host of weaknesses.<span class="intersentencespace"></span> <span class="break"></span></p>
+<p><strong>Strengths</strong></p>
+<ul>
+<li>High-level overview of Rails
+</li>
+<li>Introduction to MVC
+</li>
+<li>First taste of the REST architecture
+</li>
+<li>Beginning data modeling
+</li>
+<li>A live, database-backed web application in production
+</li></ul>
+<p><strong>Weaknesses</strong></p>
+<ul>
+<li>No custom layout or styling
+</li>
+<li>No static pages (such as “Home” or “About”)
+</li>
+<li>No user passwords
+</li>
+<li>No user images
+</li>
+<li>No logging in
+</li>
+<li>No security
+</li>
+<li>No automatic user/micropost association
+</li>
+<li>No notion of “following” or “followed”
+</li>
+<li>No micropost feed
+</li>
+<li>No meaningful tests
+</li>
+<li><strong>No real understanding</strong>
+</li></ul>
+<p>The rest of this tutorial is dedicated to building on the strengths and eliminating the weaknesses.</p>
+<div id="sec-toy_app_what_we_learned_in_this_chapter" data-tralics-id="uid274" class="subsection" data-number="2.4.1"><h3><a href="toy_app_fragment.html#sec-toy_app_what_we_learned_in_this_chapter" class="heading hyperref"><span class="number">2.4.1 </span>What we learned in this chapter</a></h3>
+<ul>
+<li>Scaffolding automatically creates code to model data and interact with it through the web.
+</li>
+<li>Scaffolding is good for getting started quickly but is bad for understanding.
+</li>
+<li>Rails uses the Model-View-Controller (MVC) pattern for structuring web applications.
+</li>
+<li>As interpreted by Rails, the REST architecture includes a standard set of URLs and controller actions for interacting with data models.
+</li>
+<li>Rails supports data validations to place constraints on the values of data model attributes.
+</li>
+<li>Rails comes with built-in functions for defining associations between different data models.
+</li>
+<li>We can interact with Rails applications at the command line using the Rails console.
+</li></ul>
+</div></div><div id="cha-2_footnotes">
+  <ol class="footnotes">
+    <li id="cha-2_footnote-1">Because microposts are short by design, the <code>string</code> type is actually big enough to contain them, but using <code>text</code> better expresses our intent, while also giving us greater flexibility should we ever wish to relax the length constraint. <a class="arrow" href="#cha-2_footnote-ref-1">↑</a></li>
+    <li id="cha-2_footnote-2">The name of the scaffold follows the convention of <em>models</em>, which are singular, rather than resources and controllers, which are plural.<span class="intersentencespace"></span> Thus, we have <code>User</code> instead of <code>Users</code>. <a class="arrow" href="#cha-2_footnote-ref-2">↑</a></li>
+    <li id="cha-2_footnote-3">Some references indicate that the view returns the HTML directly to the browser (via a webserver such as Apache or Nginx).<span class="intersentencespace"></span> Regardless of the implementation details, I find it helpful to think of the controller as a central hub through which all the application’s information flows. <a class="arrow" href="#cha-2_footnote-ref-3">↑</a></li>
+    <li id="cha-2_footnote-4">Fielding, Roy Thomas.<span class="intersentencespace"></span> <em>Architectural Styles and the Design of Network-based Software Architectures</em>.<span class="intersentencespace"></span> Doctoral dissertation, University of California, Irvine, 2000. <a class="arrow" href="#cha-2_footnote-ref-4">↑</a></li>
+    <li id="cha-2_footnote-5">As with the User scaffold, the scaffold generator for microposts follows the singular convention of Rails models; thus, we have <code>generate Micropost</code>. <a class="arrow" href="#cha-2_footnote-ref-5">↑</a></li>
+    <li id="cha-2_footnote-6">The scaffold code may have extra blank lines compared to <a href="toy_app_fragment.html#code-demo_microposts_resource" class="hyperref">Listing <span class="ref">2.11</span></a>.<span class="intersentencespace"></span> This is not a cause for concern, as Ruby ignores such extra space. <a class="arrow" href="#cha-2_footnote-ref-6">↑</a></li>
+    <li id="cha-2_footnote-7">Your console prompt might be something like <code class="tt">2.1.1 :001 &gt;</code>, but the examples use <code class="inline_verbatim">&gt;&gt;</code> since Ruby versions will vary. <a class="arrow" href="#cha-2_footnote-ref-7">↑</a></li>
+    <li id="cha-2_footnote-8">As with “Ctrl-C”, the capital “D” refers to the key on the keyboard, not the capital letter, so you don’t have to hold down the Shift key along with the Ctrl key. <a class="arrow" href="#cha-2_footnote-ref-8">↑</a></li>
+  </ol>
+</div>��ʳ��      Y�C�Y�C�>,��Y��s  v    a,:https://softcover.s3-us-west-2.amazonaws.com/636/ruby_on_rails_tutorial_4th_edition/html/toy_app_fragment.html?X-Amz-Expires=604800&X-Amz-Date=20170908T044630Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJMNNDDBSYVXVHGAA/20170908/us-west-2/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=7e4c49310bd86e0a954599662a4b847cd1b65d317900caf6c7b651c69857e844 necko:classified 1 strongly-framed 1 security-info FnhllAKWRHGAlo+ESXykKAAAAAAAAAAAwAAAAAAAAEaphjojH6pBabDSgSnsfLHeAAQAAgAAAAAAAAAAAAAAAAAAAAAB4vFIJp5wRkeyPxAQ9RJGKPqbqVvKO0mKuIl8ec8o/uhmCjImkVxP+7sgiYWmMt8FvcOXmlQiTNWFiWlrbpbqgwAAAAAAAAYbMIIGFzCCBP+gAwIBAgIQDZGC1mcUJmdk1QxKRyD/nDANBgkqhkiG9w0BAQsFADBkMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSMwIQYDVQQDExpEaWdpQ2VydCBCYWx0aW1vcmUgQ0EtMiBHMjAeFw0xNzA0MjQwMDAwMDBaFw0xNzEwMjYxMjAwMDBaMHUxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdTZWF0dGxlMRgwFgYDVQQKEw9BbWF6b24uY29tIEluYy4xJTAjBgNVBAMMHCouczMtdXMtd2VzdC0yLmFtYXpvbmF3cy5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCwtmIjR6oNpqAXwTmoYvJLpUeoRtjeWsjPSIgqi+uUcLqJhLGq5G9wzDhKwuZ42MlWUJQzmdXgzxHgZgOi29o38bTM2phMysULRZhTjr6kV/FR0TTGaEblTcM9l+3hP9xG3NqnGXwlZHcBpWaylTqtYv+7ykOfpqemx/hkTpko+BXMsef40yp2xfndU+PX4A/QYnKT6UGUFzBLDRwzmqeD/vTkXVBX30TTJLfrSfJhMktitr4XMyzllo5SiHKyyipLH+5LJMpl/9lwxdGMpJ7YClW/ZbfN30leJuMdgu2qDeYAFqJhPnXQDI1U/zBfzlDEoC5E+MttjVbtS+NwjyT/AgMBAAGjggKyMIICrjAfBgNVHSMEGDAWgBTAErIodGhGZ+lwJXQaAEVbBn1cRDAdBgNVHQ4EFgQUTKbpPmZZpTXbpwI4JRVElkndHyAwgeEGA1UdEQSB2TCB1oIaczMtdXMtd2VzdC0yLmFtYXpvbmF3cy5jb22CHCouczMtdXMtd2VzdC0yLmFtYXpvbmF3cy5jb22CGnMzLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tghwqLnMzLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tgiRzMy5kdWFsc3RhY2sudXMtd2VzdC0yLmFtYXpvbmF3cy5jb22CJiouczMuZHVhbHN0YWNrLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tghIqLnMzLmFtYXpvbmF3cy5jb20wDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjCBgQYDVR0fBHoweDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QmFsdGltb3JlQ0EtMkcyLmNybDA6oDigNoY0aHR0cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QmFsdGltb3JlQ0EtMkcyLmNybDBMBgNVHSAERTBDMDcGCWCGSAGG/WwBATAqMCgGCCsGAQUFBwIBFhxodHRwczovL3d3dy5kaWdpY2VydC5jb20vQ1BTMAgGBmeBDAECAjB5BggrBgEFBQcBAQRtMGswJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBDBggrBgEFBQcwAoY3aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QmFsdGltb3JlQ0EtMkcyLmNydDAMBgNVHRMBAf8EAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQAbgCf3k3sXpQT241mNzFz4Xl/qyfpy8M5BAu7hwR8xjEcZeh+deXB+1FCZUbN1C+DJevPDIKahxl5MmYrzZlW6q4OQAjujLVyWCGisevL496/VO0jrjkloYPh/3scvd8lqNIX9stQXvMe8OrXGJosXTaOwMMJdkuGJM6uWRNOwjClTx2oqeU78s2cwwLbJMaSrNiTCOXzEhwlgXvisH1OO98clyYdRQbXE0MWafIz9Q52y1CCmE4P86GtqapfrgJn3OhGXyNWKAzqxeMlZIquDHYwPWofWTV6sDHyNNi2r8S7Z9oE/P1+Rw+22gWuoznyEW8ZnDEfdwRvIoy4Pi9ftwC8BAwAAAAABAQAAAAA= request-method GET request-Origin https://www.railstutorial.org response-head HTTP/1.1 200 OK
+x-amz-id-2: m2YZuw2eWSmW5MqScMgnEWb7Wz6aP7X4EH5fw+A1aXA7V2miwoZ03gRFEE6R/GIH1NuhQWM9O7A=
+x-amz-request-id: B48863FD29F22F72
+Date: Fri, 08 Sep 2017 06:26:38 GMT
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET
+Access-Control-Max-Age: 3000
+Vary: Origin, Access-Control-Request-Headers, Access-Control-Request-Method
+Last-Modified: Tue, 29 Aug 2017 03:42:47 GMT
+ETag: "784317b09f572341abe65384127d0d53"
+Accept-Ranges: bytes
+Content-Type: text/html
+Content-Length: 113393
+Server: AmazonS3
+ original-response-headers x-amz-id-2: m2YZuw2eWSmW5MqScMgnEWb7Wz6aP7X4EH5fw+A1aXA7V2miwoZ03gRFEE6R/GIH1NuhQWM9O7A=
+x-amz-request-id: B48863FD29F22F72
+Date: Fri, 08 Sep 2017 06:26:38 GMT
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET
+Access-Control-Max-Age: 3000
+Vary: Origin, Access-Control-Request-Headers, Access-Control-Request-Method
+Last-Modified: Tue, 29 Aug 2017 03:42:47 GMT
+ETag: "784317b09f572341abe65384127d0d53"
+Accept-Ranges: bytes
+Content-Type: text/html
+Content-Length: 113393
+Server: AmazonS3
+ uncompressed-len 0 net-response-time-onstart 915 net-response-time-onstop 1312  ��

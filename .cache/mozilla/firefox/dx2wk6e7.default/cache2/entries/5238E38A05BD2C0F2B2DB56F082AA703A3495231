@@ -1,0 +1,510 @@
+<!DOCTYPE HTML>
+<html lang="vi" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Hướng dẫn cài đặt Rails | Rails Girls Guide in Vietnamese</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.1.0">
+        <meta name="author" content="Nguyễn Đức Giang">
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+    
+
+        
+    
+    
+    <link rel="next" href="../welcome/app.html" />
+    
+    
+    <link rel="prev" href="../welcome/guide.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book" data-level="1.2" data-basepath=".." data-revision="Tue Jun 23 2015 07:26:20 GMT+0000 (UTC)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+            
+            <li>
+                <a href="https://www.gitbook.com/book/nguyenducgiang/rails-girls-translation" target="blank" class="custom-link">Rails Girls Guide in Vietnamese</a>
+            </li>
+        
+        
+
+        
+        <li class="divider"></li>
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" >
+            
+            <span><b>1.</b> Chào mừng tới Rails Girls!</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="welcome/guide.html">
+            
+                
+                    <a href="../welcome/guide.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        Làm thế nào để tổ chức một sự kiện Rails Girls
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2" data-path="welcome/install.html">
+            
+                
+                    <a href="../welcome/install.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        Hướng dẫn cài đặt Rails
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="welcome/app.html">
+            
+                
+                    <a href="../welcome/app.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.</b>
+                        
+                        Xây dựng ứng dụng đầu tiên
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="welcome/github.html">
+            
+                
+                    <a href="../welcome/github.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.4.</b>
+                        
+                        Đẩy ứng dụng của bạn lên GitHub
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    
+
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Rails Girls Guide in Vietnamese</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="c%C3%B4ng-th%E1%BB%A9c-c%C3%A0i-%C4%91%E1%BA%B7t-cho-rails-girls">C&#xF4;ng th&#x1EE9;c c&#xE0;i &#x111;&#x1EB7;t cho Rails Girls</h1>
+<p><em>Th&#x1EDD;i gian ch&#x1EBF; bi&#x1EBF;n: 5 ph&#xFA;t ch&#x1EE7; &#x111;&#x1ED9;ng / 15 - 30 ph&#xFA;t th&#x1EE5; &#x111;&#x1ED9;ng</em></p>
+<p>&#x110;&#x1EC3; x&#xE2;y d&#x1EF1;ng &#x1EE9;ng d&#x1EE5;ng v&#xE0; nh&#x1EEF;ng th&#x1EE9; kh&#xE1;c v&#x1EDB;i Ruby on Rails, ch&#xFA;ng ta c&#x1EA7;n c&#xE0;i &#x111;&#x1EB7;t m&#x1ED9;t s&#x1ED1; ph&#x1EA7;n m&#x1EC1;m v&#xE0; m&#xF4;i tr&#x1B0;&#x1EDD;ng l&#xE0;m vi&#x1EC7;c cho m&#xE1;y t&#xED;nh c&#x1EE7;a b&#x1EA1;n.</p>
+<p>H&#xE3;y th&#x1EF1;c hi&#x1EC7;n theo c&#xE1;c h&#x1B0;&#x1EDB;ng d&#x1EAB;n cho h&#x1EC7; &#x111;i&#x1EC1;u h&#xE0;nh c&#x1EE7;a b&#x1EA1;n. &#x110;&#x1EEB;ng s&#x1EE3; n&#x1EBF;u b&#x1EA1;n g&#x1EB7;p ph&#x1EA3;i b&#x1EA5;t c&#x1EE9; tr&#x1EDF; ng&#x1EA1;i n&#xE0;o. H&#xE3;y b&#xE1;o cho ch&#xFA;ng t&#xF4;i bi&#x1EBF;t (t&#x1EA1;i s&#x1EF1; ki&#x1EC7;n) &#x111;&#x1EC3; ch&#xFA;ng ta c&#xF3; th&#x1EC3; c&#xF9;ng nhau gi&#x1EA3;i quy&#x1EBF;t.</p>
+<ul>
+<li>C&#xE0;i &#x111;&#x1EB7;t cho OS X</li>
+<li>C&#xE0;i &#x111;&#x1EB7;t cho Windows</li>
+<li>C&#xE0;i &#x111;&#x1EB7;t cho Linux</li>
+<li>Gi&#xE1;i ph&#xE1;p c&#xE0;i &#x111;&#x1EB7;t thay th&#x1EBF; cho t&#x1EA5;t c&#x1EA3; c&#xE1;c OS</li>
+<li>S&#x1EED; d&#x1EE5;ng m&#x1ED9;t D&#x1ECB;ch-v&#x1EE5; &#x110;&#xE1;m-m&#xE2;y - Kh&#xF4;ng c&#x1EA7;n c&#xE0;i &#x111;&#x1EB7;t</li>
+</ul>
+<h2 id="c%C3%A0i-%C4%91%E1%BA%B7t-cho-os-x">C&#xE0;i &#x111;&#x1EB7;t cho OS X</h2>
+<h3 id="1-ki%E1%BB%83m-tra-phi%C3%AAn-b%E1%BA%A3n-h%E1%BB%87-%C4%91i%E1%BB%81u-h%C3%A0nh">1. Ki&#x1EC3;m tra phi&#xEA;n b&#x1EA3;n h&#x1EC7; &#x111;i&#x1EC1;u h&#xE0;nh.</h3>
+<p>Nh&#x1EA5;n v&#xE0;o tr&#xEC;nh-&#x111;&#x1A1;n Apple v&#xE0; ch&#x1ECD;n <em>About this Mac</em>.</p>
+<p><img src="http://guides.railsgirls.com/images/1.png" alt="Apple menu"></p>
+<h3 id="2-trong-c%E1%BB%ADa-s%E1%BB%95-hi%E1%BB%87n-ra-b%E1%BA%A1n-s%E1%BA%BD-th%E1%BA%A5y-phi%C3%AAn-b%E1%BA%A3n-c%E1%BB%A7a-h%E1%BB%87-%C4%91i%E1%BB%81u-h%C3%A0nh">2. Trong c&#x1EED;a s&#x1ED5; hi&#x1EC7;n ra b&#x1EA1;n s&#x1EBD; th&#x1EA5;y phi&#xEA;n b&#x1EA3;n c&#x1EE7;a h&#x1EC7; &#x111;i&#x1EC1;u h&#xE0;nh.</h3>
+<p>N&#x1EBF;u phi&#xEA;n b&#x1EA3;n c&#x1EE7;a b&#x1EA1;n b&#x1EAF;t &#x111;&#x1EA7;u v&#x1EDB;i 10.6, 10.7, 10.8, 10.9 ho&#x1EB7;c 10.10, h&#xE3;y l&#xE0;m theo h&#x1B0;&#x1EDB;ng d&#x1EAB;n n&#xE0;y. Ng&#x1B0;&#x1EE3;c l&#x1EA1;i, ch&#xFA;ng t&#xF4;i c&#xF3; th&#x1EC3; c&#xE0;i &#x111;&#x1EB7;t gi&#xFA;p b&#x1EA1;n t&#x1EA1;i s&#x1EF1; ki&#x1EC7;n.</p>
+<p><img src="http://guides.railsgirls.com/images/2.png" alt="About this Mac dialog"></p>
+<h3 id="3a-n%E1%BA%BFu-phi%C3%AAn-b%E1%BA%A3n-os-x-c%E1%BB%A7a-b%E1%BA%A1n-l%C3%A0-10-9-ho%E1%BA%B7c-m%E1%BB%9Bi-h%C6%A1n">3a. N&#x1EBF;u phi&#xEA;n b&#x1EA3;n OS X c&#x1EE7;a b&#x1EA1;n l&#xE0; 10.9 ho&#x1EB7;c m&#x1EDB;i h&#x1A1;n:</h3>
+<p>N&#x1EBF;u phi&#xEA;n b&#x1EA3;n c&#x1EE7;a b&#x1EA1;n b&#x1EAF;t &#x111;&#x1EA7;u b&#x1EB1;ng 10.9 ho&#x1EB7;c 10.10, h&#xE3;y th&#x1EF1;c hi&#x1EC7;n theo c&#xE1;c b&#x1B0;&#x1EDB;c d&#x1B0;&#x1EDB;i &#x111;&#xE2;y. Ch&#xFA;ng ta s&#x1EBD; c&#xE0;i &#x111;&#x1EB7;t homebrew v&#xE0; rbenv</p>
+<h4 id="3a1-c%C3%A0i-%C4%91%E1%BA%B7t-c%C3%A1c-c%C3%B4ng-c%E1%BB%A5-d%C3%B2ng-l%E1%BB%87nh-tr%C3%AAn-terminal">3a1. C&#xE0;i &#x111;&#x1EB7;t c&#xE1;c c&#xF4;ng-c&#x1EE5; d&#xF2;ng-l&#x1EC7;nh tr&#xEA;n terminal:</h4>
+<pre><code class="lang-shell">xcode-select --install
+</code></pre>
+<h4 id="3a2-c%C3%A0i-%C4%91%E1%BA%B7t-homebrew-http-brew-sh">3a2. C&#xE0;i &#x111;&#x1EB7;t <a href="http://brew.sh/" target="_blank">Homebrew</a>:</h4>
+<pre><code class="lang-shell">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
+<h4 id="3a3-c%C3%A0i-%C4%91%E1%BA%B7t-rbenv-https-github-com-sstephenson-rbenv">3a3. C&#xE0;i &#x111;&#x1EB7;t <a href="https://github.com/sstephenson/rbenv" target="_blank">rbenv</a>:</h4>
+<pre><code class="lang-shell">brew update
+brew install rbenv rbenv-gem-rehash ruby-build
+echo &apos;eval &quot;$(rbenv init -)&quot;&apos; &gt;&gt; ~/.bash_profile
+echo &apos;export PATH=&quot;$HOME/.rbenv/shims:$PATH&quot;&apos; &gt;&gt; ~/.bash_profile
+source ~/.bash_profile
+</code></pre>
+<h4 id="3a4-build-ruby-v%E1%BB%9Bi-rbenv">3a4. Build Ruby v&#x1EDB;i rbenv:</h4>
+<p>B&#x1EA1;n c&#xF3; th&#x1EC3; d&#xF9;ng l&#x1EC7;nh &#x201C;rbenv install -l&#x201D; &#x111;&#x1EC3; xem phi&#xEA;n b&#x1EA3;n Ruby m&#x1EDB;i nh&#x1EA5;t.</p>
+<pre><code class="lang-shell">rbenv install 2.2.0
+</code></pre>
+<p>N&#x1EBF;u b&#x1EA1;n g&#x1EB7;p l&#x1ED7;i &#x201C;OpenSSL::SSL::SSLError: &#x2026; : certificate verify failed&#x201D;, h&#xE3;y th&#x1EED; c&#xE1;ch sau.</p>
+<pre><code class="lang-shell">brew install curl-ca-bundle
+cp /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt `ruby -ropenssl -e &apos;puts OpenSSL::X509::DEFAULT_CERT_FILE&apos;`
+</code></pre>
+<h4 id="3a5-thi%E1%BA%BFt-l%E1%BA%ADp-phi%C3%AAn-b%E1%BA%A3n-ruby-m%E1%BA%B7c-%C4%91%E1%BB%8Bnh">3a5. Thi&#x1EBF;t l&#x1EAD;p phi&#xEA;n b&#x1EA3;n Ruby m&#x1EB7;c &#x111;&#x1ECB;nh:</h4>
+<pre><code class="lang-shell">rbenv global 2.2.0
+</code></pre>
+<h4 id="3a6-c%C3%A0i-%C4%91%E1%BA%B7t-rails">3a6. C&#xE0;i &#x111;&#x1EB7;t Rails:</h4>
+<pre><code class="lang-shell">gem i rails --no-ri --no-rdoc
+</code></pre>
+<h3 id="3b-n%E1%BA%BFu-phi%C3%AAn-b%E1%BA%A3n-os-x-c%E1%BB%A7a-b%E1%BA%A1n-l%C3%A0-10-6-10-7-ho%E1%BA%B7c-10-8">3b. N&#x1EBF;u phi&#xEA;n b&#x1EA3;n OS X c&#x1EE7;a b&#x1EA1;n l&#xE0; 10.6, 10.7, ho&#x1EB7;c 10.8:</h3>
+<p>T&#x1EA3;i RailsInstaller ph&#xF9; h&#x1EE3;p v&#x1EDB;i phi&#xEA;n b&#x1EA3;n OS X:</p>
+<ul>
+<li><a href="http://railsinstaller.s3.amazonaws.com/RailsInstaller-1.0.4-osx-10.7.app.tgz" target="_blank">RailsInstaller for 10.7 and 10.8</a> <em>(325MB)</em></li>
+<li><a href="http://railsinstaller.s3.amazonaws.com/RailsInstaller-1.0.4-osx-10.6.app.tgz" target="_blank">RailsInstaller for 10.6</a> <em>(224MB)</em></li>
+</ul>
+<p>Nh&#xE1;y &#x111;&#xFA;p v&#xE0;o t&#x1EC7;p tin t&#x1EA3;i v&#x1EC1;, n&#xF3; s&#x1EBD; &#x111;&#x1B0;&#x1EE3;c gi&#x1EA3;i n&#xE9;n v&#xE0;o c&#xF9;ng th&#x1B0; m&#x1EE5;c m&#xE0; n&#xF3; &#x111;ang &#x1EDF; trong. Nh&#xE1;y &#x111;&#xFA;p v&#xE0;o t&#x1EC7;p tin v&#x1EEB;a &#x111;&#x1B0;&#x1EE3;c gi&#x1EA3;i n&#xE9;n &apos;RailsInstaller-1.0.4-osx-10.7.app&apos; ho&#x1EB7;c &apos;RailsInstaller-1.0.4-osx-10.6.app&apos; v&#xE0; l&#xE0;m theo h&#x1B0;&#x1EDB;ng d&#x1EAB;n. N&#xF3; s&#x1EBD; m&#x1EDF; t&#x1EC7;p tin README v&#x1EDB;i ti&#xEA;u &#x111;&#x1EC1; &apos;Rails Installer OS X&apos;. &#x110;&#x1EEB;ng quan t&#xE2;m &#x111;&#x1EBF;n t&#x1EC7;p tin n&#xE0;y.</p>
+<p>N&#x1EBF;u phi&#xEA;n b&#x1EA3;n c&#x1EE7;a Rails kh&#xF4;ng ph&#x1EA3;i l&#xE0; m&#x1EDB;i nh&#x1EA5;t, b&#x1EA1;n c&#xF3; th&#x1EC3; c&#x1EAD;p nh&#x1EAD;t b&#x1EB1;ng c&#xE2;u l&#x1EC7;nh sau tr&#xEA;n terminal.</p>
+<pre><code class="lang-shell">gem update rails --no-ri --no-rdoc
+</code></pre>
+<p>Ch&#x1EA1;y l&#x1EC7;nh kh&#x1EDF;i t&#x1EA1;o &#x1EE9;ng d&#x1EE5;ng &#x111;&#x1EC3; ch&#x1EAF;c ch&#x1EAF;n m&#x1ECD;i th&#x1EE9; ho&#x1EA1;t &#x111;&#x1ED9;ng nh&#x1B0; mong mu&#x1ED1;n.</p>
+<pre><code class="lang-shell">rails new railsgirls
+</code></pre>
+<h3 id="4-c%C3%A0i-%C4%91%E1%BA%B7t-m%E1%BB%99t-tr%C3%ACnh-so%E1%BA%A1n-th%E1%BA%A3o-v%C4%83n-b%E1%BA%A3n-%C4%91%E1%BB%83-so%E1%BA%A1n-th%E1%BA%A3o-c%C3%A1c-t%E1%BB%87p-m%C3%A3">4. C&#xE0;i &#x111;&#x1EB7;t m&#x1ED9;t tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o v&#x103;n b&#x1EA3;n &#x111;&#x1EC3; so&#x1EA1;n th&#x1EA3;o c&#xE1;c t&#x1EC7;p m&#xE3;</h3>
+<p>&#x110;&#x1ED1;i v&#x1EDB;i workshop ch&#xFA;ng t&#xF4;i khuy&#x1EBF;n ngh&#x1ECB; s&#x1EED; d&#x1EE5;ng tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o Atom.</p>
+<ul>
+<li><a href="https://atom.io/" target="_blank">T&#x1EA3;i v&#xE0; c&#xE0;i &#x111;&#x1EB7;t Atom</a></li>
+</ul>
+<p>N&#x1EBF;u b&#x1EA1;n s&#x1EED; d&#x1EE5;ng Mac OS X 10.7 ho&#x1EB7;c c&#x169; h&#x1A1;n, b&#x1EA1;n c&#xF3; th&#x1EC3; d&#xF9;ng tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o kh&#xE1;c nh&#x1B0; <a href="http://www.sublimetext.com/2" target="_blank">Sublime Text 2</a>.</p>
+<h3 id="5-c%E1%BA%ADp-nh%E1%BA%ADt-tr%C3%ACnh-duy%E1%BB%87t">5. C&#x1EAD;p nh&#x1EAD;t tr&#xEC;nh duy&#x1EC7;t</h3>
+<p>M&#x1EDF; trang <a href="http://whatbrowser.org/" target="_blank">whatbrowser.org</a> v&#xE0; c&#x1EAD;p nh&#x1EAD;t tr&#xEC;nh duy&#x1EC7;t c&#x1EE7;a b&#x1EA1;n l&#xEA;n phi&#xEA;n b&#x1EA3;n m&#x1EDB;i nh&#x1EA5;t n&#x1EBF;u c&#xF3;.</p>
+<p>Nh&#x1B0; v&#x1EAD;y l&#xE0; b&#x1EA1;n &#x111;&#xE3; thi&#x1EBF;t l&#x1EAD;p xong m&#xF4;i tr&#x1B0;&#x1EDD;ng &#x111;&#x1EC3; l&#xE0;m vi&#x1EC7;c v&#x1EDB;i Ruby on Rails. Xin ch&#xFA;c m&#x1EEB;ng!</p>
+<hr>
+<h2 id="c%C3%A0i-%C4%91%E1%BA%B7t-cho-windows">C&#xE0;i &#x111;&#x1EB7;t cho Windows</h2>
+<h2 id="1-c%C3%A0i-%C4%91%E1%BA%B7t-rails">1. C&#xE0;i &#x111;&#x1EB7;t Rails</h2>
+<p>T&#x1EA3;i v&#xE0; ch&#x1EA1;y <a href="https://s3.amazonaws.com/railsinstaller/Windows/railsinstaller-3.1.0.exe" target="_blank">RailsInstaller</a>. C&#xE0;i &#x111;&#x1EB7;t ch&#x1B0;&#x1A1;ng tr&#xEC;nh s&#x1EED; d&#x1EE5;ng c&#xE1;c t&#xF9;y ch&#x1ECD;n m&#x1EB7;c &#x111;&#x1ECB;nh (lu&#xF4;n nh&#x1EA5;n &apos;Next&apos; m&#xE0; kh&#xF4;ng c&#x1EA7;n quan t&#xE2;m t&#x1EDB;i c&#xE1;c l&#x1EF1;a ch&#x1ECD;n).</p>
+<p>M&#x1EDF; <code>Command Prompt with Ruby on Rails</code> v&#xE0; ch&#x1EA1;y c&#xE1;c l&#x1EC7;nh sau:</p>
+<pre><code class="lang-shell">rails -v
+</code></pre>
+<p>N&#x1EBF;u phi&#xEA;n b&#x1EA3;n Rails nh&#x1ECF; h&#x1A1;n 4, c&#x1EAD;p nh&#x1EAD;t n&#xF3; b&#x1EB1;ng l&#x1EC7;nh sau:</p>
+<pre><code class="lang-shell">gem update rails --no-ri --no-rdoc
+</code></pre>
+<p>Ch&#x1EA1;y l&#x1EC7;nh kh&#x1EDF;i t&#x1EA1;o &#x1EE9;ng d&#x1EE5;ng &#x111;&#x1EC3; ch&#x1EAF;c ch&#x1EAF;n m&#x1ECD;i th&#x1EE9; ho&#x1EA1;t &#x111;&#x1ED9;ng nh&#x1B0; mong mu&#x1ED1;n.</p>
+<pre><code class="lang-shell">rails new railsgirls
+cd railsgirls
+rails server
+</code></pre>
+<h2 id="c%C3%A1c-l%E1%BB%97i-c%C3%B3-th%E1%BB%83-x%E1%BA%A3y-ra">C&#xE1;c l&#x1ED7;i c&#xF3; th&#x1EC3; x&#x1EA3;y ra</h2>
+<h3 id="l%E1%BB%97i-gem-remotefetcher">L&#x1ED7;i Gem::RemoteFetcher</h3>
+<p>N&#x1EBF;u b&#x1EA1;n g&#x1EB7;p ph&#x1EA3;i l&#x1ED7;i d&#x1B0;&#x1EDB;i &#x111;&#xE2;y khi ch&#x1EA1;y <code>rails new railsgirls</code> hay <code>gem update rails</code>:</p>
+<pre><code class="lang-shell">Gem::RemoteFetcher::FetchError: SSL_connect returned=1 errno=0 state=SSLv3 read
+server certificate B: certificate verify failed (https://rubygems.org/gems/i18n-
+0.6.11.gem)
+</code></pre>
+<p>&#x110;i&#x1EC1;u n&#xE0;y c&#xF3; ngh&#x129;a l&#xE0; b&#x1EA1;n &#x111;ang s&#x1EED; d&#x1EE5;ng phi&#xEA;n b&#x1EA3;n Rubygems qu&#xE1; c&#x169; v&#xE0; c&#x1EA7;n &#x111;&#x1B0;&#x1EE3;c c&#x1EAD;p nh&#x1EAD;t th&#x1EE7; c&#xF4;ng. &#x110;&#x1EA7;u ti&#xEA;n h&#xE3;y ki&#x1EC3;m tra phi&#xEA;n b&#x1EA3;n Rubygems &#x111;ang d&#xF9;ng.</p>
+<pre><code class="lang-shell">gem -v
+</code></pre>
+<p>N&#x1EBF;u phi&#xEA;n b&#x1EA3;n nh&#x1ECF; h&#x1A1;n 2.2.3, b&#x1EA1;n c&#x1EA7;n c&#x1EAD;p nh&#x1EAD;t th&#x1EE7; c&#xF4;ng nh&#x1B0; sau:</p>
+<p>&#x110;&#x1EA7;u ti&#xEA;n t&#x1EA3;i <a href="https://github.com/rubygems/rubygems/releases/download/v2.2.3/rubygems-update-2.2.3.gem" target="_blank">ruby-gems-update gem</a> v&#x1EC1;. Di chuy&#x1EC3;n t&#x1EC7;p tin t&#x1EDB;i <code>c:\\rubygems-update-2.2.3.gem</code> v&#xE0; ch&#x1EA1;y:</p>
+<pre><code class="lang-shell">gem install --local c:\\rubygems-update-2.2.3.gem
+update_rubygems --no-ri --no-rdoc
+gem uninstall rubygems-update -x
+</code></pre>
+<p>Ki&#x1EC3;m tra phi&#xEA;n b&#x1EA3;n c&#x1EE7;a Rubygems</p>
+<pre><code class="lang-shell">gem -v
+</code></pre>
+<p>H&#xE3;y ch&#x1EAF;c ch&#x1EAF;n l&#xE0; phi&#xEA;n b&#x1EA3;n l&#x1EDB;n h&#x1A1;n 2.2.3. Ch&#x1EA1;y l&#x1EA1;i c&#xE1;c l&#x1EC7;nh b&#x1ECB; l&#x1ED7;i l&#xFA;c tr&#x1B0;&#x1EDB;c.</p>
+<h3 id="l%E1%BB%97i-%E2%80%98x64-mingw%E2%80%99-is-not-a-valid-platform">L&#x1ED7;i &#x2018;x64_mingw&#x2019; is not a valid platform`</h3>
+<p>&#x110;&#xF4;i khi b&#x1EA1;n g&#x1EB7;p ph&#x1EA3;i l&#x1ED7;i sau khi ch&#x1EA1;y <code>rails server</code>: <code>&apos;x64_mingw&apos; is not a valid platform</code>. N&#x1EBF;u g&#x1EB7;p l&#x1ED7;i n&#xE0;y sau khi c&#xE0;i RailsInstaller, b&#x1EA1;n c&#x1EA7;n s&#x1EED;a &#x111;&#x1ED5;i t&#x1EC7;p tin <code>Gemfile</code> m&#x1ED9;t ch&#xFA;t:</p>
+<p>Xem ph&#x1EA7;n d&#x1B0;&#x1EDB;i c&#xF9;ng c&#x1EE7;a t&#x1EC7;p tin, c&#xF3; th&#x1EC3; b&#x1EA1;n s&#x1EBD; th&#x1EA5;y d&#xF2;ng cu&#x1ED1;i c&#xF9;ng nh&#x1B0; sau: <code>gem &apos;tzinfo-data&apos;, platforms: [:mingw, :mswin, :x64_mingw]</code>. N&#x1EBF;u d&#xF2;ng n&#xE0;y c&#xF3; <code>:x64_mingw</code>, h&#xE3;y x&#xF3;a <code>:x64_mingw</code>. Sau khi s&#x1EED;a, d&#xF2;ng cu&#x1ED1;i c&#xF9;ng c&#x1EE7;a t&#x1EC7;p tin n&#xEA;n l&#xE0;: <code>&apos;tzinfo-data&apos;, platforms: [:mingw, :mswin]</code>.</p>
+<p>Sau khi ho&#xE0;n th&#xE0;nh vi&#x1EC7;c s&#x1EED;a &#x111;&#x1ED5;i, vui l&#xF2;ng d&#xF9;ng Command Prompt v&#xE0; ch&#x1EA1;y <code>bundle update</code>.</p>
+<h3 id="2-c%C3%A0i-%C4%91%E1%BA%B7t-m%E1%BB%99t-tr%C3%ACnh-so%E1%BA%A1n-th%E1%BA%A3o-v%C4%83n-b%E1%BA%A3n-%C4%91%E1%BB%83-so%E1%BA%A1n-th%E1%BA%A3o-c%C3%A1c-t%E1%BB%87p-m%C3%A3">2. C&#xE0;i &#x111;&#x1EB7;t m&#x1ED9;t tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o v&#x103;n b&#x1EA3;n &#x111;&#x1EC3; so&#x1EA1;n th&#x1EA3;o c&#xE1;c t&#x1EC7;p m&#xE3;</h3>
+<p>&#x110;&#x1ED1;i v&#x1EDB;i workshop ch&#xFA;ng t&#xF4;i khuy&#x1EBF;n ngh&#x1ECB; s&#x1EED; d&#x1EE5;ng tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o Atom.</p>
+<ul>
+<li><a href="https://github.com/atom/atom/releases/latest" target="_blank">T&#x1EA3;i v&#xE0; c&#xE0;i &#x111;&#x1EB7;t Atom</a><ul>
+<li>T&#x1EA3;i v&#xE0; gi&#x1EA3;i n&#xE9;n t&#x1EC7;p tin Atom cho Windows.</li>
+<li>Sao ch&#xE9;p th&#x1B0; m&#x1EE5;c (Atom) v&#xE0;o trong Program Files.</li>
+<li>Ch&#x1EA1;y Atom t&#x1EEB; th&#x1B0; m&#x1EE5;c.</li>
+</ul>
+</li>
+</ul>
+<p>N&#x1EBF;u b&#x1EA1;n d&#xF9;ng Window Vista ho&#x1EB7;c c&#xE1;c phi&#xEA;n b&#x1EA3;n c&#x169; h&#x1A1;n, b&#x1EA1;n c&#xF3; th&#x1EC3; d&#xF9;ng tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o <a href="http://www.sublimetext.com/2" target="_blank">Sublime Text 2</a></p>
+<p>Nh&#x1B0; v&#x1EAD;y l&#xE0; b&#x1EA1;n &#x111;&#xE3; thi&#x1EBF;t l&#x1EAD;p xong m&#xF4;i tr&#x1B0;&#x1EDD;ng &#x111;&#x1EC3; l&#xE0;m vi&#x1EC7;c v&#x1EDB;i Ruby on Rails. Xin ch&#xFA;c m&#x1EEB;ng!</p>
+<h3 id="3-c%E1%BA%ADp-nh%E1%BA%ADt-tr%C3%ACnh-duy%E1%BB%87t">3. C&#x1EAD;p nh&#x1EAD;t tr&#xEC;nh duy&#x1EC7;t</h3>
+<p>N&#x1EBF;u b&#x1EA1;n &#x111;ang d&#xF9;ng Internet Explorer, ch&#xFA;ng t&#xF4;i khuy&#x1EBF;n kh&#xED;ch b&#x1EA1;n c&#xE0;i &#x111;&#x1EB7;t <a href="http://guides.railsgirls.com/install/mozilla.org/firefox" target="_blank">Firefox</a> hay <a href="http://guides.railsgirls.com/install/google.com/chrome" target="_blank">Google Chrome</a>.</p>
+<p>M&#x1EDF; trang <a href="http://whatbrowser.org/" target="_blank">whatbrowser.org</a> v&#xE0; c&#x1EAD;p nh&#x1EAD;t tr&#xEC;nh duy&#x1EC7;t c&#x1EE7;a b&#x1EA1;n l&#xEA;n phi&#xEA;n b&#x1EA3;n m&#x1EDB;i nh&#x1EA5;t n&#x1EBF;u c&#xF3;.</p>
+<hr>
+<h2 id="c%C3%A0i-%C4%91%E1%BA%B7t-cho-linux">C&#xE0;i &#x111;&#x1EB7;t cho Linux</h2>
+<h3 id="1-c%C3%A0i-%C4%91%E1%BA%B7t-rails">1. C&#xE0;i &#x111;&#x1EB7;t Rails</h3>
+<p>&#x110;&#x1EC3; c&#xE0;i &#x111;&#x1EB7;t m&#xF4;i tr&#x1B0;&#x1EDD;ng ph&#xE1;t tri&#x1EC3;n cho Ruby on Rails b&#x1EA1;n ch&#x1EC9; c&#x1EA7;n sao ch&#xE9;p d&#xF2;ng l&#x1EC7;nh d&#x1B0;&#x1EDB;i &#x111;&#xE2;y cho Linux (Ubunbu ho&#x1EB7;c Fedora), d&#xE1;n v&#xE0;o Terminal v&#xE0; nh&#x1EA5;n Enter. S&#x1EBD; m&#x1EA5;t m&#x1ED9;t l&#xFA;c &#x111;&#x1EC3; ho&#xE0;n th&#xE0;nh, trong th&#x1EDD;i gian &#x111;&#xF3; h&#xE3;y th&#x1B0;&#x1EDF;ng th&#x1EE9;c c&#xE1;c con ch&#x1EEF; bay nh&#x1EA3;y tr&#xEA;n m&#xE0;n h&#xEC;nh. Ch&#xFA;ng t&#xF4;i khuy&#x1EBF;n kh&#xED;ch c&#xE1;c b&#x1EA1;n ki&#x1EBF;m ch&#xFA;t &#x111;&#x1ED3; gi&#x1EA3;i kh&#xE1;t tr&#x1B0;&#x1EDB;c khi b&#x1EAF;t &#x111;&#x1EA7;u.</p>
+<p>Tr&#xEA;n Ubuntu:</p>
+<pre><code class="lang-sh">bash &lt; &lt;(curl <span class="hljs-operator">-s</span>L https://raw.github.com/railsgirls/installation-scripts/master/rails-install-ubuntu.sh)
+</code></pre>
+<p>N&#x1EBF;u b&#x1EA1;n &#x111;&#x1ECB;nh s&#x1EED; d&#x1EE5;ng RVM &#x111;&#x1EC3; c&#xE0;i &#x111;&#x1EB7;t v&#x1EDB;i gnome-terminal, c&#xF3; th&#x1EC3; b&#x1EA1;n s&#x1EBD; c&#x1EA7;n thay &#x111;&#x1ED5;i t&#xF9;y ch&#x1ECD;n m&#x1EB7;c &#x111;&#x1ECB;nh (c&#x1EE7;a terminal) tr&#x1B0;&#x1EDB;c khi s&#x1EED; d&#x1EE5;ng &#x111;&#x1B0;&#x1EE3;c phi&#xEA;n b&#x1EA3;n Ruby on Rails ph&#xF9; h&#x1EE3;p. Xem chi ti&#x1EBF;t: <a href="http://rvm.io/integration/gnome-terminal" target="_blank">RVM documentation</a></p>
+<p>Tr&#xEA;n Fedora:</p>
+<pre><code class="lang-sh">bash &lt; &lt;(curl <span class="hljs-operator">-s</span>L https://raw.github.com/railsgirls/installation-scripts/master/rails-install-fedora.sh)
+</code></pre>
+<p>Ch&#x1EA1;y l&#x1EC7;nh kh&#x1EDF;i t&#x1EA1;o &#x1EE9;ng d&#x1EE5;ng &#x111;&#x1EC3; ch&#x1EAF;c ch&#x1EAF;n m&#x1ECD;i th&#x1EE9; ho&#x1EA1;t &#x111;&#x1ED9;ng nh&#x1B0; mong mu&#x1ED1;n.</p>
+<pre><code class="lang-sh">rails new railsgirls
+<span class="hljs-built_in">cd</span> railsgirls
+rails server
+</code></pre>
+<h3 id="2-c%C3%A0i-%C4%91%E1%BA%B7t-m%E1%BB%99t-tr%C3%ACnh-so%E1%BA%A1n-th%E1%BA%A3o-v%C4%83n-b%E1%BA%A3n-%C4%91%E1%BB%83-so%E1%BA%A1n-th%E1%BA%A3o-c%C3%A1c-t%E1%BB%87p-m%C3%A3">2. C&#xE0;i &#x111;&#x1EB7;t m&#x1ED9;t tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o v&#x103;n b&#x1EA3;n &#x111;&#x1EC3; so&#x1EA1;n th&#x1EA3;o c&#xE1;c t&#x1EC7;p m&#xE3;</h3>
+<p>&#x110;&#x1ED1;i v&#x1EDB;i workshop ch&#xFA;ng t&#xF4;i khuy&#x1EBF;n ngh&#x1ECB; s&#x1EED; d&#x1EE5;ng tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o Sublime Text.</p>
+<ul>
+<li><a href="http://www.sublimetext.com/2" target="_blank">T&#x1EA3;i v&#xE0; c&#xE0;i &#x111;&#x1EB7;t Sublime Text</a></li>
+</ul>
+<h3 id="3-c%E1%BA%ADp-nh%E1%BA%ADt-tr%C3%ACnh-duy%E1%BB%87t">3. C&#x1EAD;p nh&#x1EAD;t tr&#xEC;nh duy&#x1EC7;t</h3>
+<p>M&#x1EDF; trang <a href="http://whatbrowser.org/" target="_blank">whatbrowser.org</a> v&#xE0; c&#x1EAD;p nh&#x1EAD;t tr&#xEC;nh duy&#x1EC7;t c&#x1EE7;a b&#x1EA1;n l&#xEA;n phi&#xEA;n b&#x1EA3;n m&#x1EDB;i nh&#x1EA5;t n&#x1EBF;u c&#xF3;.</p>
+<p>Nh&#x1B0; v&#x1EAD;y l&#xE0; b&#x1EA1;n &#x111;&#xE3; thi&#x1EBF;t l&#x1EAD;p xong m&#xF4;i tr&#x1B0;&#x1EDD;ng &#x111;&#x1EC3; l&#xE0;m vi&#x1EC7;c v&#x1EDB;i Ruby on Rails. Xin ch&#xFA;c m&#x1EEB;ng!</p>
+<hr>
+<h2 id="m%C3%A1y-%E1%BA%A3o">M&#xE1;y &#x1EA2;o</h2>
+<p>Thay v&#xEC; c&#xE0;i &#x111;&#x1EB7;t c&#xE1;c c&#xF4;ng c&#x1EE5; tr&#xEA;n m&#xE1;y t&#xED;nh c&#x1EE7;a b&#x1EA1;n, b&#x1EA1;n c&#xF3; th&#x1EC3; thi&#x1EBF;t k&#x1EBF; m&#xF4;i tr&#x1B0;&#x1EDD;ng ph&#xE1;t tri&#x1EC3;n tr&#xEA;n m&#x1ED9;t m&#xE1;y &#x1EA3;o. Vui l&#xF2;ng xem chi ti&#x1EBF;t <a href="http://guides.railsgirls.com/virtual-machine" target="_blank">t&#x1EA1;i &#x111;&#xE2;y</a>.</p>
+<hr>
+<h2 id="s%E1%BB%AD-d%E1%BB%A5ng-d%E1%BB%8Bch-v%E1%BB%A5-%C4%91%C3%A1m-m%C3%A2y">S&#x1EED; d&#x1EE5;ng D&#x1ECB;ch v&#x1EE5; &#x110;&#xE1;m m&#xE2;y</h2>
+<p>Thay v&#xEC; c&#xE0;i &#x111;&#x1EB7;t Ruby on Rails v&#xE0; tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o tr&#xEA;n m&#xE1;y t&#xED;nh c&#x1EE7;a m&#xEC;nh, b&#x1EA1;n c&#xF3; th&#x1EC3; s&#x1EED; d&#x1EE5;ng m&#x1ED9;t d&#x1ECB;ch v&#x1EE5; web &#x111;&#x1EC3; l&#xE0;m vi&#x1EC7;c. B&#x1EA1;n ch&#x1EC9; c&#x1EA7;n tr&#xEC;nh duy&#x1EC7;t v&#xE0; &#x111;&#x1B0;&#x1EDD;ng truy&#x1EC1;n Internet. H&#x1B0;&#x1EDB;ng d&#x1EAB;n n&#xE0;y s&#x1EBD; gi&#x1EA3;i th&#xED;ch c&#xE1;ch c&#xE0;i &#x111;&#x1EB7;t v&#x1EDB;i <a href="https://nitrous.io/" target="_blank">nitrous.io</a>. N&#x1EBF;u b&#x1EA1;n s&#x1EED; d&#x1EE5;ng d&#x1ECB;ch v&#x1EE5; kh&#xE1;c, h&#x1ECD; c&#xF3; th&#x1EC3; d&#xF9;ng c&#xE1;c t&#x1EEB; ng&#x1EEF; kh&#xE1;c &#x111;i - nh&#x1B0; &apos;worksace&apos; thay cho &apos;box&apos;, tuy nhi&#xEA;n qu&#xE1; tr&#xEC;nh c&#xE0;i &#x111;&#x1EB7;t g&#x1EA7;n nh&#x1B0; l&#xE0; gi&#x1ED1;ng nhau. </p>
+<h3 id="1-c%E1%BA%ADp-nh%E1%BA%ADt-tr%C3%ACnh-duy%E1%BB%87t">1. C&#x1EAD;p nh&#x1EAD;t tr&#xEC;nh duy&#x1EC7;t</h3>
+<p>N&#x1EBF;u b&#x1EA1;n &#x111;ang d&#xF9;ng Internet Explorer, ch&#xFA;ng t&#xF4;i khuy&#x1EBF;n kh&#xED;ch b&#x1EA1;n c&#xE0;i &#x111;&#x1EB7;t <a href="http://guides.railsgirls.com/install/mozilla.org/firefox" target="_blank">Firefox</a> hay <a href="http://guides.railsgirls.com/install/google.com/chrome" target="_blank">Google Chrome</a>.</p>
+<p>M&#x1EDF; trang <a href="http://whatbrowser.org/" target="_blank">whatbrowser.org</a> v&#xE0; c&#x1EAD;p nh&#x1EAD;t tr&#xEC;nh duy&#x1EC7;t c&#x1EE7;a b&#x1EA1;n l&#xEA;n phi&#xEA;n b&#x1EA3;n m&#x1EDB;i nh&#x1EA5;t n&#x1EBF;u c&#xF3;.</p>
+<h3 id="2-t%E1%BA%A1o-t%C3%A0i-kho%E1%BA%A3n-mi%E1%BB%85n-ph%C3%AD">2. T&#x1EA1;o t&#xE0;i kho&#x1EA3;n mi&#x1EC5;n ph&#xED;</h3>
+<p>T&#x1EDB;i <a href="https://nitrous.io" target="_blank">https://nitrous.io</a> v&#xE0; &#x111;&#x103;ng k&#xED; mi&#x1EC5;n ph&#xED;.</p>
+<h3 id="3-c%C3%A0i-%C4%91%E1%BA%B7t-m%E1%BB%99t-development-box-workspace-cho-ruby-on-rails">3. C&#xE0;i &#x111;&#x1EB7;t m&#x1ED9;t development box / workspace cho Ruby on Rails</h3>
+<ul>
+<li>&#x110;&#x103;ng nh&#x1EAD;p v&#xE0;o t&#xE0;i kho&#x1EA3;n nitrous c&#x1EE7;a b&#x1EA1;n</li>
+<li>&#x110;i t&#x1EDB;i b&#x1EA3;ng &#x111;i&#x1EC1;u khi&#x1EC3;n b&#x1EB1;ng c&#xE1;ch nh&#x1EA5;n v&#xE0;o n&#xFA;t v&#xE0;o xanh l&#xE1; c&#xE2;y &apos;Open dashboard&apos;</li>
+<li>T&#x1EA1;o m&#x1ED9;t nitrous box: ch&#x1ECD;n Ruby/Rails t&#x1EEB; danh s&#xE1;ch templates - t&#x1EA5;t c&#x1EA3; &#x111;&#x1EC1;u c&#xF3; th&#x1EC3; &#x111;&#x1EC3; &#x1EDF; t&#xF9;y ch&#x1ECD;n m&#x1EB7;c &#x111;&#x1ECB;nh, b&#x1EA1;n c&#xF3; th&#x1EC3; &#x111;&#x1ED5;i t&#xEA;n c&#x1EE7;a box n&#x1EBF;u mu&#x1ED1;n</li>
+<li>S&#x1EBD; m&#x1EA5;t m&#x1ED9;t ch&#xFA;t th&#x1EDD;i gian &#x111;&#x1EC3; development box s&#x1EB5;n s&#xE0;ng.</li>
+</ul>
+<h3 id="4-t%C3%ACm-v%C3%A0-kh%E1%BB%9Fi-%C4%91%E1%BB%99ng-l%E1%BA%A1i-development-box">4. T&#xEC;m v&#xE0; kh&#x1EDF;i &#x111;&#x1ED9;ng l&#x1EA1;i development box</h3>
+<ul>
+<li>N&#x1EBF;u b&#x1EA1;n m&#x1EDB;i kh&#x1EDF;i t&#x1EA1;o box, b&#x1EA1;n c&#xF3; th&#x1EC3; b&#x1ECF; qua ph&#x1EA7;n n&#xE0;y - tuy nhi&#xEA;n s&#x1EBD; t&#x1ED1;t cho b&#x1EA1;n n&#x1EBF;u nh&#x1B0; b&#x1EA1;n &#x111;&#x103;ng nh&#x1EAD;p l&#x1EA1;i v&#xE0;o nitrous sau n&#xE0;y</li>
+<li>B&#x1EA1;n c&#xF3; th&#x1EC3; t&#xEC;m th&#x1EA5;y notrous boxes c&#x1EE7;a m&#xEC;nh b&#x1EB1;ng c&#xE1;ch &#x111;i t&#x1EDB;i b&#x1EA3;ng &#x111;i&#x1EC1;u khi&#x1EC3;n ho&#x1EB7;c ch&#x1ECD;n &apos;Boxes&apos; t&#x1EEB; tr&#xEC;nh &#x111;&#x1A1;n tr&#xEA;n c&#xF9;ng</li>
+<li>Ch&#x1ECD;n m&#x1ED9;t box t&#x1EEB; danh s&#xE1;ch</li>
+<li>N&#x1EBF;u b&#x1EA1;n kh&#xF4;ng s&#x1EED; d&#x1EE5;ng m&#x1ED9;t development box trong m&#x1ED9;t th&#x1EDD;i gian, n&#xF3; c&#xF3; th&#x1EC3; b&#x1ECB; t&#x1EAF;t &#x111;i v&#xEC; kh&#xF4;ng c&#xF3; ho&#x1EA1;t &#x111;&#x1ED9;ng. N&#x1EBF;u b&#x1EA1;n &#x111;&#x1B0;&#x1EE3;c th&#xF4;ng b&#xE1;o l&#xE0; box c&#x1EE7;a b&#x1EA1;n &#x111;ang kh&#xF4;ng ho&#x1EA1;t &#x111;&#x1ED9;ng, h&#xE3;y kh&#x1EDF;i &#x111;&#x1ED9;ng l&#x1EA1;i b&#x1EB1;ng n&#xFA;t t&#x1B0;&#x1A1;ng &#x1EE9;ng.</li>
+<li>Khi development box &#x111;&#xE3; ch&#x1EA1;y, ch&#x1ECD;n &apos;IDE&apos; &#x111;&#x1EC3; b&#x1EAF;t &#x111;&#x1EA7;u vi&#x1EBF;t m&#xE3;</li>
+</ul>
+<h3 id="5-vi%E1%BA%BFt-m%C3%A3-v%E1%BB%9Bi-development-box">5. Vi&#x1EBF;t m&#xE3; v&#x1EDB;i development box</h3>
+<ul>
+<li>&#x1EDE; b&#xEA;n tay tr&#xE1;i l&#xE0; c&#x1EED;a s&#x1ED5; duy&#x1EC7;t t&#x1EAD;p tin, b&#x1EA1;n c&#xF3; th&#x1EC3; &#x111;i&#x1EC1;u h&#x1B0;&#x1EDB;ng gi&#x1EEF;a c&#xE1;c t&#x1EAD;p tin v&#xE0; th&#x1B0; m&#x1EE5;c &#x1EDF; &#x111;&#xE2;y</li>
+<li>&#x1EDE; gi&#x1EEF;a l&#xE0; trinh so&#x1EA1;n th&#x1EA3;o n&#x1A1;i b&#x1EA1;n ch&#x1EC9;nh s&#x1EED;a c&#xE1;c t&#x1EC7;p tin</li>
+<li>&#x1EDE; ph&#xED;a d&#x1B0;&#x1EDB;i c&#xF9;ng, b&#x1EA1;n s&#x1EBD; th&#x1EA5;y terminal &#x111;&#x1EC3; ch&#x1EA1;y l&#x1EC7;nh</li>
+<li>T&#x1EA5;t c&#x1EA3; c&#xE1;c th&#x1EE9; b&#x1EA1;n c&#x1EA7;n c&#xF3; s&#x1EB5;n tr&#xEA;n c&#x1EED;a s&#x1ED5; tr&#xEC;nh duy&#x1EC7;t - b&#x1EA1;n kh&#xF4;ng c&#x1EA7;n m&#x1EDF; th&#xEA;m m&#x1ED9;t tr&#xEC;nh so&#x1EA1;n th&#x1EA3;o hay terminal &#x1EDF; ch&#x1ED7; kh&#xE1;c</li>
+<li>N&#x1EBF;u b&#x1EA1;n &#x111;ang l&#xE0;m theo c&#xE1;c h&#x1B0;&#x1EDB;ng d&#x1EAB;n, h&#xE3;y s&#x1EED; d&#x1EE5;ng c&#xE1;c l&#x1EC7;nh cho Linux ngay c&#x1EA3; khi b&#x1EA1;n &#x111;ang s&#x1EED; d&#x1EE5;ng m&#x1ED9;t m&#xE1;y t&#xED;nh x&#xE0;i Windows</li>
+<li>H&#x1EC7; &#x111;i&#x1EC1;u h&#xE0;nh b&#x1EA1;n &#x111;ang s&#x1EED; d&#x1EE5;ng kh&#xF4;ng li&#xEA;n quan &#x1EDF; &#x111;&#xE2;y, v&#xEC; t&#x1EA5;t c&#x1EA3; c&#xE1;c l&#x1EC7;nh &#x111;&#x1B0;&#x1EE3;c ch&#x1EA1;y tr&#xEA;n development box - m&#x1ED9;t c&#x1ED7; m&#xE1;y Linux</li>
+<li>N&#x1EBF;u m&#x1ED9;t h&#x1B0;&#x1EDB;ng d&#x1EAB;n &#x111;&#x1EC1; ngh&#x1ECB; b&#x1EA1;n tr&#x1ECF; tr&#xEC;nh duy&#x1EC7;t t&#x1EDB;i m&#x1ED9;t &#x111;&#x1ECB;a ch&#x1EC9; nh&#x1B0; <code>http://localhost:3000</code>, h&#xE3;y v&#xE0;o tr&#xEC;nh &#x111;&#x1A1;n &apos;Preview&apos; v&#xE0; ch&#x1ECD;n &apos;Port 3000&apos;</li>
+<li>N&#x1EBF;u, t&#x1EC9; d&#x1EE5;, b&#x1EA1;n &#x111;&#x1B0;&#x1EE3;c &#x111;&#x1EC1; ngh&#x1ECB; truy c&#x1EAD;p <code>http://localhost:3000/posts</code>, h&#xE3;y th&#xEA;m <code>/posts</code> th&#x1EE7; c&#xF4;ng v&#xE0;o URL &#x111;&#xE3; &#x111;&#x1B0;&#x1EE3;c m&#x1EDF; &#x1EDF; tr&#xEA;n</li>
+</ul>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../welcome/guide.html" class="navigation navigation-prev " aria-label="Previous page: Làm thế nào để tổ chức một sự kiện Rails Girls"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../welcome/app.html" class="navigation navigation-next " aria-label="Next page: Xây dựng ứng dụng đầu tiên"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    
+<div><script style="display: none;" type="application/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-57505611-7', 'auto', {name: 'microcdn'});
+  ga('microcdn.send', 'pageview');
+
+  var _cdn_prev_loc = window.location.pathname;
+  window.setInterval(function () {
+    if (window.location.pathname !== _cdn_prev_loc) {
+      _cdn_prev_loc = window.location.pathname;
+      ga('microcdn.send', 'pageview');
+    }
+  }, 100);
+
+</script></div>
+</body>
+    
+</html>
+Tý0�0      Y�AjY�Am>,9       X    :https://nguyenducgiang.gitbooks.io/rails-girls-translation/content/welcome/install.html necko:classified 1 strongly-framed 1 security-info FnhllAKWRHGAlo+ESXykKAAAAAAAAAAAwAAAAAAAAEaphjojH6pBabDSgSnsfLHeAAQAAgAAAAAAAAAAAAAAAAAAAAAB4vFIJp5wRkeyPxAQ9RJGKPqbqVvKO0mKuIl8ec8o/uhmCjImkVxP+7sgiYWmMt8FvcOXmlQiTNWFiWlrbpbqgwAAAAAAAAUxMIIFLTCCBBWgAwIBAgIJAMMQpUVZ63E+MA0GCSqGSIb3DQEBCwUAMIG0MQswCQYDVQQGEwJVUzEQMA4GA1UECBMHQXJpem9uYTETMBEGA1UEBxMKU2NvdHRzZGFsZTEaMBgGA1UEChMRR29EYWRkeS5jb20sIEluYy4xLTArBgNVBAsTJGh0dHA6Ly9jZXJ0cy5nb2RhZGR5LmNvbS9yZXBvc2l0b3J5LzEzMDEGA1UEAxMqR28gRGFkZHkgU2VjdXJlIENlcnRpZmljYXRlIEF1dGhvcml0eSAtIEcyMB4XDTE2MDkwNjE1MDEzOFoXDTE3MDkwOTA5MTM0MVowOzEhMB8GA1UECxMYRG9tYWluIENvbnRyb2wgVmFsaWRhdGVkMRYwFAYDVQQDDA0qLmdpdGJvb2tzLmlvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxjy2ZpDtcsgdt8W89c5xJbtUyEscUBMtoC4Tkj6zyMOVjoyFHqUlFsyictbbuUlcxqWii4s5UvaqT1bC7Wgm5ea+8IGoCXaahih41eAuZJ7Kzb1WPzlISgqrKL1GGT/nrOC/w+459KuZZUnEA6lx22r2ThwNqQW8y+vYKvHCHpGqTNha/wKM9SJE77EqiSNl9DC0t2THfSadgygOyvH1RRLTcffcuQ28TknUJMFl6mFG2K6nll1sZ8xL0LS9mPnKMWcZd0uD1Nh95k1Tt52PMB0AlWYchJc01hBK5/99I2/zf+vQl1Ddywgq2UabbesYJUEwf3bQOPEwxeVGXViHBwIDAQABo4IBuDCCAbQwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH/BAQDAgWgMDcGA1UdHwQwMC4wLKAqoCiGJmh0dHA6Ly9jcmwuZ29kYWRkeS5jb20vZ2RpZzJzMS0yOTguY3JsMF0GA1UdIARWMFQwSAYLYIZIAYb9bQEHFwEwOTA3BggrBgEFBQcCARYraHR0cDovL2NlcnRpZmljYXRlcy5nb2RhZGR5LmNvbS9yZXBvc2l0b3J5LzAIBgZngQwBAgEwdgYIKwYBBQUHAQEEajBoMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5nb2RhZGR5LmNvbS8wQAYIKwYBBQUHMAKGNGh0dHA6Ly9jZXJ0aWZpY2F0ZXMuZ29kYWRkeS5jb20vcmVwb3NpdG9yeS9nZGlnMi5jcnQwHwYDVR0jBBgwFoAUQMK9J47MNIMwojPX+2yz8LQsgM4wJQYDVR0RBB4wHIINKi5naXRib29rcy5pb4ILZ2l0Ym9va3MuaW8wHQYDVR0OBBYEFLc2RmeZePdeA2SZoYpg9eUJh43yMA0GCSqGSIb3DQEBCwUAA4IBAQCX4HAqqMzZPjjF4h312fTMrRrjZbVawrYjqy+OTiYWe7p85R+E8Sz/4uPUYSFw362BdhBZ7DuWDs5whft9OZYareTyP3PQeOGxqdzmTnTEIYfa9TZPNxVXUl54abRBqcs67gnLslEv9cOk8/2M/0nYVB2yEKNgw6ZPbBj4HzWpSLXFPxuZR+uMOIF/zpeM4ah4bZ6PCIyeyFXv/c6Mc0Eh5vi5CZpTAgKSsTluNOppsMzXIWv1BOn79ssjd2IdfPNR8mDvvId2TbgzTVFYmIUZ8WcHn0xurieWdzHMN2qWLrIkJ2Mk7Oos9uVtnqLajyyi1CmqeOfLyzs9TlPMwv1GwC8BAwAAAAABAQAAAAA= request-method GET request-Accept-Encoding gzip, deflate, br response-head HTTP/2.0 200 OK
+age: 11184
+content-encoding: identity
+content-type: text/html
+etag: W/"fdd07d8a860621bc5eb0728063c55892"
+last-modified: Fri, 08 Sep 2017 03:59:55 GMT
+vary: Accept-Encoding
+x-cache: HIT
+x-cdn-cache-group: nguyenducgiang/rails-girls-translation
+date: Fri, 08 Sep 2017 07:06:19 GMT
+X-Firefox-Spdy: h2
+ original-response-headers age: 11184
+content-encoding: identity
+content-type: text/html
+etag: W/"fdd07d8a860621bc5eb0728063c55892"
+last-modified: Fri, 08 Sep 2017 03:59:55 GMT
+vary: Accept-Encoding
+x-cache: HIT
+x-cdn-cache-group: nguyenducgiang/rails-girls-translation
+date: Fri, 08 Sep 2017 07:06:19 GMT
+X-Firefox-Spdy: h2
+ predictor::resource-count 10 predictor::https://nguyenducgiang.gitbooks.io/rails-girls-translation/content/gitbook/style.css 1,1,1504854378,4096 net-response-time-onstart 1666 net-response-time-onstop 1948 predictor::http://guides.railsgirls.com/images/1.png 1,1,1504854378,4096 predictor::http://guides.railsgirls.com/images/2.png 1,1,1504854378,4096 predictor::https://nguyenducgiang.gitbooks.io/rails-girls-translation/content/gitbook/app.js 1,1,1504854378,4096 predictor::https://www.google-analytics.com/analytics.js 1,1,1504854378,4096 predictor::https://nguyenducgiang.gitbooks.io/rails-girls-translation/content/gitbook/fonts/opensans/400.woff 1,1,1504854378,4096 predictor::https://nguyenducgiang.gitbooks.io/rails-girls-translation/content/gitbook/fonts/opensans/700.woff 1,1,1504854378,4096 predictor::https://nguyenducgiang.gitbooks.io/rails-girls-translation/content/gitbook/fonts/fontawesome/fontawesome-webfont.woff?v=4.1.0 1,1,1504854378,4096 predictor::https://nguyenducgiang.gitbooks.io/rails-girls-translation/content/gitbook/fonts/opensans/300.woff 1,1,1504854378,4096 predictor::https://nguyenducgiang.gitbooks.io/rails-girls-translation/content/gitbook/fonts/opensans/400i.woff 1,1,1504854378,4096   �8

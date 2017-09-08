@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if
+  [[ -s "/home/nguyenkien/.rvm/gems/ruby-2.4.1/environment" ]]
+then
+  source "/home/nguyenkien/.rvm/gems/ruby-2.4.1/environment"
+  exec ri "$@"
+else
+  echo "ERROR: Missing RVM environment file: '/home/nguyenkien/.rvm/gems/ruby-2.4.1/environment'" >&2
+  exit 1
+fi
